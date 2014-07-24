@@ -1,0 +1,3 @@
+﻿// type: battle, shop (,arena,...)
+// name, desc, state: visible/allowed/visited,...
+

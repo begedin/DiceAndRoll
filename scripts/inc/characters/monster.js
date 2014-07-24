@@ -1,0 +1,1 @@
+﻿// represents a NPC 
