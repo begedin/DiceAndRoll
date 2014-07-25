@@ -6,19 +6,37 @@
 define("Preloader", ['Phaser'],	function(Preloader) {
     'use strict';
     app.Preloader = function (game) {
-        
+       
     };
 
     app.Preloader.prototype = {
         preload: function () {
-            game.stage.backgroundColor = '#FFFFFF'; //'#182d3b';
+
+            game.stage.backgroundColor = '#FFFFFF';
 
             //  Set-up our preloader sprite
             this.preloadBar = this.add.sprite(175, 280, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
+            this.load.onFileStart.add(function (percentage, asset) {
+                fileText.text = 'loading: ' + asset;
+            });
+            this.load.onFileComplete.add(function (percentage, asset, p3, p4, p5) {
+                percentageText.text = percentage + ' %';
+                if (percentage > 55) {
+                    percentageText.style.fill = '#FFFFFF';
+                }
+            });
 
             // set screen background
             game.utils.stretchAndFitImage('preloader');
+
+            // create texts for progress 
+            var percentageStyle = { font: '64px Colonna MT', fill: '#7F0000', align: 'center' };
+            var percentageText = game.add.text(game.width / 2, 380, '0 %', percentageStyle);
+            percentageText.anchor.setTo(0.5, 0.5);
+            var fileStyle = { font: '36px Colonna MT', fill: '#303030', align: 'center' };
+            var fileText = game.add.text(game.width / 2, 480, '', fileStyle);
+            fileText.anchor.setTo(0.5, 0.5);
 
             // load screens
             game.load.image('menu', 'assets/screens/menu.jpg');
@@ -42,28 +60,7 @@ define("Preloader", ['Phaser'],	function(Preloader) {
         },
         create: function () {
 
-            //var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-            //tween.onComplete.add(function () { game.state.start('Menu', true, false); }, this);
-
-            //game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-
-            //// set screen background
-            //var image = game.add.sprite(game.world.centerX, game.world.centerY, 'preloader');
-            //image.anchor.set(0.5);
-
-            //game.stage.backgroundColor = '#000';
-
-            //game.scale.startFullScreen();
-
-            // Stretch to fill
-            //game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-            // Keep original size
-             //game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
-
-            // Maintain aspect ratio
-            // game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-
+            // add a little delay since the progress bar at the end is not seen
             window.setTimeout(function () {
                 game.state.start('Menu');
             }, 200);
