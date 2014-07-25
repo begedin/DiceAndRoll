@@ -54,6 +54,9 @@ define("Preloader", ['Phaser'],	function(Preloader) {
             game.load.image('cleric', 'assets/screens/cleric.png');
             game.load.image('ranger', 'assets/screens/ranger.png');
 
+            // common assets
+            game.load.image('arrow', 'assets/common/arrow.png');
+
             // load assets
             game.load.spritesheet('ground', 'assets/ground.png', 100, 100);
             game.load.spritesheet('check', 'assets/check_button.png', 38, 36);
