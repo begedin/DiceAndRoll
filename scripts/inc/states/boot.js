@@ -13,7 +13,7 @@ define("Boot", ['Phaser'], function (Phaser) {
         preload: function(){
             // Load assets required for preLoader (progress bar, etc.)
             game.load.image('preloadBar', 'assets/screens/progressbar.png');
-            game.load.image('preloader', 'assets/screens/preloader.png');
+            game.load.image('preloader', 'assets/screens/preloader2.png');
             // Load config
         },
         create: function () {
@@ -41,6 +41,13 @@ define("Boot", ['Phaser'], function (Phaser) {
                     return game.add.sprite(0, 0, name);
                 }
             };
+
+            game.assets = {};
+            game.assets.characters = [
+                { name: 'warrior', title: 'Warrior', desc: 'This is a character with melee attack,\n making your ranged party members less vulnerable.', hp: 100, ac: 5, at: 20, type: 'MELEE', weapon: 'Two-handed axe' },
+                { name: 'cleric', title: 'Cleric', desc: 'This is a character that acts as both\n melee combatant and healer.', hp: 120, ac: 4, at: 15, type: 'HEALER', weapon: 'Potions and sword' },
+                { name: 'ranger', title: 'Ranger', desc: 'This is a ranged attack character,\n having the advantage not been directly\n exposed to an enemy fire.', hp: 80, ac: 3, at: 12, type: 'RANGED', weapon: 'Longbow' }
+            ];
 
             game.state.start('Preloader');
         },

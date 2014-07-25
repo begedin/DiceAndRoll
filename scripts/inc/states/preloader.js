@@ -39,15 +39,20 @@ define("Preloader", ['Phaser'],	function(Preloader) {
             fileText.anchor.setTo(0.5, 0.5);
 
             // load screens
-            game.load.image('menu', 'assets/screens/menu.jpg');
-            game.load.image('new', 'assets/screens/play.jpg');
-            game.load.image('play', 'assets/screens/play.jpg');
-            game.load.image('battle-dirt', 'assets/screens/battle-dirt.jpg');
-            game.load.image('battle-grass', 'assets/screens/battle-grass.jpg');
-            game.load.image('battle-siege', 'assets/screens/battle-siege.jpg');
+            game.load.image('menu', 'assets/screens/menu.png');
+            game.load.image('new', 'assets/screens/new.png');
+            game.load.image('play', 'assets/screens/play.png');
+            game.load.image('battle-dirt', 'assets/screens/battle-dirt.png');
+            game.load.image('battle-grass', 'assets/screens/battle-grass.png');
+            game.load.image('battle-siege', 'assets/screens/battle-siege.png');
             game.load.image('shop', 'assets/screens/shop.png');
             game.load.image('victory', 'assets/screens/victory.png');
             game.load.image('defeat', 'assets/screens/defeat.png');
+
+            // load characters
+            game.load.image('warrior', 'assets/players/warrior.png');
+            game.load.image('cleric', 'assets/screens/cleric.png');
+            game.load.image('ranger', 'assets/screens/ranger.png');
 
             // load assets
             game.load.spritesheet('ground', 'assets/ground.png', 100, 100);
@@ -63,7 +68,7 @@ define("Preloader", ['Phaser'],	function(Preloader) {
             // add a little delay since the progress bar at the end is not seen
             window.setTimeout(function () {
                 game.state.start('Menu');
-            }, 200);
+            }, 500);
         },
         update: function(){}
     };
