@@ -1,0 +1,32 @@
+[
+    {
+        "name": "warrior",
+        "title": "Warrior",
+        "desc": "This is a fighter with melee attack,\ncapable for destroying enemy defense\nand the one making your ranged \nparty members less vulnerable.",
+        "hp": 100,
+        "ac": 5,
+        "att": 20,
+        "type": "MELEE",
+        "weapon": "Two-handed axe"
+    },
+    {
+        "name": "cleric",
+        "title": "Cleric",
+        "desc": "This is a character that acts both as\na melee combatant and a healer.\nUse him to regain hitpoints.",
+        "hp": 120,
+        "ac": 4,
+        "att": 15,
+        "type": "HEALER",
+        "weapon": "Potions and sword"
+    },
+    {
+        "name": "ranger",
+        "title": "Ranger",
+        "desc": "This is a ranged attack character,\n having advantage not been directly\n exposed to an enemy fire.\nBetter safe than sorry.",
+        "hp": 80,
+        "ac": 3,
+        "att": 12,
+        "type": "RANGED",
+        "weapon": "Longbow"
+    }
+]

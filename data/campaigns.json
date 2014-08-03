@@ -1,0 +1,44 @@
+[
+    {
+        "name": "campaign-goblins-keep",
+        "title": "Storm on a Goblin's Castle",
+        "descShort": "On the crossroads of two wealthy kingdoms lies a merchant\npath which has been used by decades. Travellers of all kinds\nhave been passing carrying their goods to neighbouring\ntowns, ofter seeking refuge or new beginning.\nThen, people started to dissapear, even whole\ncaravans sometimes found deserted, travellers robbed...",
+        "desc": "On the crossroads of two wealthy kingdoms lies a merchant\npath which has been used by decades. Travellers of all kinds\nhave been passing carrying their goods to neighbouring\ntowns, ofter seeking refuge or new beginning.\nThen, people started to dissapear, even whole\ncaravans sometimes found deserted, travellers robbed...\nor murdered. Ones that escaped told stories about evil creatures from the hill, inhabited inside an ancient keep in top of the very hill. Two kingdoms decided to shut down the route in order to protect roaming travellers. But, of course, this was not a solution. It's up to you, eager adventurers, to hunt down and bring down to justice these evil foes, and all that come in your way.",        
+        "difficulty": "easy",
+        "maps": [
+            {
+                "map": "{50DA3DC4-2C49-4C11-967F-882431C3D499}"
+            }
+        ]
+    },
+    {
+        "name": "campaign-citadel",
+        "title": "Bandit's catch",
+        "descShort": "There is a menace currently in the capital city of Brightlight.\nNo one knowns what or who is responsible for a robbery\n involving artefacts and precious gems from the citadel's\nroyal treasury. At first, it seemed like a typical gnome deed,\n but after princess Celestwin's dissapearance, something deeper\nis definitely involved. If only the stewart of the citadel...",
+        "desc": "lorem ipsum",
+        "difficulty": "medium",
+        "maps": [
+            {
+                "map": "{AD05AA7F-6DA9-4182-AFC8-7A9F11565866}"
+            },
+            {
+                "map": "{55EC52E2-5149-4B49-9D41-4724ECF89423}"
+            }
+        ]
+    },
+    {
+        "name": "campaign-tomb",
+        "title": "Paladin's Tomb",
+        "descShort": "There are rumors that old graveyard on top of the hills of\n Stribor hides lost treasure of Svetoslav, a bold paladin in\n Samuil's service centuries ago. Is this a truth or\n just a fairytale, there is only one way to find out.\nBut beware, no one is ever returned from the Stribor's vaults!",
+        "desc": "lorem ipsum",
+        "difficulty": "hard",
+        "maps": [
+            {
+                "map": "{8CD3DA8F-FF3B-4DE5-BCC0-2C259758CB5A}"
+            },
+            {
+                "map": "{3A138523-9C62-442E-AE01-DA8AF6B7233C}"
+            }
+        ]
+    }
+]

@@ -2,6 +2,7 @@
 // This javascript file represents phaser state for main menu.
 
 /// <reference path="/scripts/vendor/phaser.js" />
+var app = app || {};
 
 define("Menu", ['Phaser'], function (Phaser) {
     'use strict';
@@ -12,6 +13,9 @@ define("Menu", ['Phaser'], function (Phaser) {
     app.Menu.prototype = {
         preload: function () {},
         create: function () {
+            game.sound.stopAll();
+            this.music = game.add.audio('theme');
+            this.music.play('', 0, 0, true);
 
             // set screen background
             game.utils.stretchAndFitImage('menu');
@@ -32,12 +36,17 @@ define("Menu", ['Phaser'], function (Phaser) {
                 item.inputEnabled = true;
                 //item.events.onInputOver.add(function (source, cursor) { source.setStyle({ font: '64px Colonna MT', fill: '#ff0000', align: 'center' }); });
                 //item.events.onInputOut.add(function (source, cursor) { source.setStyle({ font: '64px Colonna MT', fill: '#FF6A00', align: 'center' }); });
-                item.events.onInputDown.add(function (source, cursor) { source.setStyle({ font: '64px Colonna MT', fill: '#990000', align: 'center' }); });
+                item.events.onInputDown.add(function (source, cursor) {
+                    sound.play();
+                    source.setStyle({ font: '64px Colonna MT', fill: '#990000', align: 'center' });
+                });
                 item.events.onInputUp.add(function (source, cursor) {
                     source.setStyle({ font: '64px Colonna MT', fill: '#FF6A00', align: 'center' });
                     if (action) action.call();
                 });
             };
+
+            var sound = game.add.audio('sword');
 
             addMenuItem('New Game', 1, style, function () { game.state.start('New'); });
             addMenuItem('Continue', 2, style, function () { game.state.start('Play'); });
@@ -46,6 +55,9 @@ define("Menu", ['Phaser'], function (Phaser) {
             addMenuItem('Quit', 5, style);
         },
         update: function () {
+            if (this.music.volume < 1) {
+                this.music.volume += 0.005;
+            }
         }
     };
 });

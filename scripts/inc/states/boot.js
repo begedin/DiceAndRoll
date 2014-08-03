@@ -2,6 +2,7 @@
 // This javascript file represents phaser state for game start.
 
 /// <reference path="/scripts/vendor/phaser.js" />
+var app = app || {};
 
 define("Boot", ['Phaser'], function (Phaser) {
 	'use strict';	
@@ -13,7 +14,8 @@ define("Boot", ['Phaser'], function (Phaser) {
         preload: function(){
             // Load assets required for preLoader (progress bar, etc.)
             game.load.image('preloadBar', 'assets/screens/progressbar.png');
-            game.load.image('preloader', 'assets/screens/preloader2.png');
+            game.load.image('preloader', 'assets/screens/preloader2_1188.png');
+            game.load.audio('drums', ['assets/sound/looperman-l-0202721-0075501-anubis-tribal-escape-10.mp3']);
             // Load config
         },
         create: function () {
@@ -42,12 +44,19 @@ define("Boot", ['Phaser'], function (Phaser) {
                 }
             };
 
-            game.assets = {};
-            game.assets.characters = [
-                { name: 'warrior', title: 'Warrior', desc: 'This is a character with melee attack,\n making your ranged party members less vulnerable.', hp: 100, ac: 5, at: 20, type: 'MELEE', weapon: 'Two-handed axe' },
-                { name: 'cleric', title: 'Cleric', desc: 'This is a character that acts as both\n melee combatant and healer.', hp: 120, ac: 4, at: 15, type: 'HEALER', weapon: 'Potions and sword' },
-                { name: 'ranger', title: 'Ranger', desc: 'This is a ranged attack character,\n having the advantage not been directly\n exposed to an enemy fire.', hp: 80, ac: 3, at: 12, type: 'RANGED', weapon: 'Longbow' }
-            ];
+            game.utils.fitImage = function (area, name) {
+
+                var asset = game.cache.getImage(name);
+                if (area.width != asset.width || area.height != asset.height) {
+                    var ratio = Math.min(area.width / asset.width, area.height / asset.height);
+                    var position = { x: (area.width - asset.width * ratio) / 2, y: (area.height - asset.height * ratio) / 2 };
+                    var asset = game.add.sprite(area.x + position.x, area.y + position.y, name);
+                    asset.scale.setTo(ratio, ratio);
+                    return asset;
+                } else {
+                    return game.add.sprite(area.x, area.y, name);
+                }
+            };
 
             game.state.start('Preloader');
         },
