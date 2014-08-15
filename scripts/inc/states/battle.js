@@ -26,12 +26,12 @@ define("Battle", ['Phaser', 'BattleGrid', 'Adventurer'], function (Phaser, Battl
                 var newHeight = window.innerHeight,
                     newWidth = window.innerWidth;
 
-                var scaleX = newWidth / this.game.globals.VIRTUAL_WIDTH,
-                    scaleY = newHeight / this.game.globals.VIRTUAL_HEIGHT;
+                var scaleX = newWidth / app.VIRTUAL_WIDTH,
+                    scaleY = newHeight / app.VIRTUAL_HEIGHT;
 
-                var battleAreaWidth = this.game.globals.VIRTUAL_WIDTH * scaleY > newWidth ? this.game.globals.VIRTUAL_WIDTH * scaleX : this.game.globals.VIRTUAL_WIDTH * scaleY;
+                var battleAreaWidth = app.VIRTUAL_WIDTH * scaleY > newWidth ? app.VIRTUAL_WIDTH * scaleX : app.VIRTUAL_WIDTH * scaleY;
 
-                this.game.globals.tileSize = (battleAreaWidth - 20) / 3;
+                app.tileSize = (battleAreaWidth - 20) / 3;
             }
             setBattleArea.call(this);
 
@@ -44,13 +44,13 @@ define("Battle", ['Phaser', 'BattleGrid', 'Adventurer'], function (Phaser, Battl
 
             // set position and size of graphical elements on screen
             var setGraphics = function () {
-                var scaleX = this.game.width / this.game.globals.VIRTUAL_WIDTH,
-                    scaleY = this.game.height / this.game.globals.VIRTUAL_HEIGHT;
+                var scaleX = this.game.width / app.VIRTUAL_WIDTH,
+                    scaleY = this.game.height / app.VIRTUAL_HEIGHT;
 
                 // size of the square square in which the actual ui (battle grid, combatants, buttons) are placed
                 var battleAreaSize = {
-                    x: this.game.globals.VIRTUAL_WIDTH * scaleY > this.game.width ? this.game.globals.VIRTUAL_WIDTH * scaleX : this.game.globals.VIRTUAL_WIDTH * scaleY,
-                    y: this.game.globals.VIRTUAL_WIDTH * scaleY > this.game.height ? this.game.globals.VIRTUAL_HEIGHT * scaleX : this.game.globals.VIRTUAL_HEIGHT * scaleY
+                    x: app.VIRTUAL_WIDTH * scaleY > this.game.width ? app.VIRTUAL_WIDTH * scaleX : app.VIRTUAL_WIDTH * scaleY,
+                    y: app.VIRTUAL_WIDTH * scaleY > this.game.height ? app.VIRTUAL_HEIGHT * scaleX : app.VIRTUAL_HEIGHT * scaleY
                 }
 
                 // top left coordinate of the square square in which the actual ui (battle grid, combatants, buttons) are placed

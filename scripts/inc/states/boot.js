@@ -5,9 +5,11 @@
 var app = app || {};
 
 define("Boot", ['Phaser'], function (Phaser) {
-	'use strict';	
-    app.Boot = function (game) {
+    'use strict';
 
+
+    app.Boot = function (game) {
+        this.game = game;
     };
 
     app.Boot.prototype = {
@@ -20,14 +22,35 @@ define("Boot", ['Phaser'], function (Phaser) {
         },
         create: function () {
 
-            this.game.globals = {
-                VIRTUAL_WIDTH: 480,
-                VIRTUAL_HEIGHT: 800,
-                BOARD_SIZE: {
-                    x: 3,
-                    y: 4
-                }
-            };
+
+            this.stage.disableVisibilityChange = true;
+
+            if (this.game.device.desktop) {
+                this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                this.scale.minWidth = 297;
+                this.scale.minHeight = 210;
+                this.scale.maxWidth = 1188;
+                this.scale.maxHeight = 840;
+                this.scale.pageAlignHorizontally = true;
+                this.scale.pageAlignVertically = true;
+                this.scale.setScreenSize(true);
+            }
+            else {
+                this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                this.scale.minWidth = 297;
+                this.scale.minHeight = 210;
+                this.scale.maxWidth = 1188;
+                this.scale.maxHeight = 840;
+                this.scale.pageAlignHorizontally = true;
+                this.scale.pageAlignVertically = true;
+                this.scale.forceOrientation(true, false);
+                this.scale.hasResized.add(this.gameResized, this);
+                this.scale.enterIncorrectOrientation.add(this.enterIncorrectOrientation, this);
+                this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
+                this.scale.setScreenSize(true);
+            }
+
+            this.state.start('Preloader');
 
             game.utils = {};
             game.utils.stretchAndFitImage = function (name) {
@@ -60,6 +83,26 @@ define("Boot", ['Phaser'], function (Phaser) {
 
             game.state.start('Preloader');
         },
-        update: function() {}
+        update: function () { },
+        gameResized: function (width, height) {
+
+            //  This could be handy if you need to do any extra processing if the game resizes.
+            //  A resize could happen if for example swapping orientation on a device.
+
+        },
+        enterIncorrectOrientation: function () {
+
+            app.orientated = false;
+
+            document.getElementById('orientation').style.display = 'block';
+
+        },
+        leaveIncorrectOrientation: function () {
+
+            app.orientated = true;
+
+            document.getElementById('orientation').style.display = 'none';
+
+        }
     };
 });

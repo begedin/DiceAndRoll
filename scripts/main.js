@@ -3,6 +3,18 @@
 
 /// <reference path="/scripts/vendor/phaser.js" />
 
+
+var app = app || {
+    VIRTUAL_HEIGHT: 210,
+    VIRTUAL_WIDTH: 297,
+    BOARD_SIZE: {
+        x: 3,
+        y: 4
+    },
+
+    orientated: false
+};
+
 requirejs.config({
 	baseUrl: 'scripts',
 	paths: {
@@ -33,7 +45,7 @@ require(['Phaser', 'Boot', 'Preloader', 'Menu', 'New', 'Play', 'Battle'],
 
 	    var A4 = { height: 297, width: 210 };
         // create new phaser game
-	    game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO);
+	    game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game');
 
         // add game states
 		game.state.add('Boot', app.Boot);

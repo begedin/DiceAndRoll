@@ -18,8 +18,8 @@ define('Combatant', ['Phaser'], function (Phaser) {
             Phaser.Sprite.call(this, game, positionData.x, positionData.y, 'token_red');
         }
 
-        if (this.texture.width > this.game.globals.tileSize) {
-            this.scale.setTo(this.game.globals.tileSize / this.texture.width);
+        if (this.texture.width > app.tileSize) {
+            this.scale.setTo(app.tileSize / this.texture.width);
         } else {
             this.scale.setTo(1);
         }
@@ -36,8 +36,8 @@ define('Combatant', ['Phaser'], function (Phaser) {
     app.Combatant.prototype.getPositionOnScreen = function () {
 
         var position = { 
-            x: 10 + (this.positionInBattle % 3) * this.game.globals.tileSize + this.game.globals.tileSize / 2,
-            y: 10 + Math.floor(this.positionInBattle / 3) * this.game.globals.tileSize + this.game.globals.tileSize / 2 + (this.team === TEAMS.ENEMY ? this.game.globals.tileSize * 2 : 0)
+            x: 10 + (this.positionInBattle % 3) * app.tileSize + app.tileSize / 2,
+            y: 10 + Math.floor(this.positionInBattle / 3) * app.tileSize + app.tileSize / 2 + (this.team === TEAMS.ENEMY ? app.tileSize * 2 : 0)
         }
         
         return position;
