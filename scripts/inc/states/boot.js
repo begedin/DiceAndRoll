@@ -2,26 +2,32 @@
 // This javascript file represents phaser state for game start.
 
 /// <reference path="/scripts/vendor/phaser.js" />
-var app = app || {};
 
-define("Boot", ['Phaser'], function (Phaser) {
+define(['Phaser'], function (Phaser) {
     'use strict';
 
 
-    app.Boot = function (game) {
+    var Boot = function (game) {
         this.game = game;
     };
 
-    app.Boot.prototype = {
+    Boot.prototype = {
         preload: function(){
             // Load assets required for preLoader (progress bar, etc.)
             game.load.image('preloadBar', 'assets/screens/progressbar.png');
             game.load.image('preloader', 'assets/screens/preloader2_1188.png');
-            game.load.audio('drums', ['assets/sound/looperman-l-0202721-0075501-anubis-tribal-escape-10.mp3']);
-            // Load config
+            //game.load.audio('drums', ['assets/sound/looperman-l-0202721-0075501-anubis-tribal-escape-10.mp3']);
+            //game.load.audio('drums', ['assets/sound/looperman-l-0208341-0069234-drmistersir-4moe-xxgrave-robbers.mp3']);
+            game.load.audio('interlude', ['assets/sound/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3']);
+
+            // load data in JSON files
+            game.load.text('characters', 'data/characters.json');
+            game.load.text('monsters', 'data/monsters.json');
+            game.load.text('campaigns', 'data/campaigns.json');
+            game.load.text('specials', 'data/specials.json');
+            //game.load.json('characters', '/data/characters.json');
         },
         create: function () {
-
 
             this.stage.disableVisibilityChange = true;
 
@@ -49,8 +55,6 @@ define("Boot", ['Phaser'], function (Phaser) {
                 this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
                 this.scale.setScreenSize(true);
             }
-
-            this.state.start('Preloader');
 
             game.utils = {};
             game.utils.stretchAndFitImage = function (name) {
@@ -81,9 +85,23 @@ define("Boot", ['Phaser'], function (Phaser) {
                 }
             };
 
-            game.state.start('Preloader');
+            // game settings (TODO: read in from the local storage)
+            game.utils.settings = {};
+            game.utils.settings.sound = { musicVolume: 1, sfxVolume: 1 };
+
+            game.utils.fontFamily = 'Berkshire Swash'; // alternatives: Handlee, Kaushan Script
+
+            // create object repository for usage in game
+            game.assets = {};
+            game.assets.monsters = JSON.parse(game.cache.getText('monsters'));
+            game.assets.characters = JSON.parse(game.cache.getText('characters'));
+            game.assets.campaigns = JSON.parse(game.cache.getText('campaigns'));
+            game.assets.specials = JSON.parse(game.cache.getText('specials'));
+            //game.state.start('Preloader');
+            game.state.start('Preloader', true, false, 'Menu', {});
         },
-        update: function () { },
+        update: function () {
+        },
         gameResized: function (width, height) {
 
             //  This could be handy if you need to do any extra processing if the game resizes.
@@ -92,17 +110,19 @@ define("Boot", ['Phaser'], function (Phaser) {
         },
         enterIncorrectOrientation: function () {
 
-            app.orientated = false;
+            //app.orientated = false;
 
             document.getElementById('orientation').style.display = 'block';
 
         },
         leaveIncorrectOrientation: function () {
 
-            app.orientated = true;
+            //app.orientated = true;
 
             document.getElementById('orientation').style.display = 'none';
 
         }
     };
+
+    return Boot;
 });

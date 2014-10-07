@@ -22,15 +22,15 @@ define("BattleGrid", [], function () {
        
         this.tiles = game.add.group();
 
-        for (var i = 0; i < app.BOARD_SIZE.x * app.BOARD_SIZE.y; i++) {
+        for (var i = 0; i < this.game.globals.BOARD_SIZE.x * this.game.globals.BOARD_SIZE.y; i++) {
             var position = {
-                x: 10 + (i % 3) * app.tileSize + app.tileSize / 2,
-                y: 10 + Math.floor(i / 3) * app.tileSize + app.tileSize / 2
+                x: 10 + (i % 3) * this.game.globals.tileSize + this.game.globals.tileSize / 2,
+                y: 10 + Math.floor(i / 3) * this.game.globals.tileSize + this.game.globals.tileSize / 2
             };
             var tile = this.tiles.create(position.x, position.y, 'ground');
             tile.anchor.setTo(0.5);
-            if (tile.texture.width > app.tileSize) {
-                tile.scale.setTo(app.tileSize / tile.texture.width);
+            if (tile.texture.width > this.game.globals.tileSize) {
+                tile.scale.setTo(this.game.globals.tileSize / tile.texture.width);
             } else {
                 tile.scale.setTo(1);
             }

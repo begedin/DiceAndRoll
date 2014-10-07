@@ -1,0 +1,32 @@
+﻿{
+	"goblin_warrior": {
+        "name": "goblin_warrior",
+        "title": "Goblin Warrior",
+        "desc": "Basic goblin infantry. Not very brave and not very effective.",
+        "health": 70,
+        "defense": 3,
+        "attack": 15,
+        "type": "MELEE",
+        "weapon": "Poking stick"
+    },
+	"goblin_shaman": {
+        "name": "goblin_shaman",
+        "title": "Goblin Shaman",
+        "desc": "Basic goblin support unit.",
+        "health": 60,
+        "defense": 2,
+        "attack": 18,
+        "type": "RANGED",
+        "weapon": "Poking staff"
+    },
+	"goblin_berserker": {
+        "name": "goblin_warrior",
+        "title": "Goblin Warrior",
+        "desc": "A slightly more powerful and less civilized for of the goblin warrior.",
+        "health": 80,
+        "defense": 2,
+        "attack": 20,
+        "type": "MELEE",
+        "weapon": "Sharpened stick"
+    }
+}

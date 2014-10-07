@@ -1,32 +1,140 @@
-[
-    {
+{
+    "warrior": {
         "name": "warrior",
         "title": "Warrior",
-        "desc": "This is a fighter with melee attack,\ncapable for destroying enemy defense\nand the one making your ranged \nparty members less vulnerable.",
-        "hp": 100,
-        "ac": 5,
-        "att": 20,
+        "desc": "This is a brute fighter with melee attack, capable for destroying enemy defense and the one making your ranged party members less vulnerable.",
+        "health": 100,
+        "defense": 5,
+        "attack": 20,
         "type": "MELEE",
-        "weapon": "Two-handed axe"
+        "weapon": "Two-handed axe",
+        "armors": [
+            { "mark": "1", "name": "Light warrior tunic", "modifier": "+1" },
+            { "mark": "2", "name": "Leather armor", "modifier": "+2" },
+            { "mark": "3", "name": "Brigandine", "modifier": "+3" },
+            { "mark": "4", "name": "Spiked brigandine", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Woodcutters axe", "modifier": "+4" },
+            { "mark": "2", "name": "Battle axe", "modifier": "+6" },
+            { "mark": "3", "name": "Two-handed pole-axe", "modifier": "+8" },
+            { "mark": "4", "name": "Orcish pole-axe", "modifier": "+12" }
+        ],
+        "specials": [ "rage", "chain_attack", "ground_strike", "elemental_fear" ]
     },
-    {
+    "cleric": {
         "name": "cleric",
         "title": "Cleric",
-        "desc": "This is a character that acts both as\na melee combatant and a healer.\nUse him to regain hitpoints.",
-        "hp": 120,
-        "ac": 4,
-        "att": 15,
-        "type": "HEALER",
-        "weapon": "Potions and sword"
+        "desc": "This is a character that acts both as a melee combatant and a healer. Use him to regain hitpoints, shield and boost your units.",
+        "health": 120,
+        "defense": 4,
+        "attack": 15,
+        "type": "MELEE",
+        "weapon": "Potions and sword",
+        "armors": [
+            { "mark": "1", "name": "Guard tunic", "modifier": "+1" },
+            { "mark": "2", "name": "Chainmail", "modifier": "+2" },
+            { "mark": "3", "name": "Bascinet and coat-of-plates", "modifier": "+3" },
+            { "mark": "4", "name": "Half-plate armor", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Broad axe", "modifier": "+4" },
+            { "mark": "2", "name": "Battle mace", "modifier": "+6" },
+            { "mark": "3", "name": "Morning star", "modifier": "+8" },
+            { "mark": "4", "name": "Flail mace", "modifier": "+12" }
+        ],
+        "specials": [ "healing_potion", "bless", "negate_spell", "team_heal" ]
     },
-    {
+    "ranger": {
         "name": "ranger",
         "title": "Ranger",
-        "desc": "This is a ranged attack character,\n having advantage not been directly\n exposed to an enemy fire.\nBetter safe than sorry.",
-        "hp": 80,
-        "ac": 3,
-        "att": 12,
+        "desc": "Pretty-looking elf character provides with a standard ranged attack, having advantage not been directly exposed to an enemy fire.",
+        "health": 80,
+        "defense": 3,
+        "attack": 12,
         "type": "RANGED",
-        "weapon": "Longbow"
+        "weapon": "Longbow",
+        "armors": [
+            { "mark": "1", "name": "Riveted robe", "modifier": "+1" },
+            { "mark": "2", "name": "Ranger tunic", "modifier": "+2" },
+            { "mark": "3", "name": "Elven tunic", "modifier": "+3" },
+            { "mark": "4", "name": "High-elf coat", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Wooden bow", "modifier": "+4" },
+            { "mark": "2", "name": "Longbow", "modifier": "+6" },
+            { "mark": "3", "name": "Composite bow", "modifier": "+8" },
+            { "mark": "4", "name": "Improved composite bow", "modifier": "+12" }
+        ],
+        "specials": [ "bullseye", "tripple_shot", "poisoned_arrow", "drain_arrow" ]
+    },
+    "alchemist": {
+        "name": "alchemist",
+        "title": "Alchemist",
+        "desc": "This gnome character could come handy in ranged combat, since he uses different kinds of missiles in his arsenal.",
+        "health": 70,
+        "defense": 5,
+        "attack": 10,
+        "type": "RANGED",
+        "weapon": "Alchemist lab",
+        "armors": [
+            { "mark": "1", "name": "Gnome splinted armor", "modifier": "+1" },
+            { "mark": "2", "name": "Simple mechanical suit", "modifier": "+2" },
+            { "mark": "3", "name": "Advanced mechanical suit", "modifier": "+3" },
+            { "mark": "4", "name": "Obsidian armor", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Explosive grenade", "modifier": "+4" },
+            { "mark": "2", "name": "Fire grenade", "modifier": "+6" },
+            { "mark": "3", "name": "Devastating mine", "modifier": "+8" },
+            { "mark": "4", "name": "Fusion bomb", "modifier": "+12" }
+        ],
+        "specials": [ "electric_shock", "poison_gas", "mechanical_arm", "fusion_cannon" ]
+    },
+    "beast": {
+        "name": "beast",
+        "title": "Beast",
+        "desc": "This ravenger-looking creature is tamed to be your companion in many fights. Mostly as a unit of brutal close attack and cause of fear.",
+        "health": 100,
+        "defense": 4,
+        "attack": 18,
+        "type": "MELEE",
+        "weapon": "Battle scythe",
+        "armors": [
+            { "mark": "1", "name": "Reinforced skin", "modifier": "+1" },
+            { "mark": "2", "name": "Hunters hide", "modifier": "+2" },
+            { "mark": "3", "name": "Spiked armor", "modifier": "+3" },
+            { "mark": "4", "name": "Bestiary chains", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Light spear", "modifier": "+4" },
+            { "mark": "2", "name": "Battle lance", "modifier": "+6" },
+            { "mark": "3", "name": "Halberd", "modifier": "+8" },
+            { "mark": "4", "name": "Battle scythe", "modifier": "+12" }
+        ],
+        "specials": [ "attack_claws", "tail_strike", "deadly_bite", "brutal_flame" ]
+    },
+    "paladin": {
+        "name": "paladin",
+        "title": "Paladin",
+        "desc": "This character is intended to be your 'bright light of guidance' and a leader in many noble fights. Use her to encourage your troops.",
+        "health": 100,
+        "defense": 5,
+        "attack": 20,
+        "type": "MELEE",
+        "weapon": "Sword and shield",
+        "armors": [
+            { "mark": "1", "name": "Soldiers armor", "modifier": "+1" },
+            { "mark": "2", "name": "Half-plate armor", "modifier": "+2" },
+            { "mark": "3", "name": "Full-plate armor", "modifier": "+3" },
+            { "mark": "4", "name": "Paladin's armor", "modifier": "+4" }
+        ],
+        "weapons": [
+            { "mark": "1", "name": "Broad sword + Buckler", "modifier": "+4" },
+            { "mark": "2", "name": "Short sword + Wooden shield", "modifier": "+6" },
+            { "mark": "3", "name": "One-and-a-half + Shield", "modifier": "+8" },
+            { "mark": "4", "name": "Longsword + Tower shield", "modifier": "+12" }
+        ],
+        "specials": [ "leadership", "holy_weapon", "sturded_armor", "call_of_griffin" ]
     }
-]
+}

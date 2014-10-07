@@ -4,60 +4,37 @@
 /// <reference path="/scripts/vendor/phaser.js" />
 
 
-var app = app || {
-    VIRTUAL_HEIGHT: 210,
-    VIRTUAL_WIDTH: 297,
-    BOARD_SIZE: {
-        x: 3,
-        y: 4
-    },
-
-    orientated: false
-};
-
 requirejs.config({
-	baseUrl: 'scripts',
-	paths: {
-        // phaser engine
-	    Phaser: 'vendor/phaser',
-        // phaser states
-		Boot: 'inc/states/boot',
-		Preloader: 'inc/states/preloader',
-		Menu: 'inc/states/menu',
-		New: 'inc/states/new',
-		Play: 'inc/states/play',
-		Battle: 'inc/states/battle',
-		Shop: 'inc/states/shop',
-		End: 'inc/states/end',
-        // additional modules
-		Campaign: 'inc/modules/campaign',
-		Map: 'inc/modules/map',
-		BattleGrid: 'inc/modules/battlegrid',
-        // characters
-		Combatant: 'inc/characters/combatant',
-        Adventurer: 'inc/characters/adventurer'
-	}
+    baseUrl: 'scripts',
+    paths: { Phaser: 'vendor/phaser' }
 });
 
-require(['Phaser', 'Boot', 'Preloader', 'Menu', 'New', 'Play', 'Battle'],
+require([
+    'Phaser',
+    'inc/states/boot',
+    'inc/states/preloader',
+    'inc/states/menu',
+    'inc/states/new',
+    'inc/states/play',
+    'inc/states/battle'/*,
+    'inc/states/shop',
+    'inc/states/end'*/
+], function (Phaser, Boot, Preloader, Menu, New, Play, Battle/*, Shop, End*/) {
 
-	function (Phaser) {
+    var A4 = { height: 297, width: 210 };
+    // create new phaser game
+    game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game');
 
-	    var A4 = { height: 297, width: 210 };
-        // create new phaser game
-	    game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game');
+    // add game states
+    game.state.add('Boot', Boot);
+    game.state.add('Preloader', Preloader);
+    game.state.add('Menu', Menu);
+    game.state.add('New', New);
+    game.state.add('Play', Play);
+    game.state.add('Battle', Battle);
+    //game.state.add('Shop', Shop);
+    //game.state.add('End', End);
 
-        // add game states
-		game.state.add('Boot', app.Boot);
-		game.state.add('Preloader', app.Preloader);
-		game.state.add('Menu', app.Menu);
-		game.state.add('New', app.New);
-		game.state.add('Play', app.Play);
-		game.state.add('Battle', app.Battle);
-		game.state.add('Shop', app.Shop);
-		game.state.add('End', app.End);
-
-        // start game from the boot state
-		game.state.start('Boot');
-	}
-);
+    // start game from the boot state
+    game.state.start('Boot');
+});
