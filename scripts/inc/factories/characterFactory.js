@@ -1,6 +1,6 @@
 ﻿define([
-    'inc/entities/Combatant',
-    'inc/factories/SpecialFactory'
+    'inc/entities/combatant',
+    'inc/factories/specialFactory'
 ], function (Combatant, SpecialFactory) {
     'use strict';
 
