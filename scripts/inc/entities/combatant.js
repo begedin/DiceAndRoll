@@ -12,7 +12,7 @@ define([
             BOTTOM: ACTUAL_SIZE.Y / 2,
             LEFT: -1 * ACTUAL_SIZE.X / 2,
             RIGHT: ACTUAL_SIZE.X / 2
-        }
+        },
         SCALED_SIZE = { X: 153, Y: 220 },
         SPECIAL_ICON_SIZE = 100;
 
@@ -49,7 +49,7 @@ define([
         this.characterSprite.scale.setTo((ACTUAL_SIZE.Y - 100) / this.characterSprite.texture.height);
         this.characterSprite.anchor.setTo(0.5, 0.5);
 
-        this.healthIndicator = this.add(new Phaser.Text(this.game, 0, BOUNDS.BOTTOM - 60, "Health", this.game.utils.styles.healthBar))
+        this.healthIndicator = this.add(new Phaser.Text(this.game, 0, BOUNDS.BOTTOM - 60, "Health", this.game.utils.styles.healthBar));
         this.healthIndicator.anchor.setTo(0.5, 0.5);
 
         this.scale.setTo(SCALED_SIZE.X / ACTUAL_SIZE.X, SCALED_SIZE.Y / ACTUAL_SIZE.Y);
@@ -60,8 +60,8 @@ define([
         this.customEvents = {
             onInputDown: new Phaser.Signal(),
             onReady: new Phaser.Signal(),
-            onActed : new Phaser.Signal()
-        }
+            onActed: new Phaser.Signal()
+        };
 
         // main sprite imput simply delegates to custom group imput
         this.mainSprite.inputEnabled = true;
@@ -72,7 +72,7 @@ define([
         this.mainSprite.events.onKilled.add(this.combatantKilled, this);
 
         this.status = this.add(new Status(this.game, this));
-        this.status.position.setTo(BOUNDS.LEFT + 58, BOUNDS.TOP + 72)
+        this.status.position.setTo(BOUNDS.LEFT + 58, BOUNDS.TOP + 72);
 
 	    // contains the character's moves
         this.specials = this.game.add.group();
@@ -89,21 +89,21 @@ define([
         if (!this.canAct()) {
             this.customEvents.onActed.dispatch();
             return;
-        };
+        }
 
         // TODO: Level check to see if special is usable
         this.specials.callAll('revive');
         var specialCount = this.specials.countLiving(); // this will change based on level
 
-        var leftMostPosition = (this.game.width - ((specialCount - 1) * SPECIAL_ICON_SIZE) - ((specialCount - 1) * 10)) / 2 ,
+        var leftMostPosition = (this.game.width - ((specialCount - 1) * SPECIAL_ICON_SIZE) - ((specialCount - 1) * 10)) / 2,
             y = this.game.height / 2,
             initialPosition = this.position;
 
-        this.specials.forEach(function (special, index) {
+        this.specials.forEach(function (special) {
 
-            var index = this.specials.getIndex(special)
+            var index = this.specials.getIndex(special);
 
-            var x = leftMostPosition + (index * SPECIAL_ICON_SIZE) + (( index === 0 ? index : index - 1 ) * 10);
+            var x = leftMostPosition + (index * SPECIAL_ICON_SIZE) + ((index === 0 ? index : index - 1) * 10);
 
             special.position.setTo(this.x, this.y);
 
@@ -134,7 +134,7 @@ define([
         this.angle = -5;
         if (!this.activeTween || !this.activeTween.isRunning) this.activeTween = this.game.add.tween(this).to({ angle: 5 }, 200, Phaser.Easing.Quadratic.In, false, 0, Number.MAX_VALUE, true);
         this.activeTween.start();
-    }
+    };
 
     Combatant.prototype.deactivate = function () {
 
@@ -150,15 +150,15 @@ define([
         if (this.activeTween) this.activeTween.stop();
         this.angle = 0;
         this.customEvents.onActed.dispatch();
-    }
+    };
 
     Combatant.prototype.selectMove = function (selectedMove) {
         this.selectedMove = selectedMove;
         selectedMove.select(this);
-        this.specials.forEach(function(move) {
+        this.specials.forEach(function (move) {
             if (move !== selectedMove) move.deselect();
         });
-    }
+    };
 
     Combatant.prototype.combatantKilled = function () {
         this.customEvents.onReady.removeAll();
@@ -210,14 +210,14 @@ define([
             style.fill = "#999900";
         } else if (ratio <= 1/3) {
             style.fill = "#990000";
-        };
+        }
 
         this.healthIndicator.setStyle(style);
     };
 
     Combatant.prototype.attack = function (target) {
         // TODO: use selected skill to attack;
-        var initialPosition = { x: this.position.x, y: this.position.y }
+        var initialPosition = { x: this.position.x, y: this.position.y };
 
         var actor = this.selectedMove ? this.selectedMove : this,
             characterPosition = this.position,
@@ -239,33 +239,33 @@ define([
         tweenTo.chain(tweenBack);
 
         return tweenBack;
-    }
+    };
 
     Combatant.prototype.showDamage = function (amount) {
-        var damageText = this.game.add.text(this.x, this.y, amount.toString(), { font: '65px ' + game.utils.fontFamily, fill: '#ff0000', align: 'center' }, this.damageIndicators);
+        var damageText = this.game.add.text(this.x, this.y, amount.toString(), { font: '65px ' + this.game.utils.fontFamily, fill: '#ff0000', align: 'center' }, this.damageIndicators);
         damageText.anchor.setTo(0.5, 0.5);
         this.game.add.tween(damageText).to({ alpha: 0, y: this.y - 60 }, 600).start().onComplete.add(damageText.destroy.bind(damageText, false));
-    }
+    };
 
     Combatant.prototype.showHealing = function (amount) {
-        var healingText = this.game.add.text(this.x, this.y, amount.toString(), { font: '65px ' + game.utils.fontFamily, fill: '#00ff00', align: 'center' }, this.damageIndicators);
+        var healingText = this.game.add.text(this.x, this.y, amount.toString(), { font: '65px ' + this.game.utils.fontFamily, fill: '#00ff00', align: 'center' }, this.damageIndicators);
         healingText.anchor.setTo(0.5, 0.5);
         this.game.add.tween(healingText).to({ alpha: 0, y: this.y - 60 }, 600).start().onComplete.add(healingText.destroy.bind(healingText, false));
-    }
+    };
 
     Combatant.prototype.getEffectiveAttack = function (modifier) {
         var attack = this.stats.attack + this.status.totalAttackMod + (modifier || 0);
         return attack > 0 ? attack : 0;
-    }
+    };
 
     Combatant.prototype.getEffectiveDefense = function (modifier) {
         var defense = this.stats.defense + this.status.totalDefenseMod + (modifier || 0);
         return defense > 0 ? defense : 0;
-    }
+    };
 
     Combatant.prototype.canAct = function () {
         return !this.status.hasBlockingEffect();
-    }
+    };
 
 	return Combatant;
 });

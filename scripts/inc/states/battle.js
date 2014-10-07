@@ -99,7 +99,7 @@ define([
                 } else {
                     // introductory fade in of theme music
                     this.game.sound.stopAll();
-                    this.music = game.add.audio('battle-' + this.options.terrain);
+                    this.music = this.game.add.audio('battle-' + this.options.terrain);
                     music = this.music.play('', 0, 0, true);
                 }
             }
@@ -171,10 +171,10 @@ define([
 
         turnTweenFadeOut.onComplete.addOnce(function () {
             turnText.destroy();
-        this.activeCombatant = this.combatants.next();
-        this.activeCombatant.activate(this.activeCombatantClicked);
+            this.activeCombatant = this.combatants.next();
+            this.activeCombatant.activate(this.activeCombatantClicked);
         }, this);
-    }
+    };
 
     // starts next round. sorts semi-randomizes initiative and sorts combatants in that order
     Battle.prototype.initiateRound = function () { 
@@ -204,7 +204,7 @@ define([
 
         // TODO: Split into victory/defeat
         if (numInEnemyTeam === 0 || numInPlayerTeam === 0) this.game.state.start('Menu');
-    }
+    };
 
     Battle.prototype.endTurn = function () {
         this.combatants.forEach(function (combatant) {
@@ -220,7 +220,7 @@ define([
             terrain: 'grass',
             playerParty: [],
             enemyParty: []
-        }
+        };
 
         this.options.playerParty.push(this.game.assets.characters.warrior);
         this.options.playerParty.push(this.game.assets.characters.cleric);
@@ -235,7 +235,7 @@ define([
         this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
         this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
         this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
-    }
+    };
 
     function getPosition(team, type, slot, totalCount, width, height) {
         var SIZE = { X: 163, Y: 220 },
@@ -245,7 +245,7 @@ define([
             y = height - (SIZE.Y / 2 + ((type === "RANGED") ? 20 : 80));
         } else if (team === 2) {
             y = SIZE.Y / 2 + ((type === "RANGED") ? 20 : 80);
-        };
+        }
 
         var offsetLeft = (width - ((totalCount * SIZE.X) + ((totalCount - 1) * 20))) / 2;
 
