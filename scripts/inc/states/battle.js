@@ -76,9 +76,6 @@ define([
             this.game.load.image('specials/sturded_armor', 'assets/specials/sturded_armor.png');
             this.game.load.image('specials/call_of_griffin', 'assets/specials/call_of_griffin.png');
 
-            this.game.load.image('specials/selection_indicator', 'assets/specials/selection_indicator.png');
-            this.game.load.image('specials/selection_indicator_rounded', 'assets/specials/selection_indicator_rounded.png');
-
             this.game.load.image('monsters/goblin_warrior', 'assets/monsters/goblin_warrior.png');
             this.game.load.image('monsters/goblin_berserker', 'assets/monsters/goblin_berserker.png');
             this.game.load.image('monsters/goblin_shaman', 'assets/monsters/goblin_shaman.png');
