@@ -144,7 +144,7 @@ define([
             var finalScale = 0.1 * SPECIAL_ICON_SIZE / special.texture.height;
             this.game.add.tween(special).to({ angle: 180, x: finalPosition.x, y: finalPosition.y }, 1000, Phaser.Easing.Bounce.Out, true);
             this.game.add.tween(special.scale).to({ x: finalScale, y: finalScale }, 1000, Phaser.Easing.Bounce.Out, true).onComplete.addOnce(special.kill, special);
-        });
+        }, this);
 
         this.isAttacking = false;
         if (this.activeTween) this.activeTween.stop();
