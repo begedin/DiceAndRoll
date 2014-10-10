@@ -107,7 +107,7 @@ define(['Phaser'], function (Phaser) {
             this.mainMenu.add(this.createMenuItem('Credits', 4, this.game.utils.styles.menuButton, sound, this.displayCredits.bind(this)));
             this.mainMenu.add(this.createMenuItem('Test battle', 5, this.game.utils.styles.menuButton, sound, function () {
                 this.game.state.start('Preloader', true, false, 'Battle',
-                    { persistMusic: false, terrain: 'dirt', playerParty: mockupPlayers, enemyParty: mockupMonsters });
+                    { persistMusic: false, terrain: 'grass', playerParty: mockupPlayers, enemyParty: mockupMonsters });
             }.bind(this)));
 
             this.load.onFileStart.removeAll();

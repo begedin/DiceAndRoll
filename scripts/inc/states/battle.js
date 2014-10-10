@@ -24,57 +24,6 @@ define([
             this.isTurnInProgress = false;
         },
         preload: function () {
-
-            //TODO: move to preloader
-
-            this.game.load.image('cards/back', 'assets/cards/card-back.png');
-            this.game.load.image('cards/front', 'assets/cards/card-front.png');
-            this.game.load.image('cards/faction-1', 'assets/cards/card-faction-1.png');
-            this.game.load.image('cards/faction-2', 'assets/cards/card-faction-2.png');
-            this.game.load.image('cards/emblem-axe', 'assets/cards/card-axe.png');
-            this.game.load.image('cards/emblem-mace', 'assets/cards/card-mace.png');
-            this.game.load.image('cards/emblem-potion', 'assets/cards/card-potion.png');
-            this.game.load.image('cards/emblem-bow', 'assets/cards/card-bow.png');
-            this.game.load.image('cards/emblem-shield', 'assets/cards/card-shield.png');
-            this.game.load.image('cards/emblem-sword', 'assets/cards/card-sword.png');
-            this.game.load.image('cards/emblem-claw', 'assets/cards/card-claw.png');
-
-            this.game.load.image('specials/rage', 'assets/specials/rage.png');
-            this.game.load.image('specials/chain_attack', 'assets/specials/chain_attack.png');
-            this.game.load.image('specials/ground_strike', 'assets/specials/ground_strike.png');
-            this.game.load.image('specials/elemental_fear', 'assets/specials/elemental_fear.png');
-
-            this.game.load.image('specials/healing_potion', 'assets/specials/healing_potion.png');
-            this.game.load.image('specials/bless', 'assets/specials/bless.png');
-            this.game.load.image('specials/negate_spell', 'assets/specials/negate_spell.png');
-            this.game.load.image('specials/team_heal', 'assets/specials/team_heal.png');
-
-            this.game.load.image('specials/bullseye', 'assets/specials/bullseye.png');
-            this.game.load.image('specials/tripple_shot', 'assets/specials/tripple_shot.png');
-            this.game.load.image('specials/fire_arrow', 'assets/specials/fire_arrow.png');
-            this.game.load.image('specials/drain_arrow', 'assets/specials/drain_arrow.png');
-
-            this.game.load.image('specials/electric_shock', 'assets/specials/electric_shock.png');
-            this.game.load.image('specials/poison_gas', 'assets/specials/poison_gas.png');
-            this.game.load.image('specials/mechanical_arm', 'assets/specials/mechanical_arm.png');
-            this.game.load.image('specials/fusion_cannon', 'assets/specials/fusion_cannon.png');
-
-            this.game.load.image('specials/attack_claws', 'assets/specials/attack_claws.png');
-            this.game.load.image('specials/tail_strike', 'assets/specials/tail_strike.png');
-            this.game.load.image('specials/deadly_bite', 'assets/specials/deadly_bite.png');
-            this.game.load.image('specials/brutal_flame', 'assets/specials/brutal_flame.png');
-
-            this.game.load.image('specials/leadership', 'assets/specials/leadership.png');
-            this.game.load.image('specials/holy_weapon', 'assets/specials/holy_weapon.png');
-            this.game.load.image('specials/sturded_armor', 'assets/specials/sturded_armor.png');
-            this.game.load.image('specials/call_of_griffin', 'assets/specials/call_of_griffin.png');
-
-            this.game.load.image('monsters/goblin_warrior', 'assets/monsters/goblin_warrior.png');
-            this.game.load.image('monsters/goblin_berserker', 'assets/monsters/goblin_berserker.png');
-            this.game.load.image('monsters/goblin_shaman', 'assets/monsters/goblin_shaman.png');
-            this.game.load.image('monsters/goblin_king', 'assets/monsters/goblin_berserker.png');
-            this.game.load.image('monsters/gnoll', 'assets/monsters/gnoll.png');
-            this.game.load.image('monsters/monstrous_spider', 'assets/monsters/monstrous_spider.png');
         },
         create: function () {
 
@@ -97,9 +46,8 @@ define([
             this.turnNumber = 0;
             this.roundNumber = 0;
 
-            // background image on the bottom of the screen
-            this.background = this.game.add.sprite(this.game.width / 2, this.game.height, 'battle-' + this.options.terrain);
-            this.background.anchor.setTo(0.5, 1);
+            // background image 
+            this.game.utils.stretchAndFitImage(this.game, 'battle_' + this.options.terrain);
 
             if (this.combatants) this.combatants.destroy(false);
 
@@ -196,7 +144,8 @@ define([
         // TODO: Split into victory/defeat
         if (numInEnemyTeam === 0 || numInPlayerTeam === 0) {
             this.options.outcome = (numInEnemyTeam === 0) ? 'VICTORY' : 'DEFEAT';
-            this.game.state.start('End', true, false, this.options);
+
+            this.game.state.start('Preloader', true, false, 'End', this.options);
         }
     };
 

@@ -157,6 +157,11 @@ define([
         this.options.persistMusic = false;
         this.options.terrain = encounter.terrain;
 
+        this.options.enemyParty = [];
+        encounter.monsters.forEach(function (monster) {
+            this.options.enemyParty.push(this.game.assets.monsters[monster]);
+        }, this);
+
         this.game.state.start('Preloader', true, false, 'Battle', this.options);
     };
 

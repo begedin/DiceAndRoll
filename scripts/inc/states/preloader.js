@@ -48,7 +48,7 @@ define(['Phaser'],	function(Phaser) {
             switch (this.stateForLoading) {
                 case 'Menu':
                     // background screen
-                    this.game.load.image('menu', 'assets/screens/menu_1188.png');
+                    this.game.load.image('menu', 'assets/screens/menu_s.png');
                     // ambient music
                     this.game.load.audio('theme', ['assets/sound/looperman-l-0208341-0069234-drmistersir-4moe-xxgrave-robbers.mp3']);
                     // common assets
@@ -60,22 +60,16 @@ define(['Phaser'],	function(Phaser) {
                     break;
                 case 'New':
                     // background screen
-                    this.game.load.image('new', 'assets/screens/new_1188.png');
-                    // ambient music
-                    // ...
+                    this.game.load.image('new', 'assets/screens/new_s.png');
                     // load characters
-                    // TODO: load them based on JSON definition file - not fixed!
-                    this.game.load.image('warrior', 'assets/players/warrior.png');
-                    this.game.load.image('cleric', 'assets/players/cleric.png');
-                    this.game.load.image('ranger', 'assets/players/ranger.png');
-                    this.game.load.image('alchemist', 'assets/players/alchemist.png');
-                    this.game.load.image('beast', 'assets/players/beast.png');
-                    this.game.load.image('paladin', 'assets/players/paladin.png');
+                    for (var charIndex in this.game.assets.characters) {
+                        var character = this.game.assets.characters[charIndex];
+                        this.game.load.image(character.name, 'assets/players/' + character.name + '_s.png');
+                    }
                     // load campaigns 
-                    // TODO: load them based on JSON definition file - not fixed!
-                    this.game.load.image('campaign_goblins_keep', 'assets/campaigns/campaign_goblins_keep.png');
-                    this.game.load.image('campaign_citadel', 'assets/campaigns/campaign_citadel.png');
-                    this.game.load.image('campaign_tomb', 'assets/campaigns/campaign_tomb.png');
+                    this.game.assets.campaigns.forEach(function (campaign) {
+                        this.game.load.image(campaign.name, 'assets/campaigns/' + campaign.name + '_s.png');
+                    }, this);
                     // common assets
                     this.game.load.image('arrow', 'assets/common/arrow.png');
                     // load sound effects
@@ -86,7 +80,7 @@ define(['Phaser'],	function(Phaser) {
                     break;
                 case 'Play':
                     // background screen
-                    this.game.load.image('play', 'assets/screens/play_1188.png');
+                    this.game.load.image('play', 'assets/screens/play_s.png');
                     // ambient music
                     this.game.load.audio('play', ['assets/sound/looperman-l-1059144-0066791-ebaby8119-intro-loop.mp3']);
                     // load maps
@@ -100,7 +94,7 @@ define(['Phaser'],	function(Phaser) {
                     break;
                 case 'Battle':
                     // background screen
-                    this.game.load.image('battle-' + this.options.terrain, 'assets/screens/battle-' + this.options.terrain + '_1188.png');
+                    this.game.load.image('battle_' + this.options.terrain, 'assets/screens/battle_' + this.options.terrain + '_s.png');
                     // ambient music
                     if (this.options.terrain === 'grass') {
                         this.game.load.audio('battle-' + this.options.terrain, ['assets/sound/looperman-l-0202721-0075453-anubis-tribal-escape-02.mp3']);
@@ -111,12 +105,74 @@ define(['Phaser'],	function(Phaser) {
                     }
                     // load characters in party
                     this.options.playerParty.forEach(function (character) {
-                        this.game.load.image('characters/' + character.name, 'assets/players/' + character.name + '.png');
+                        this.game.load.image('characters/' + character.name, 'assets/players/' + character.name + '_s.png');
+                    }, this);
+                    // load monsters in battle
+                    this.options.enemyParty.forEach(function (monster) {
+                        this.game.load.image('monsters/' + monster.name, 'assets/monsters/' + monster.name + '_s.png');
                     }, this);
                     // sound effects
                     this.game.load.audio('hit', ['assets/sound/effects/Swoosh02.mp3']);
                     this.game.load.audio('multi-hit', ['assets/sound/effects/SwooshCombo1.mp3']);
                     this.game.load.audio('multi-hit2', ['assets/sound/effects/SwooshCombo2.mp3']);
+
+                    // TODO: assort these images more efficiently !!!
+
+                    this.game.load.image('cards/back', 'assets/cards/card-back.png');
+                    this.game.load.image('cards/front', 'assets/cards/card-front.png');
+                    this.game.load.image('cards/faction-1', 'assets/cards/card-faction-1.png');
+                    this.game.load.image('cards/faction-2', 'assets/cards/card-faction-2.png');
+                    this.game.load.image('cards/emblem-axe', 'assets/cards/card-axe.png');
+                    this.game.load.image('cards/emblem-mace', 'assets/cards/card-mace.png');
+                    this.game.load.image('cards/emblem-potion', 'assets/cards/card-potion.png');
+                    this.game.load.image('cards/emblem-bow', 'assets/cards/card-bow.png');
+                    this.game.load.image('cards/emblem-shield', 'assets/cards/card-shield.png');
+                    this.game.load.image('cards/emblem-sword', 'assets/cards/card-sword.png');
+                    this.game.load.image('cards/emblem-claw', 'assets/cards/card-claw.png');
+
+                    this.game.load.image('specials/rage', 'assets/specials/rage.png');
+                    this.game.load.image('specials/chain_attack', 'assets/specials/chain_attack.png');
+                    this.game.load.image('specials/ground_strike', 'assets/specials/ground_strike.png');
+                    this.game.load.image('specials/elemental_fear', 'assets/specials/elemental_fear.png');
+
+                    this.game.load.image('specials/healing_potion', 'assets/specials/healing_potion.png');
+                    this.game.load.image('specials/bless', 'assets/specials/bless.png');
+                    this.game.load.image('specials/negate_spell', 'assets/specials/negate_spell.png');
+                    this.game.load.image('specials/team_heal', 'assets/specials/team_heal.png');
+
+                    this.game.load.image('specials/bullseye', 'assets/specials/bullseye.png');
+                    this.game.load.image('specials/tripple_shot', 'assets/specials/tripple_shot.png');
+                    this.game.load.image('specials/fire_arrow', 'assets/specials/fire_arrow.png');
+                    this.game.load.image('specials/drain_arrow', 'assets/specials/drain_arrow.png');
+
+                    this.game.load.image('specials/electric_shock', 'assets/specials/electric_shock.png');
+                    this.game.load.image('specials/poison_gas', 'assets/specials/poison_gas.png');
+                    this.game.load.image('specials/mechanical_arm', 'assets/specials/mechanical_arm.png');
+                    this.game.load.image('specials/fusion_cannon', 'assets/specials/fusion_cannon.png');
+
+                    this.game.load.image('specials/attack_claws', 'assets/specials/attack_claws.png');
+                    this.game.load.image('specials/tail_strike', 'assets/specials/tail_strike.png');
+                    this.game.load.image('specials/deadly_bite', 'assets/specials/deadly_bite.png');
+                    this.game.load.image('specials/brutal_flame', 'assets/specials/brutal_flame.png');
+
+                    this.game.load.image('specials/leadership', 'assets/specials/leadership.png');
+                    this.game.load.image('specials/holy_weapon', 'assets/specials/holy_weapon.png');
+                    this.game.load.image('specials/sturded_armor', 'assets/specials/sturded_armor.png');
+                    this.game.load.image('specials/call_of_griffin', 'assets/specials/call_of_griffin.png');
+
+                    break;
+
+                case 'End':
+                    // background screen
+                    // ambient music
+                    if (this.options.outcome === 'VICTORY') {
+                        this.game.load.image('victory', 'assets/screens/victory_s.png');
+                        this.game.load.audio('victory', ['assets/sound/looperman-l-0159051-0054707-minor2go-cinema-pro-the-world.mp3']);
+                    } else {
+                        this.game.load.image('defeat', 'assets/screens/defeat_s.png');
+                        this.game.load.audio('defeat', ['assets/sound/looperman-l-0159051-0054708-minor2go-cinema-pro-golden-kingdom.mp3']);
+                    }
+
                     break;
                 default: // unsorted, for now
                     // load screens

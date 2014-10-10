@@ -24,18 +24,12 @@ define([
             this.won = this.options.outcome === 'VICTORY';
         },
         preload: function () {
-            if (this.won) {
-                this.game.load.image('victory', 'assets/screens/victory_1188.png');
-                this.game.load.audio('victory', ['assets/sound/looperman-l-0159051-0054707-minor2go-cinema-pro-the-world.mp3']);
-            } else {
-                this.game.load.image('defeat', 'assets/screens/defeat_1188.png');
-                this.game.load.audio('defeat', ['assets/sound/looperman-l-0159051-0054708-minor2go-cinema-pro-golden-kingdom.mp3']);
-            }
         },
-
         create: function () {
 
-            this.background = this.game.add.sprite(0, 0, this.won ? 'victory': 'defeat');
+            // background image 
+            this.game.utils.stretchAndFitImage(this.game, this.won ? 'victory' : 'defeat');
+
             var titleText = this.game.add.text(this.game.width / 2, 300, this.won ? 'You have won!' : 'You have been defeated...', this.won ? VICTORY_TITLE_STYLE : DEFEAT_TITLE_STYLE);
             titleText.anchor.setTo(0.5, 0);
 

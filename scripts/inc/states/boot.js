@@ -15,9 +15,7 @@ define(['Phaser'], function (Phaser) {
         preload: function(){
             // Load assets required for preLoader (progress bar, etc.)
             this.game.load.image('preloadBar', 'assets/screens/progressbar.png');
-            this.game.load.image('preloader', 'assets/screens/preloader2_1188.png');
-            //game.load.audio('drums', ['assets/sound/looperman-l-0202721-0075501-anubis-tribal-escape-10.mp3']);
-            //game.load.audio('drums', ['assets/sound/looperman-l-0208341-0069234-drmistersir-4moe-xxgrave-robbers.mp3']);
+            this.game.load.image('preloader', 'assets/screens/preloader_s.png');
             this.game.load.audio('interlude', ['assets/sound/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3']);
 
             // load data in JSON files
@@ -25,7 +23,6 @@ define(['Phaser'], function (Phaser) {
             this.game.load.text('monsters', 'data/monsters.json');
             this.game.load.text('campaigns', 'data/campaigns.json');
             this.game.load.text('specials', 'data/specials.json');
-            //game.load.json('characters', '/data/characters.json');
         },
         create: function () {
 
