@@ -23,7 +23,7 @@ require([
 
     var A4 = { height: 297, width: 210 };
     // create new phaser game
-    game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game');
+    var game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game');
 
     // add game states
     game.state.add('Boot', Boot);

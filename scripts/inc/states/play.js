@@ -55,13 +55,13 @@ define([
             this.locationInfo.button.inputEnabled = true;
             this.locationInfo.button.visible = false;
 
-            this.game.utils.stretchAndFitImage('play');
+            this.game.utils.stretchAndFitImage(this.game, 'play');
 
             // add back button
-            this.game.utils.createTextButton('Quit game', 150, this.game.height - 50, this.game.utils.styles.backButton, this.game.add.audio('sword'), function () {
+            this.game.utils.createTextButton(this.game, 'Quit game', 150, this.game.height - 50, this.game.utils.styles.backButton, this.game.add.audio('sword'), function () {
                 if (this.game.utils.settings.sound.musicVolume > 0) this.game.sound.stopAll();
                 this.game.state.start('Menu', true, false);
-            });
+            }.bind(this));
         },
         update: function () {
             if (this.music.volume < this.game.utils.settings.sound.musicVolume) {

@@ -14,17 +14,17 @@ define(['Phaser'], function (Phaser) {
     Boot.prototype = {
         preload: function(){
             // Load assets required for preLoader (progress bar, etc.)
-            game.load.image('preloadBar', 'assets/screens/progressbar.png');
-            game.load.image('preloader', 'assets/screens/preloader2_1188.png');
+            this.game.load.image('preloadBar', 'assets/screens/progressbar.png');
+            this.game.load.image('preloader', 'assets/screens/preloader2_1188.png');
             //game.load.audio('drums', ['assets/sound/looperman-l-0202721-0075501-anubis-tribal-escape-10.mp3']);
             //game.load.audio('drums', ['assets/sound/looperman-l-0208341-0069234-drmistersir-4moe-xxgrave-robbers.mp3']);
-            game.load.audio('interlude', ['assets/sound/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3']);
+            this.game.load.audio('interlude', ['assets/sound/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3']);
 
             // load data in JSON files
-            game.load.text('characters', 'data/characters.json');
-            game.load.text('monsters', 'data/monsters.json');
-            game.load.text('campaigns', 'data/campaigns.json');
-            game.load.text('specials', 'data/specials.json');
+            this.game.load.text('characters', 'data/characters.json');
+            this.game.load.text('monsters', 'data/monsters.json');
+            this.game.load.text('campaigns', 'data/campaigns.json');
+            this.game.load.text('specials', 'data/specials.json');
             //game.load.json('characters', '/data/characters.json');
         },
         create: function () {
@@ -56,8 +56,8 @@ define(['Phaser'], function (Phaser) {
                 this.scale.setScreenSize(true);
             }
 
-            game.utils = {};
-            game.utils.stretchAndFitImage = function (name) {
+            this.game.utils = {};
+            this.game.utils.stretchAndFitImage = function (game, name) {
 
                 var asset = game.cache.getImage(name);
                 if (game.width !== asset.width || game.height !== asset.height) {
@@ -71,7 +71,7 @@ define(['Phaser'], function (Phaser) {
                 }
             };
 
-            game.utils.fitImage = function (area, name) {
+            this.game.utils.fitImage = function (game, area, name) {
 
                 var asset = game.cache.getImage(name);
                 if (area.width !== asset.width || area.height !== asset.height) {
@@ -79,26 +79,26 @@ define(['Phaser'], function (Phaser) {
                     var position = { x: (area.width - asset.width * ratio) / 2, y: (area.height - asset.height * ratio) / 2 };
                     var sprite = game.add.sprite(area.x + position.x, area.y + position.y, name);
                     sprite.scale.setTo(ratio, ratio);
-                    return asset;
+                    return sprite;
                 } else {
                     return game.add.sprite(area.x, area.y, name);
                 }
             };
 
             // game settings (TODO: read in from the local storage)
-            game.utils.settings = {};
-            game.utils.settings.sound = { musicVolume: 1, sfxVolume: 1 };
+            this.game.utils.settings = {};
+            this.game.utils.settings.sound = { musicVolume: 1, sfxVolume: 1 };
 
-            game.utils.fontFamily = 'Berkshire Swash'; // alternatives: Handlee, Kaushan Script
+            this.game.utils.fontFamily = 'Berkshire Swash'; // alternatives: Handlee, Kaushan Script
 
             // create object repository for usage in game
-            game.assets = {};
-            game.assets.monsters = JSON.parse(game.cache.getText('monsters'));
-            game.assets.characters = JSON.parse(game.cache.getText('characters'));
-            game.assets.campaigns = JSON.parse(game.cache.getText('campaigns'));
-            game.assets.specials = JSON.parse(game.cache.getText('specials'));
+            this.game.assets = {};
+            this.game.assets.monsters = JSON.parse(this.game.cache.getText('monsters'));
+            this.game.assets.characters = JSON.parse(this.game.cache.getText('characters'));
+            this.game.assets.campaigns = JSON.parse(this.game.cache.getText('campaigns'));
+            this.game.assets.specials = JSON.parse(this.game.cache.getText('specials'));
             //game.state.start('Preloader');
-            game.state.start('Preloader', true, false, 'Menu', {});
+            this.game.state.start('Preloader', true, false, 'Menu', {});
         },
         update: function () {
         },
