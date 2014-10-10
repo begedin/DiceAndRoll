@@ -46,7 +46,7 @@
 
         character.type = stats.type;
 
-        var attack = SpecialFactory.create(game, character, 'melee_attack', 'cards/emblem-sword');
+        var attack = SpecialFactory.create(game, character, 'melee_attack', 'cards/emblem-mace');
         attack.name = stats.weapon;
 
         character.specials.add(attack);
@@ -154,7 +154,7 @@
 
         character.type = stats.type;
 
-        var attack = SpecialFactory.create(game, character, 'melee_attack', 'cards/emblem-mace');
+        var attack = SpecialFactory.create(game, character, 'melee_attack', 'cards/emblem-sword');
         attack.name = stats.weapon;
 
         character.specials.add(attack);

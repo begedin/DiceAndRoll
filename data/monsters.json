@@ -19,7 +19,7 @@
         "type": "RANGED",
         "weapon": "Poking staff"
     },
-	"goblin_berserker": {
+    "goblin_berserker": {
         "name": "goblin_warrior",
         "title": "Goblin Warrior",
         "desc": "A slightly more powerful and less civilized for of the goblin warrior.",
@@ -28,5 +28,25 @@
         "attack": 20,
         "type": "MELEE",
         "weapon": "Sharpened stick"
+    },
+    "monstrous_spider": {
+        "name": "monstrous_spider",
+        "title": "Monstrous Spider",
+        "desc": "This arachnoid is very deadly and unpredictive. May cast a web or sting with a poisonous venom.",
+        "health": 120,
+        "defense": 4,
+        "attack": 24,
+        "type": "MELEE",
+        "weapon": "Poisonous sting and cast web"
+    },
+    "gnoll": {
+        "name": "gnoll",
+        "title": "Gnoll",
+        "desc": "This terrifying beast is nothing less deadly than a wolf and orc together.",
+        "health": 100,
+        "defense": 3,
+        "attack": 22,
+        "type": "MELEE",
+        "weapon": "Orcish axe"
     }
 }

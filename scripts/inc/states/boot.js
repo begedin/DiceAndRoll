@@ -60,12 +60,12 @@ define(['Phaser'], function (Phaser) {
             game.utils.stretchAndFitImage = function (name) {
 
                 var asset = game.cache.getImage(name);
-                if (game.width != asset.width || game.height != asset.height) {
+                if (game.width !== asset.width || game.height !== asset.height) {
                     var ratio = Math.min(game.width / asset.width, game.height / asset.height);
                     var position = { x: (game.width - asset.width * ratio) / 2, y: (game.height - asset.height * ratio) / 2 };
-                    var asset = game.add.sprite(position.x, position.y, name);
-                    asset.scale.setTo(ratio, ratio);
-                    return asset;
+                    var sprite = game.add.sprite(position.x, position.y, name);
+                    sprite.scale.setTo(ratio, ratio);
+                    return sprite;
                 } else {
                     return game.add.sprite(0, 0, name);
                 }
@@ -74,11 +74,11 @@ define(['Phaser'], function (Phaser) {
             game.utils.fitImage = function (area, name) {
 
                 var asset = game.cache.getImage(name);
-                if (area.width != asset.width || area.height != asset.height) {
+                if (area.width !== asset.width || area.height !== asset.height) {
                     var ratio = Math.min(area.width / asset.width, area.height / asset.height);
                     var position = { x: (area.width - asset.width * ratio) / 2, y: (area.height - asset.height * ratio) / 2 };
-                    var asset = game.add.sprite(area.x + position.x, area.y + position.y, name);
-                    asset.scale.setTo(ratio, ratio);
+                    var sprite = game.add.sprite(area.x + position.x, area.y + position.y, name);
+                    sprite.scale.setTo(ratio, ratio);
                     return asset;
                 } else {
                     return game.add.sprite(area.x, area.y, name);

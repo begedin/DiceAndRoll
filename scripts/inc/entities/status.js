@@ -13,7 +13,7 @@
         this.totalDefenseMod = 0;
 
         Phaser.Group.call(this, this.game, this.character, character.name + '_status');
-    }
+    };
 
     Status.prototype = Object.create(Phaser.Group.prototype);
     Status.prototype.constructor = Status;
@@ -31,17 +31,18 @@
                 break;
             case 'STUN': effect = this.create(0, 0, 'cards/emblem-mace');
                 break;
-            case 'POISON': effect = this.create(0, 0, 'cards/emblem-potion');
+            case 'POISON':
+            case 'FIRE': effect = this.create(0, 0, 'cards/emblem-potion');
                 break;
         }
         effect.duration = duration;
         effect.power = power;
         effect.type = type;
-        if ((power > 0 && effect.type === 'POISON') || (power < 0 && effect.type !== 'POISON') || (effect.type === 'STUN')) effect.tint = 0xff3333;
+        if ((power > 0 && (effect.type === 'POISON' || effect.type === 'FIRE')) || (power < 0 && effect.type !== 'POISON') || (effect.type === 'STUN')) effect.tint = 0xff3333;
         else effect.tint = 0x33ff33;
         effect.scale.setTo(0.5);
         effect.anchor.setTo(0.5);
-    }
+    };
 
     // removes all effects of a certain type
     // intended for use with status healing abilities.
@@ -49,7 +50,7 @@
         this.forEach(function (effect) {
             if (effect.type === type) this.remove(effect);
         }, this);
-    }
+    };
 
     Status.prototype.processTurn = function () {
         var totalAttackMod = 0,
@@ -64,7 +65,9 @@
                     break;
                 case 'DEFENSE': totalDefenseMod += statusEffect.power;
                     break;
-                case 'POISON': totalDamage += statusEffect.power * this.game.rnd.integerInRange(1, 6);
+                case 'POISON':
+                case 'FIRE':
+                    totalDamage += statusEffect.power * this.game.rnd.integerInRange(1, 6);
                     break;
             }
 
@@ -89,7 +92,7 @@
             if (alpha > 1) alpha = 1;
             effect.alpha = alpha;
         }, this);
-    }
+    };
 
     Status.prototype.hasBlockingEffect = function () {
         var hasStun = false;
@@ -98,7 +101,7 @@
         }, this);
 
         return hasStun;
-    }
+    };
 
     return Status;
 });

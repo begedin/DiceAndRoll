@@ -1,0 +1,24 @@
+{
+    "pinpoints": [
+        {
+            "identifier": "UndertakersHouse",
+            "name": "The undertaker's house",
+            "type": "SHOP",
+            "x": "70",
+            "y": "80",
+            "image": "",
+            "description": "The house of jolly fellow the undertaker. You can shop here and purchase something if you please.",
+            "connectsTo": [ "PeasantGraveyard" ]
+        },
+        {
+            "identifier": "PeasantGraveyard",
+            "name": "Peasant graveyard",
+            "type": "ENCOUNTER",
+            "x": "60",
+            "y": "60",
+            "image": "",
+            "description": "This location is at the entrance of large graveyard that streches to the north and west from here.",
+            "connectsTo": []
+        }
+    ]
+}

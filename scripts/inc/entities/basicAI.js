@@ -6,7 +6,7 @@
         this.game = game;
         this.character = character;
         this.character.customEvents.onReady.add(this.act, this, 0);
-    }
+    };
 
     BasicAI.prototype.act = function () {
 

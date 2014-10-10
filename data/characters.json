@@ -66,7 +66,7 @@
             { "mark": "3", "name": "Composite bow", "modifier": "+8" },
             { "mark": "4", "name": "Improved composite bow", "modifier": "+12" }
         ],
-        "specials": [ "bullseye", "tripple_shot", "poisoned_arrow", "drain_arrow" ]
+        "specials": [ "bullseye", "tripple_shot", "fire_arrow", "drain_arrow" ]
     },
     "alchemist": {
         "name": "alchemist",

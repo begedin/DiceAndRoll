@@ -1,0 +1,24 @@
+{
+    "pinpoints": [
+        {
+            "identifier": "MainGate",
+            "name": "The main gate",
+            "type": "SHOP",
+            "x": "15",
+            "y": "55",
+            "image": "",
+            "description": "The main gate of mighty Citadel.",
+            "connectsTo": [ "TownWatch" ]
+        },
+        {
+            "identifier": "TownWatch",
+            "name": "Town watch",
+            "type": "ENCOUNTER",
+            "x": "32",
+            "y": "44",
+            "image": "",
+            "description": "Town watch, very unfriendly.",
+            "connectsTo": []
+        }
+    ]
+}

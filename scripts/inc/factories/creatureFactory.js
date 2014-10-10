@@ -52,7 +52,7 @@
 
         creature.type = stats.type;
 
-        var attack = SpecialFactory.create(game, creature, 'ranged_attack', 'cards/emblem-axe');
+        var attack = SpecialFactory.create(game, creature, 'ranged_attack', 'cards/emblem-potion');
         attack.name = stats.weapon;
 
         creature.specials.add(attack);
@@ -78,7 +78,7 @@
 
         creature.type = stats.type;
 
-        var attack = SpecialFactory.create(game, creature, 'melee_attack', 'cards/emblem-axe');
+        var attack = SpecialFactory.create(game, creature, 'melee_attack', 'cards/emblem-sword');
         attack.name = stats.weapon;
 
         creature.specials.add(attack);
@@ -104,7 +104,7 @@
 
         creature.type = stats.type;
 
-        var attack = SpecialFactory.create(game, creature, 'melee_attack', 'cards/emblem-axe');
+        var attack = SpecialFactory.create(game, creature, 'melee_attack', 'cards/emblem-claw');
         attack.name = stats.weapon;
 
         creature.specials.add(attack);

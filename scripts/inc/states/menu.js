@@ -98,12 +98,34 @@ define(['Phaser'], function (Phaser) {
             var sound = game.add.audio('sword');
             var sound2 = game.add.audio('sword2');
 
+            var mockupPlayers = [
+                this.game.assets.characters.warrior,
+                this.game.assets.characters.cleric,
+                this.game.assets.characters.ranger,
+                this.game.assets.characters.beast,
+                this.game.assets.characters.alchemist,
+                this.game.assets.characters.paladin
+            ];
+
+            var mockupMonsters = [{ name: 'goblin_warrior', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' },
+                        { name: 'goblin_shaman', type: 'RANGED' }, { name: 'monstrous_spider', type: 'MELEE' },
+                        { name: 'gnoll', type: 'MELEE' }];
+
             var menu = game.add.group();
-            menu.add(addMenuItem('New Game', 1, game.utils.styles.menuButton, sound, function () { game.state.start('Preloader', true, false, 'New', { persistMusic: true }); }));
-            menu.add(addMenuItem('Continue', 2, game.utils.styles.menuButton, sound, function () { game.state.start('Preloader', true, false, 'Play', { persistMusic: false }); }));
+            menu.add(addMenuItem('New Game', 1, game.utils.styles.menuButton, sound, function () {
+                game.state.start('Preloader', true, false, 'New',
+                    { persistMusic: true });
+            }));
+            menu.add(addMenuItem('Continue', 2, game.utils.styles.menuButton, sound, function () {
+                game.state.start('Preloader', true, false, 'Play',
+                    { persistMusic: false, campaign: this.game.assets.campaigns[0], playerParty: mockupPlayers });
+            }));
             menu.add(addMenuItem('Settings', 3, game.utils.styles.menuButton, sound, function () { displaySettings(); }));
             menu.add(addMenuItem('Credits', 4, game.utils.styles.menuButton, sound, function () { displayCredits(); }));
-            menu.add(addMenuItem('Test battle', 5, game.utils.styles.menuButton, sound, function () { game.state.start('Preloader', true, false, 'Battle', { persistMusic: false }); }));
+            menu.add(addMenuItem('Test battle', 5, game.utils.styles.menuButton, sound, function () {
+                game.state.start('Preloader', true, false, 'Battle',
+                    { persistMusic: false, terrain: 'dirt', playerParty: mockupPlayers, enemyParty: mockupMonsters });
+            }));
 
             // there are two sub-menus present: settings and credits
 

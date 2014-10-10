@@ -16,10 +16,10 @@ require([
     'inc/states/menu',
     'inc/states/new',
     'inc/states/play',
-    'inc/states/battle'/*,
-    'inc/states/shop',
-    'inc/states/end'*/
-], function (Phaser, Boot, Preloader, Menu, New, Play, Battle/*, Shop, End*/) {
+    'inc/states/battle',
+    /*'inc/states/shop',*/
+    'inc/states/end'
+], function (Phaser, Boot, Preloader, Menu, New, Play, Battle,/* Shop,*/ End) {
 
     var A4 = { height: 297, width: 210 };
     // create new phaser game
@@ -33,7 +33,7 @@ require([
     game.state.add('Play', Play);
     game.state.add('Battle', Battle);
     //game.state.add('Shop', Shop);
-    //game.state.add('End', End);
+    game.state.add('End', End);
 
     // start game from the boot state
     game.state.start('Boot');

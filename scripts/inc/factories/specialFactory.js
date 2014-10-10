@@ -33,7 +33,7 @@
         }, this);
 
         return targets;
-    }
+    };
 
     targeting.anyEnemyInNearestRank = function () {
         var combatants = this.character.parent,
@@ -54,7 +54,7 @@
         }
 
         return targets;
-    }
+    };
 
     targeting.anyFriend = function () {
         var combatants = this.character.parent,
@@ -74,7 +74,7 @@
         return [];
     };
 
-    var execution = {}
+    var execution = {};
 
     execution.attackSingleTarget = function (target, attackCount, modifier) {
         var actor = this,
@@ -82,17 +82,19 @@
             tweens = [],
             index = 0;
 
+        var performAttack = function (target) {
+            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            var attack = this.character.getEffectiveAttack(modifier), defense = target.getEffectiveDefense(),
+                damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
+            if (damage < 0) damage = 0;
+            target.damage(damage);
+        };
+
         for (var i = 0; i < attackCount; i++) {
 
             var tween = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 800, Phaser.Easing.Bounce.Out, false);
 
-            tween.onComplete.addOnce(function () {
-                this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
-                var attack = this.character.getEffectiveAttack(modifier), defense = target.getEffectiveDefense(),
-                    damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
-                if (damage < 0) damage = 0;
-                target.damage(damage);
-            }, this);
+            tween.onComplete.addOnce(performAttack.bind(this, target));
 
             tweens.push(tween);
 
@@ -132,7 +134,7 @@
 
             for (var i in damageList) {
                 damageList[i].combatant.damage(damageList[i].damage);
-            };
+            }
 
         }, this);
 
@@ -151,7 +153,7 @@
                 damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
             if (damage < 0) damage = 0;
             target.damage(damage);
-        }
+        };
 
         var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, false);
         tweenTo.onComplete.addOnce(performAttack.bind(this, target), this);
@@ -190,7 +192,7 @@
                 damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
             if (damage < 0) damage = 0;
             target.damage(damage);
-        }
+        };
 
         var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, false);
         tweenTo.onComplete.addOnce(performAttack.bind(this, target), this);
@@ -247,7 +249,7 @@
 
             for (var i in damageList) {
                 damageList[i].combatant.damage(damageList[i].damage);
-            };
+            }
 
         }, this);
 

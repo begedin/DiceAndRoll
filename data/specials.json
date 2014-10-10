@@ -11,7 +11,7 @@
     "team_heal": { "name": "Team heal", "description": "Increases health of all combatants", "targetType": "anyFriend", "executionType": "healParty", "modifier": 1  },
     "bullseye": { "name": "Bullseye", "description": "Increases attack +1", "targetType": "self", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK" ], "power": 1 },
     "tripple_shot": { "name": "Triple shot", "description": "Attacks 3 opponents at once attack -1", "targetType": "anyEnemy", "executionType": "attackRandomInSequence", "attackCount": 2, "modifier": -1 },
-    "poisoned_arrow": { "name": "Poisoned arrow", "description": "Attack with poison damage +1 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "POISON" ], "duration": 2, "power": 1 },
+    "fire_arrow": { "name": "Fire arrow", "description": "Attack with fire damage +1 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "FIRE" ], "duration": 2, "power": 1 },
     "drain_arrow": { "name": "Drain arrow", "description": "Attack with drainage effect +1 3 moves", "targetType": "notImplemented" },
     "electric_shock": { "name": "Electric shock", "description": "Attacks nearby opponents attack -1", "targetType": "anyEnemy", "executionType": "attackRankAtOnce", "modifier": -1 },
     "poison_gas": { "name": "Poison gas", "description": "Poisons all opponents at +1 for 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToParty", "statusTypes": [ "POISON" ], "duration":  2, "power":  1 },

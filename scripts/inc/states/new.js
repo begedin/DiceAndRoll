@@ -45,19 +45,19 @@ define(['Phaser'], function (New) {
                 var campaign = null,
                     characters = [];
 
-                for (index in this.game.assets.characters) {
+                for (var index in this.game.assets.characters) {
                     if (this.game.assets.characters[index].selected === true) {
                         characters.push(this.game.assets.characters[index]);
                     }
                 };
-                for (index in this.game.assets.campaigns) {
-                    if (this.game.assets.campaigns[index].selected === true) {
-                        campaign = this.game.assets.campaigns[index];
+                for (var campaignIndex in this.game.assets.campaigns) {
+                    if (this.game.assets.campaigns[campaignIndex].selected === true) {
+                        campaign = this.game.assets.campaigns[campaignIndex];
                         break;
                     }
                 };
 
-                game.state.start('Preloader', true, false, 'Play', { campaign: campaign, characters: characters });
+                game.state.start('Preloader', true, false, 'Play', { campaign: campaign, playerParty: characters });
             });
             btnStart.visible = false;
 
@@ -222,7 +222,7 @@ define(['Phaser'], function (New) {
             // this is a drawing area of the campaign sheet for calculating its size
             New.rect2 = new Phaser.Rectangle(690, 340, 380, 320);
 
-            var campaignImage = game.utils.fitImage(New.rect2, 'campaign-goblins-keep');
+            var campaignImage = game.utils.fitImage(New.rect2, game.assets.campaigns[0].name);
 
             var campaignName = game.add.text(campaignImage.x + campaignImage.width / 2, campaignImage.y - 5, '', game.utils.styles.header);
             campaignName.anchor.setTo(0.5, 0.5);

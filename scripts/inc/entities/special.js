@@ -13,7 +13,7 @@
         this.kill();
 
         this.executed = new Phaser.Signal();
-    }
+    };
 
     Special.prototype = Object.create(Phaser.Sprite.prototype);
     Special.prototype.constructor = Special;
@@ -23,7 +23,7 @@
 
         this.isSelected = true;
 
-        this.angle = - 5
+        this.angle = -5;
         if (!this.activeTween || !this.activeTween.isRunning) this.activeTween = this.game.add.tween(this).to({ angle: 5 }, 200, Phaser.Easing.Quadratic.In, false, 0, Number.MAX_VALUE, true);
         this.activeTween.start();
 
@@ -76,11 +76,11 @@
                 break;
         }
 
-        promise.onComplete.addOnce(function () { this.executed.dispatch(); }, this)
+        promise.onComplete.addOnce(function () { this.executed.dispatch(); }, this);
     };
 
     Special.prototype.update = function () {
-    }
+    };
 
     Special.prototype.setTargets = function (targets) {
         for (var i in targets) {
@@ -104,7 +104,7 @@
             target.y = target.originalY || target.y;
         }, this);
 
-    }
+    };
 
     Special.prototype.setData = function (data) {
         this.name = data.name;
@@ -116,7 +116,7 @@
         this.statusTypes = data.statusTypes;
         this.duration = data.duration;
         this.power = data.power;
-    }
+    };
 
     return Special;
 });

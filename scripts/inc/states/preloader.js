@@ -66,16 +66,18 @@ define(['Phaser'],	function(Preloader) {
                     // ambient music
                     // ...
                     // load characters
+                    // TODO: load them based on JSON definition file - not fixed!
                     game.load.image('warrior', 'assets/players/warrior.png');
                     game.load.image('cleric', 'assets/players/cleric.png');
                     game.load.image('ranger', 'assets/players/ranger.png');
                     game.load.image('alchemist', 'assets/players/alchemist.png');
                     game.load.image('beast', 'assets/players/beast.png');
                     game.load.image('paladin', 'assets/players/paladin.png');
-                    // load campaigns
-                    game.load.image('campaign-goblins-keep', 'assets/campaigns/campaign-goblins-keep.png');
-                    game.load.image('campaign-citadel', 'assets/campaigns/campaign-citadel.png');
-                    game.load.image('campaign-tomb', 'assets/campaigns/campaign-tomb.png');
+                    // load campaigns 
+                    // TODO: load them based on JSON definition file - not fixed!
+                    game.load.image('campaign_goblins_keep', 'assets/campaigns/campaign_goblins_keep.png');
+                    game.load.image('campaign_citadel', 'assets/campaigns/campaign_citadel.png');
+                    game.load.image('campaign_tomb', 'assets/campaigns/campaign_tomb.png');
                     // common assets
                     game.load.image('arrow', 'assets/common/arrow.png');
                     // load sound effects
@@ -89,50 +91,38 @@ define(['Phaser'],	function(Preloader) {
                     game.load.image('play', 'assets/screens/play_1188.png');
                     // ambient music
                     game.load.audio('play', ['assets/sound/looperman-l-1059144-0066791-ebaby8119-intro-loop.mp3']);
-                    //goblin keep campaign data - possibly move later
-                    game.load.spritesheet('map_goblins_keep', 'assets/maps/map-goblins-keep.png', 1000, 710);
-                    game.load.text('map50DA3DC4-2C49-4C11-967F-882431C3D499', 'data/maps/50DA3DC4-2C49-4C11-967F-882431C3D499.json');
+                    // load maps
+                    this.options.campaign.maps.forEach(function (map) {
+                        game.load.image(map.map, 'assets/maps/' + map.map + '.png');
+                        game.load.text(map.map, 'data/maps/' + map.map + '.json');
+                    });
                     // load sprites
                     game.load.image('pixel_white', 'assets/pixel_white.png');
-                    game.load.spritesheet('token_red', 'assets/token_red.png', 36, 36);
-                    game.load.spritesheet('token_red_selected', 'assets/token_red_selected.png', 36, 36);
-                    game.load.spritesheet('token_blue', 'assets/token_blue.png', 36, 36);
-                    game.load.spritesheet('token_blue_selected', 'assets/token_blue_selected.png', 36, 36);
+                    game.load.spritesheet('location', 'assets/common/locations.png', 80, 80);
                     break;
                 case 'Battle':
-                    // background screens
-                    game.load.image('battle-dirt', 'assets/screens/battle-dirt_1188.png');
-                    game.load.image('battle-grass', 'assets/screens/battle-grass_1188.png');
-                    game.load.image('battle-siege', 'assets/screens/battle-siege_1188.png');
-                    // ambient musics
-                    game.load.audio('battle-siege', ['assets/sound/looperman-l-0202721-0074435-anubis-tribal-percussion-01.mp3']);
-                    game.load.audio('battle-dirt', ['assets/sound/looperman-l-0202721-0074960-anubis-tribal-percussion-07.mp3']);
-                    game.load.audio('battle-grass', ['assets/sound/looperman-l-0202721-0075453-anubis-tribal-escape-02.mp3']);
+                    // background screen
+                    game.load.image('battle-' + this.options.terrain, 'assets/screens/battle-' + this.options.terrain + '_1188.png');
+                    // ambient music
+                    if (this.options.terrain == 'grass') {
+                        game.load.audio('battle-' + this.options.terrain, ['assets/sound/looperman-l-0202721-0075453-anubis-tribal-escape-02.mp3']);
+                    } else if (this.options.terrain == 'dirt') {
+                        game.load.audio('battle-' + this.options.terrain, ['assets/sound/looperman-l-0202721-0074960-anubis-tribal-percussion-07.mp3']);
+                    } else if (this.options.terrain == 'siege') {
+                        game.load.audio('battle-' + this.options.terrain, ['assets/sound/looperman-l-0202721-0074435-anubis-tribal-percussion-01.mp3']);
+                    }
+                    // load characters in party
+                    this.options.playerParty.forEach(function (character) {
+                        game.load.image('characters/' + character.name, 'assets/players/' + character.name + '.png');
+                    });
                     // sound effects
                     game.load.audio('hit', ['assets/sound/effects/Swoosh02.mp3']);
                     game.load.audio('multi-hit', ['assets/sound/effects/SwooshCombo1.mp3']);
                     game.load.audio('multi-hit2', ['assets/sound/effects/SwooshCombo2.mp3']);
                     break;
-                case 'Victory':
-                    // background screen
-                    game.load.image('victory', 'assets/screens/victory_1188.png');
-                    // ambient music
-                    game.load.audio('victory', ['assets/sound/looperman-l-0159051-0054707-minor2go-cinema-pro-the-world.mp3']);
-                    break;
-                case 'Defeat':
-                    // background screen
-                    game.load.image('defeat', 'assets/screens/defeat_1188.png');
-                    // ambient music
-                    game.load.audio('defeat', ['assets/sound/looperman-l-0159051-0054708-minor2go-cinema-pro-golden-kingdom.mp3']);
-                    break;
                 default: // unsorted, for now
                     // load screens
                     game.load.image('shop', 'assets/screens/shop_1188.png');
-
-                    // common assets
-                    game.load.spritesheet('ground', 'assets/ground.png', 100, 100);
-                    game.load.spritesheet('check', 'assets/check_button.png', 38, 36);
-                    game.load.spritesheet('bg', 'assets/bg_faded.png', 800, 174);
             };
         },
         create: function () {

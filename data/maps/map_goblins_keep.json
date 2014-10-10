@@ -1,0 +1,482 @@
+{
+    "pinpoints": [
+        {
+            "identifier": "Crossroads",
+            "name": "The Crossroads",
+            "type": "CAMP",
+            "x": "49",
+            "y": "25",
+            "image": "map-1-location-1",
+            "description": "This is the beggining point of this journey and you can camp here to rest for a while. There is a path to the northeast entering the brightwood forest. On the southeast lies the passage right to the hills, and to your right, is a small passage through the large rocky terrain.",
+            "connectsTo": [
+                "ForestCave",
+                "BlockedPath",
+                "ClearedPlateau"
+            ]
+        },
+        {
+            "identifier": "ForestCave",
+            "name": "Forest Cave",
+            "type": "ENCOUNTER",
+            "x": "58",
+            "y": "14",
+            "image": "map-1-location-2",
+            "description": "You stepped into the Brightwood forest and find yourself in front of a cave that doesn't look very appealing. A cave is dark and gloomy and you can feel a dark presence within.",
+            "encounter": {
+                "terrain": "grass",
+                "monsters": [
+                    "monstrous_spider"
+                ],
+                "rewards": [
+                    {
+                        "name": "Mushroom",
+                        "gp": "10",
+                        "weight": "1"
+                    },
+                    {
+                        "name": "Lantern",
+                        "gp": "40",
+                        "weight": "4"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "Crossroads",
+                "DesertedCabin"
+            ]
+        },
+        {
+            "identifier": "DesertedCabin",
+            "name": "Deserted Cabin",
+            "type": "ENCOUNTER",
+            "x": "78",
+            "y": "16",
+            "image": "map-1-location-3",
+            "description": "A cabin looked deserted and inhabited. A path through cabin is dirty, but full of different trails, possibly creatures of other kind. A door is shutted by wind making a horrific sound. Then, suddenly, you hear a scream, or some sort of hauling.",
+            "encounter": {
+                "terrain": "grass",
+                "monsters": [
+                    "goblin_warrior",
+                    "goblin_berserker"
+                ],
+                "rewards": [
+                    {
+                        "name": "Bottle of Wine",
+                        "gp": "10",
+                        "weight": "2"
+                    },
+                    {
+                        "name": "Book",
+                        "gp": "40",
+                        "weight": "3"
+                    },
+                    {
+                        "name": "Bag of gold",
+                        "gp": "200",
+                        "weight": "5"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "ForestCave"
+            ]
+        },
+        {
+            "identifier": "BlockedPath",
+            "name": "Blocked Path",
+            "type": "ENCOUNTER",
+            "x": "41",
+            "y": "48",
+            "image": "map-1-location-4.png",
+            "description": "As you followed the instructions from our friend merchant, this route is blocked by rocks which stumbled upon. You hear creeping sound from a creek above, which tells you that there is some blood-thirsty goblins horde nearby.",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "goblin_shaman",
+                    "goblin_berserker",
+                    "goblin_warrior"
+                ],
+                "rewards": [
+                    {
+                        "name": "Spiked Club",
+                        "gp": "40",
+                        "weight": "18"
+                    },
+                    {
+                        "name": "Blade",
+                        "gp": "45",
+                        "weight": "12"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "Crossroads"
+            ]
+        },
+        {
+            "identifier": "ClearedPlateau",
+            "name": "A Cleared Plateau",
+            "type": "ENCOUNTER",
+            "x": "65",
+            "y": "38",
+            "image": "map-1-location-5",
+            "description": "It is again a clear path which brings you more in doubt of correct way. First that came is a stinking smell of rotten corpses - impossible to miss. While you seize to look around, there was a gnoll - feeling very hungry and in a mood for a fight.",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "gnoll"
+                ],
+                "rewards": [
+                    {
+                        "name": "Battle Axe",
+                        "gp": "150",
+                        "weight": "22"
+                    },
+                    {
+                        "name": "Bag of gold",
+                        "gp": "50",
+                        "weight": "5"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "Crossroads",
+                "CavesOnSteepPath",
+                "SlipperyBridge"
+            ]
+        },
+        {
+            "identifier": "CavesOnSteepPath",
+            "name": "Caves on a steep path",
+            "type": "ENCOUNTER",
+            "x": "60",
+            "y": "59",
+            "image": "map-1-location-6",
+            "description": "After reaching a solid ground, behind are shuttered corpses and the dead gnoll, rocks all over the place. When on top, you can only go further in caves, crawling with spiders, or continue up on a steep path.",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "monstrous_spider",
+                    "monstrous_spider"
+                ],
+                "rewards": [
+                    {
+                        "name": "Gray Mushroom",
+                        "gp": "2",
+                        "weight": "1"
+                    },
+                    {
+                        "name": "Pink Mushroom",
+                        "gp": "2",
+                        "weight": "1"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "ClearedPlateau"
+            ]
+        },
+        {
+            "identifier": "SlipperyBridge",
+            "name": "Slippery Bridge",
+            "type": "EMPTY",
+            "x": "75",
+            "y": "58",
+            "image": "map-1-location-7",
+            "description": "Heavy natural-made stone, which has been carved by a river is forming some sort of a bridge. Whatch out for splippery thin bridge line! You have to make way accross it very carefully!",
+            "connectsTo": [
+                "ClearedPlateau",
+                "DeadEnd",
+                "TreasureChestSpot"
+            ]
+        },
+        {
+            "identifier": "DeadEnd",
+            "name": "Dead End, Very Dead",
+            "type": "ENCOUNTER",
+            "x": "87",
+            "y": "70",
+            "image": "map-1-location-8",
+            "description": "At last, you are on the very edge of the hill, with a view on the surrounding area. It is actually a dead end, only the resting place might fit into the story. Put down your bags and gear, but beware of the bird!",
+            "encounter": {
+                "terrain": "grass",
+                "monsters": [
+                    "huge_bird"
+                ],
+                "rewards": [
+                    {
+                        "name": "huge_bird Egg",
+                        "gp": "80",
+                        "weight": "5"
+                    },
+                    {
+                        "name": "Lockpick",
+                        "gp": "4",
+                        "weight": "4"
+                    },
+                    {
+                        "name": "Falchion",
+                        "gp": "70",
+                        "weight": "12"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "SlipperyBridge"
+            ]
+        },
+        {
+            "identifier": "TreasureChestSpot",
+            "name": "Treasure Chest Spot",
+            "type": "TREASURE",
+            "x": "73",
+            "y": "78",
+            "image": "map-1-location-10",
+            "description": "Right on the way there is a treasure chest full of valuables. You found it strange it was put right there without particular reason, and it just came through your mind maybe the goblins put it there and wait in an ambush.",
+            "items": [
+                {
+                    "name": "Golden Chalice",
+                    "gp": "250",
+                    "weight": "45"
+                },
+                {
+                    "name": "Sharp Dagger",
+                    "gp": "60",
+                    "weight": "45"
+                },
+                {
+                    "name": "Treasure Chest",
+                    "image": "Items/treasure-chest.jpg",
+                    "gp": "800",
+                    "weight": "120"
+                }
+            ],
+            "connectsTo": [
+                "SlipperyBridge",
+                "MountainCabin",
+                "NarrowSide",
+                "CadaverAndFork"
+            ]
+        },
+        {
+            "identifier": "MountainCabin",
+            "name": "Mountain Cabin",
+            "type": "ENCOUNTER",
+            "x": "82",
+            "y": "82",
+            "image": "map-1-location-9",
+            "description": "A mountain cabin, probably used by travelling merchants as a shelter, now is deserted. You assume it is not full of any valuables, but it's the curiosity that drives you near it. As expected, there are foes, evil ones, within.",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "goblin_warrior",
+                    "goblin_warrior",
+                    "goblin_berserker"
+                ],
+                "rewards": [
+                    {
+                        "name": "Pile of Wood",
+                        "gp": "2",
+                        "weight": "25"
+                    },
+                    {
+                        "name": "Torchlight",
+                        "gp": "3",
+                        "weight": "4"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "TreasureChestSpot"
+            ]
+        },
+        {
+            "identifier": "NarrowSide",
+            "name": "Narrow Side",
+            "type": "ENCOUNTER",
+            "x": "51",
+            "y": "94",
+            "image": "map-1-location-11",
+            "description": "This was probably not a good idea to come here: the place is a narrow passage, going nowhere, suitable for a trap. All around there are high rock cliffs with no way around it - perfect for a gnoll ambush!",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "gnoll",
+                    "gnoll"
+                ],
+                "rewards": [
+                    {
+                        "name": "Heal Potion",
+                        "gp": "10",
+                        "weight": "2"
+                    },
+                    {
+                        "name": "Heal Potion",
+                        "gp": "10",
+                        "weight": "2"
+                    },
+                    {
+                        "name": "Bow of Wilderness",
+                        "gp": "110",
+                        "weight": "35"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "TreasureChestSpot"
+            ]
+        },
+        {
+            "identifier": "CadaverAndFork",
+            "name": "A Cadaver and a Fork",
+            "type": "TREASURE",
+            "x": "55",
+            "y": "79",
+            "image": "map-1-location-12",
+            "description": "After long way uphills, full of different obstacles and traps, it is again a desolate place: almost-eaten cadaver with a farmforks sticked on its throat - a lovely scenery! Is it an unfortunate event that you even came here? Judge yourself.",
+            "items": [
+                {
+                    "name": "Trident",
+                    "gp": "80",
+                    "weight": "70"
+                },
+                {
+                    "name": "Buckler",
+                    "gp": "60",
+                    "weight": "90"
+                }
+            ],
+            "connectsTo": [
+                "TreasureChestSpot",
+                "BattleLost"
+            ]
+        },
+        {
+            "identifier": "BattleLost",
+            "name": "A Battle Lost",
+            "type": "ENCOUNTER",
+            "x": "36",
+            "y": "77",
+            "image": "map-1-location-13",
+            "description": "A battle was lost here. A royal guard patrol from the nearby garnison punished from a goblin's orchestrated attack. You wonder whether there is some higher force behind those attacks. You scatter your way through bones and remains, but, then... there is a goblin's ambush again!",
+            "encounter": {
+                "terrain": "grass",
+                "monsters": [
+                    "goblin_shaman",
+                    "goblin_warrior",
+                    "goblin_berserker"
+                ],
+                "rewards": [
+                    {
+                        "name": "Two-sided axe",
+                        "gp": "180",
+                        "weight": "200"
+                    },
+                    {
+                        "name": "Battle Mace",
+                        "gp": "130",
+                        "weight": "110"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "BattleLost",
+                "AncientCave"
+            ]
+        },
+        {
+            "identifier": "AncientCave",
+            "name": "An Ancient Cave",
+            "type": "TREASURE",
+            "x": "26",
+            "y": "89",
+            "image": "map-1-location-14",
+            "description": "As the battle has been ended, luckily not in goblins favor, you went further and found a cave with some ancient engravings above its entrance. It would be worthwile to snoop around, since it appears as a goblin's warehouse, together with their personal belongings stored.",
+            "items": [
+                {
+                    "name": "Barrel of Black Powder",
+                    "gp": "80",
+                    "weight": "300"
+                },
+                {
+                    "name": "Locked Chest",
+                    "gp": "0",
+                    "weight": "200"
+                },
+                {
+                    "name": "Ladder",
+                    "gp": "80",
+                    "weight": "120"
+                },
+                {
+                    "name": "Mug",
+                    "gp": "2",
+                    "weight": "3"
+                },
+                {
+                    "name": "Mug",
+                    "gp": "2",
+                    "weight": "3"
+                },
+                {
+                    "name": "Bag of gold",
+                    "gp": "250",
+                    "weight": "5"
+                },
+                {
+                    "name": "Rope",
+                    "gp": "25",
+                    "weight": "5"
+                }
+            ],
+            "connectsTo": [
+                "BattleLost",
+                "EntranceToKeep"
+            ]
+        },
+        {
+            "identifier": "EntranceToKeep",
+            "name": "Entrance to the Keep",
+            "type": "ENCOUNTER",
+            "x": "21",
+            "y": "60",
+            "image": "map-1-location-15",
+            "description": "And at last, the keep is in front of you! There are pack of goblins, wielding with their swords and spears, some taking their crossbows with poison bolts, shouting and making creeping hauls, and finally, their warchief! Prepare for the final battle!",
+            "encounter": {
+                "terrain": "siege",
+                "monsters": [
+                    "goblin_king",
+                    "goblin_berserker",
+                    "goblin_berserker",
+                    "goblin_warrior",
+                    "goblin_shaman"
+                ],
+                "rewards": [
+                    {
+                        "name": "Medicine Bag",
+                        "gp": "100",
+                        "weight": "30"
+                    },
+                    {
+                        "name": "Chest of Coins",
+                        "gp": "1200",
+                        "weight": "80"
+                    },
+                    {
+                        "name": "Map of Region",
+                        "gp": "40",
+                        "weight": "1"
+                    },
+                    {
+                        "name": "Potion of Bull's Strength",
+                        "gp": "50",
+                        "weight": "2"
+                    }
+                ]
+            },
+            "connectsTo": [
+                "AncientCave"
+            ]
+        }
+    ]
+}

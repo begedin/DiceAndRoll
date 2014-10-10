@@ -21,18 +21,11 @@ define([
         init: function (options) {
             this.options = options;
 
-            this.setPlaceholderData();
-
             this.isTurnInProgress = false;
         },
         preload: function () {
 
             //TODO: move to preloader
-
-            for (var index in this.options.playerParty) {
-                var character = this.options.playerParty[index];
-                this.game.load.image('characters/' + character.name, 'assets/players/' + character.name + '.png');
-            }
 
             this.game.load.image('cards/back', 'assets/cards/card-back.png');
             this.game.load.image('cards/front', 'assets/cards/card-front.png');
@@ -58,7 +51,7 @@ define([
 
             this.game.load.image('specials/bullseye', 'assets/specials/bullseye.png');
             this.game.load.image('specials/tripple_shot', 'assets/specials/tripple_shot.png');
-            this.game.load.image('specials/poisoned_arrow', 'assets/specials/poisoned_arrow.png');
+            this.game.load.image('specials/fire_arrow', 'assets/specials/fire_arrow.png');
             this.game.load.image('specials/drain_arrow', 'assets/specials/drain_arrow.png');
 
             this.game.load.image('specials/electric_shock', 'assets/specials/electric_shock.png');
@@ -119,9 +112,9 @@ define([
                 addedCharacter.customEvents.onActed.add(this.endTurn, this);
             }
 
-            for (var index in this.options.enemyParty) {
-                var monster = this.options.enemyParty[index];
-                var addedMonster = this.combatants.add(this.creatureFactory.create(monster.name, 2, getPosition(2, monster.type, index, this.options.enemyParty.length, this.game.width, this.game.height), this.game));
+            for (var enemyIndex in this.options.enemyParty) {
+                var monster = this.options.enemyParty[enemyIndex];
+                var addedMonster = this.combatants.add(this.creatureFactory.create(monster.name, 2, getPosition(2, monster.type, enemyIndex, this.options.enemyParty.length, this.game.width, this.game.height), this.game));
                 addedMonster.customEvents.onActed.add(this.endTurn, this);
             }
 
@@ -135,8 +128,6 @@ define([
                 this.music.volume += 0.005;
             }
 
-            this.checkIfBattleIsOver();
-
             if (!this.isTurnInProgress) {
                 this.isTurnInProgress = true;
                 this.initiateTurn();
@@ -147,6 +138,9 @@ define([
     // starts next turn. activates next combatant and makes combatants clickable if appropriate
     // currently also handles completely random AI for computer team
     Battle.prototype.initiateTurn = function () {
+
+        this.checkIfBattleIsOver();
+
         if (this.turnNumber <= 0 || this.turnNumber >= this.combatants.countLiving()) {
             var promise = this.initiateRound();
             promise.onComplete.addOnce(this.startNextTurn, this);
@@ -168,8 +162,8 @@ define([
 
         turnTweenFadeOut.onComplete.addOnce(function () {
             turnText.destroy();
-            this.activeCombatant = this.combatants.next();
-            this.activeCombatant.activate(this.activeCombatantClicked);
+        this.activeCombatant = this.combatants.next();
+        this.activeCombatant.activate(this.activeCombatantClicked);
         }, this);
     };
 
@@ -200,7 +194,10 @@ define([
         }, this);
 
         // TODO: Split into victory/defeat
-        if (numInEnemyTeam === 0 || numInPlayerTeam === 0) this.game.state.start('Menu');
+        if (numInEnemyTeam === 0 || numInPlayerTeam === 0) {
+            this.options.outcome = (numInEnemyTeam === 0) ? 'VICTORY' : 'DEFEAT';
+            this.game.state.start('End', true, false, this.options);
+        }
     };
 
     Battle.prototype.endTurn = function () {
@@ -208,30 +205,6 @@ define([
             combatant.customEvents.onInputDown.removeAll();
         }, this);
         this.isTurnInProgress = false;
-    };
-
-    // sets placeholder data for state testing
-    Battle.prototype.setPlaceholderData = function () {
-
-        this.options = {
-            terrain: 'grass',
-            playerParty: [],
-            enemyParty: []
-        };
-
-        this.options.playerParty.push(this.game.assets.characters.warrior);
-        this.options.playerParty.push(this.game.assets.characters.cleric);
-        this.options.playerParty.push(this.game.assets.characters.ranger);
-        this.options.playerParty.push(this.game.assets.characters.beast);
-        this.options.playerParty.push(this.game.assets.characters.alchemist);
-        this.options.playerParty.push(this.game.assets.characters.paladin);
-
-        this.options.enemyParty.push({ name: 'goblin_warrior', type: 'MELEE' });
-        this.options.enemyParty.push({ name: 'goblin_berserker', type: 'MELEE' });
-        this.options.enemyParty.push({ name: 'goblin_berserker', type: 'MELEE' });
-        this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
-        this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
-        this.options.enemyParty.push({ name: 'goblin_shaman', type: 'RANGED' });
     };
 
     function getPosition(team, type, slot, totalCount, width, height) {
