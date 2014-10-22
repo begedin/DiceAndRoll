@@ -79,6 +79,7 @@ define(['Phaser'],	function(Phaser) {
                     // load characters
                     for (var charIndex in this.game.assets.characters) {
                         var character = this.game.assets.characters[charIndex];
+                        character.specialsUsed = 1;
                         this.game.load.image(character.name, 'assets/players/' + character.name + '_s.png');
                     }
                     // load campaigns 
