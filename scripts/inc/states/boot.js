@@ -1,3 +1,5 @@
+/*globals define, document*/
+
 // boot.js
 // This javascript file represents phaser state for game start.
 
@@ -12,17 +14,26 @@ define(['Phaser'], function (Phaser) {
     };
 
     Boot.prototype = {
-        preload: function(){
+        preload: function () {
+
+            this.game.load.bitmapFont('berkshire', 'assets/fonts/BerkshireSwash-Regular.png', 'assets/fonts/BerkshireSwash-Regular.xml');
+            this.game.load.bitmapFont('berkshire-stroked', 'assets/fonts/BerkshireSwash-Stroked.png', 'assets/fonts/BerkshireSwash-Stroked.xml');
+
             // Load assets required for preLoader (progress bar, etc.)
             this.game.load.image('preloadBar', 'assets/screens/progressbar.png');
-            this.game.load.image('preloader', 'assets/screens/preloader_s.png');
-            this.game.load.audio('interlude', ['assets/sound/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3']);
+            this.game.load.image('preloader', 'assets/screens/preloader_noir.png');
+            this.game.load.audio('interlude', [
+                'assets/sound/loops/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.ogg',
+                'assets/sound/loops/looperman-l-0079105-0053511-centrist-tales-of-home-guitar.mp3'
+            ]);
 
             // load data in JSON files
             this.game.load.text('characters', 'data/characters.json');
             this.game.load.text('monsters', 'data/monsters.json');
             this.game.load.text('campaigns', 'data/campaigns.json');
             this.game.load.text('specials', 'data/specials.json');
+            this.game.load.text('weapons', 'data/weapons.json');
+            this.game.load.text('armors', 'data/armors.json');
         },
         create: function () {
 
@@ -32,8 +43,6 @@ define(['Phaser'], function (Phaser) {
                 this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
                 this.scale.minWidth = 297;
                 this.scale.minHeight = 210;
-                this.scale.maxWidth = 1188;
-                this.scale.maxHeight = 840;
                 this.scale.pageAlignHorizontally = true;
                 this.scale.pageAlignVertically = true;
                 this.scale.setScreenSize(true);
@@ -42,8 +51,6 @@ define(['Phaser'], function (Phaser) {
                 this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
                 this.scale.minWidth = 297;
                 this.scale.minHeight = 210;
-                this.scale.maxWidth = 1188;
-                this.scale.maxHeight = 840;
                 this.scale.pageAlignHorizontally = true;
                 this.scale.pageAlignVertically = true;
                 this.scale.forceOrientation(true, false);
@@ -84,7 +91,13 @@ define(['Phaser'], function (Phaser) {
 
             // game settings (TODO: read in from the local storage)
             this.game.utils.settings = {};
-            this.game.utils.settings.sound = { musicVolume: 1, sfxVolume: 1 };
+
+            var settings = this.game.store.get('settings') || {};
+
+            this.game.utils.settings.sound = {
+                musicVolume: settings.musicVolume || 1,
+                sfxVolume: settings.sfxVolume || 1
+            };
 
             this.game.utils.fontFamily = 'Berkshire Swash'; // alternatives: Handlee, Kaushan Script
 
@@ -94,7 +107,9 @@ define(['Phaser'], function (Phaser) {
             this.game.assets.characters = JSON.parse(this.game.cache.getText('characters'));
             this.game.assets.campaigns = JSON.parse(this.game.cache.getText('campaigns'));
             this.game.assets.specials = JSON.parse(this.game.cache.getText('specials'));
-            //game.state.start('Preloader');
+            this.game.assets.weapons = JSON.parse(this.game.cache.getText('weapons'));
+            this.game.assets.armors = JSON.parse(this.game.cache.getText('armors'));
+            
             this.game.state.start('Preloader', true, false, 'Menu', {});
         },
         update: function () {

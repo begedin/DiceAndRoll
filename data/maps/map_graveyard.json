@@ -3,9 +3,9 @@
         {
             "identifier": "UndertakersHouse",
             "name": "The undertaker's house",
-            "type": "SHOP",
-            "x": "70",
-            "y": "80",
+            "type": "CAMP",
+            "x": "84",
+            "y": "85",
             "image": "",
             "description": "The house of jolly fellow the undertaker. You can shop here and purchase something if you please.",
             "connectsTo": [ "PeasantGraveyard" ]
@@ -14,11 +14,43 @@
             "identifier": "PeasantGraveyard",
             "name": "Peasant graveyard",
             "type": "ENCOUNTER",
-            "x": "60",
-            "y": "60",
+            "x": "77",
+            "y": "70",
             "image": "",
-            "description": "This location is at the entrance of large graveyard that streches to the north and west from here.",
-            "connectsTo": []
+            "description": "This location is at the entrance of large graveyard that streches to the north and west from here. But beware, skeletons risen!",
+            "encounter": {
+                "terrain": "grass",
+                "monsters": [
+                    "skeleton_warrior", "skeleton_warrior"
+                ]
+            },
+            "connectsTo": [ "UndertakersHouse" ]
+        },
+        {
+            "identifier": "MerchantsRestplace",
+            "name": "Merchants rest place",
+            "type": "TREASURE",
+            "x": "55",
+            "y": "64",
+            "image": "",
+            "description": "Alas, trades gave them a full purse in life, but rest them pennyless after death. Let's give it a try and grab their belongings.",
+            "connectsTo": [ "PeasantGraveyard", "LonelyCrypt" ]
+        },
+        {
+            "identifier": "LonelyCrypt",
+            "name": "Lonely crypt",
+            "type": "ENCOUNTER",
+            "x": "60",
+            "y": "72",
+            "image": "",
+            "description": "It seemed like a lonely crypt, but it is alone place only for the man lying beneith. Not lonely for you, as a spider awaits for its feed!",
+            "encounter": {
+                "terrain": "dirt",
+                "monsters": [
+                    "monstrous_spider"
+                ]
+            },
+            "connectsTo": [ "PeasantGraveyard", "MerchantsRestplace" ]
         }
     ]
 }

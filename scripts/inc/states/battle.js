@@ -1,5 +1,4 @@
-var app = app || {},
-    define = define || {};
+/*globals define*/
 
 define([
     'Phaser',
@@ -7,7 +6,6 @@ define([
     'inc/factories/characterFactory'
 ], function (Phaser, CreatureFactory, CharacterFactory) {
     'use strict';
-
 
     var ROUND_TURN_TEXT_STYLE = { font: '72px Berkshire Swash', fill: '#990000', align: 'center' };
 
@@ -30,24 +28,31 @@ define([
             var music;
             // check if music is enabled
             if (this.game.utils.settings.sound.musicVolume > 0) {
-                if (this.music) {
-                    // music is already been there, and start playing if stopped
-                    if (!this.music.isPlaying) {
-                        music = this.music.play('', 0, 0, true);
-                    } else music = this.music;
-                } else {
-                    // introductory fade in of theme music
-                    this.game.sound.stopAll();
-                    this.music = this.game.add.audio('battle-' + this.options.terrain);
-                    music = this.music.play('', 0, 0, true);
-                }
+                // introductory fade in of theme music
+                this.game.sound.stopAll();
+                this.music = this.game.add.audio('battle_' + this.options.terrain);
+                music = this.music.play('', 0, 0, true);
             }
+
+            //#region add sounds
+
+            this.soundRound = this.game.add.audio('gong');
+            this.soundClick = this.game.add.audio('click');
+
+            //#endregion
 
             this.turnNumber = 0;
             this.roundNumber = 0;
 
             // background image 
             this.game.utils.stretchAndFitImage(this.game, 'battle_' + this.options.terrain);
+
+            // quit battle button (visible only in skirmish mode)
+            if (this.options.skirmish) {
+                this.game.utils.createTextButton(this.game, 'Quit battle', 140, 800, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, function () {
+                    this.game.state.start('Preloader', true, false, 'Menu', this.options);
+                }.bind(this));
+            }
 
             if (this.combatants) this.combatants.destroy(false);
 
@@ -56,7 +61,7 @@ define([
 
             for (var index in this.options.playerParty) {
                 var character = this.options.playerParty[index];
-                var addedCharacter = this.combatants.add(this.characterFactory.create(character.name, 1, getPosition(1, character.type, index, this.options.playerParty.length, this.game.width, this.game.height), this.game));
+                var addedCharacter = this.combatants.add(this.characterFactory.create(character, 1, getPosition(1, character.type, index, this.options.playerParty.length, this.game.width, this.game.height), this.game));
                 addedCharacter.customEvents.onActed.add(this.endTurn, this);
             }
 
@@ -120,6 +125,8 @@ define([
         this.turnNumber = 0;
         this.roundNumber++;
 
+        this.soundRound.play('', 0, this.game.utils.settings.sound.sfxVolume);
+
         var roundText = this.game.add.text(this.game.width / 2, this.game.height / 2, 'Round ' + this.roundNumber, ROUND_TURN_TEXT_STYLE);
         roundText.anchor.setTo(0.5, 0.5);
         roundText.alpha = 0;
@@ -143,9 +150,13 @@ define([
 
         // TODO: Split into victory/defeat
         if (numInEnemyTeam === 0 || numInPlayerTeam === 0) {
-            this.options.outcome = (numInEnemyTeam === 0) ? 'VICTORY' : 'DEFEAT';
+            this.options.combatResult = (numInEnemyTeam === 0) ? 'VICTORY' : 'DEFEAT';
 
-            this.game.state.start('Preloader', true, false, 'End', this.options);
+            if (this.options.skirmish) {
+                this.game.state.start('Preloader', true, false, 'SkirmishEnd', this.options);
+            } else {
+                this.game.state.start('Preloader', true, false, (numInEnemyTeam === 0) ? 'BattleVictory' : 'BattleDefeat', this.options);
+            }
         }
     };
 

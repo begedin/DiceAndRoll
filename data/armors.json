@@ -1,0 +1,146 @@
+{
+    "light_warrior_tunic": {
+        "name": "light_warrior_tunic",
+        "title": "Light warrior tunic",
+        "desc": "",
+        "defense": 1
+    },
+    "leather_armor": {
+        "name": "leather_armor",
+        "title": "Leather armor",
+        "desc": "",
+        "defense": 2
+    },
+    "brigandine": {
+        "name": "brigandine",
+        "title": "Brigandine",
+        "desc": "",
+        "defense": 3
+    },
+    "spiked_brigandine": {
+        "name": "spiked_brigandine",
+        "title": "Spiked brigandine",
+        "desc": "",
+        "defense": 4
+    },
+    "guard_tunic": {
+        "name": "guard_tunic",
+        "title": "Guard tunic",
+        "desc": "",
+        "defense": 1
+    },
+    "chainmail": {
+        "name": "chainmail",
+        "title": "Chainmail",
+        "desc": "",
+        "defense": 2
+    },
+    "coat_of_plates": {
+        "name": "coat_of_plates",
+        "title": "Bascinet and coat-of-plates",
+        "desc": "",
+        "defense": 3
+    },
+    "clerics_armor": {
+        "name": "clerics_armor",
+        "title": "Clerics armor",
+        "desc": "",
+        "defense": 4
+    },
+    "riveted_robe": {
+        "name": "riveted_robe",
+        "title": "Riveted robe",
+        "desc": "",
+        "defense": 1
+    },
+    "ranger_tunic": {
+        "name": "ranger_tunic",
+        "title": "Ranger tunic",
+        "desc": "",
+        "defense": 2
+    },
+    "elven_tunic": {
+        "name": "elven_tunic",
+        "title": "Elven tunic",
+        "desc": "",
+        "defense": 3
+    },
+    "highelven_coat": {
+        "name": "highelven_coat",
+        "title": "High-elven coat",
+        "desc": "",
+        "defense": 4
+    },
+    "gnome_splinted_armor": {
+        "name": "gnome_splinted_armor",
+        "title": "Gnome splinted armor",
+        "desc": "",
+        "defense": 1
+    },
+    "simple_mech_suit": {
+        "name": "simple_mech_suit",
+        "title": "Simple mechanical suit",
+        "desc": "",
+        "defense": 2
+    },
+    "advanced_mech_suit": {
+        "name": "advanced_mech_suit",
+        "title": "Advanced mechanical suit",
+        "desc": "",
+        "defense": 3
+    },
+    "obsidian_armor": {
+        "name": "obsidian_armor",
+        "title": "Obsidian armor",
+        "desc": "",
+        "defense": 4
+    },
+    "reinforced_skin": {
+        "name": "reinforced_skin",
+        "title": "Reinforced skin",
+        "desc": "",
+        "defense": 1
+    },
+    "hunters_hide": {
+        "name": "hunters_hide",
+        "title": "Hunters hide",
+        "desc": "",
+        "defense": 2
+    },
+    "spiked_armor": {
+        "name": "spiked_armor",
+        "title": "Spiked armor",
+        "desc": "",
+        "defense": 3
+    },
+    "bestiary_suit": {
+        "name": "bestiary_suit",
+        "title": "Bestiary suit",
+        "desc": "",
+        "defense": 4
+    },
+    "soldiers_armor": {
+        "name": "soldiers_armor",
+        "title": "Soldiers armor",
+        "desc": "",
+        "defense": 1
+    },
+    "half_plate_armor": {
+        "name": "half_plate_armor",
+        "title": "Half-plate armor",
+        "desc": "",
+        "defense": 2
+    },
+    "full_plate_armor": {
+        "name": "full_plate_armor",
+        "title": "Full-plate armor",
+        "desc": "",
+        "defense": 3
+    },
+    "paladins_armor": {
+        "name": "paladins_armor",
+        "title": "Paladin's armor",
+        "desc": "",
+        "defense": 4
+    }
+}

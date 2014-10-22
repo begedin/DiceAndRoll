@@ -1,0 +1,184 @@
+{
+    "woodcutters_axe": {
+        "name": "woodcutters_axe",
+        "title": "Woodcutter's axe",
+        "desc": "",
+        "type": "AXE",
+        "attack": 2
+    },  
+    "battle_axe": {
+        "name": "battle_axe",
+        "title": "Battle axe",
+        "desc": "",
+        "type": "AXE",
+        "attack": 4
+    },  
+    "two_handed_poleaxe": {
+        "name": "two_handed_poleaxe",
+        "title": "Two-handed pole-axe",
+        "desc": "",
+        "type": "AXE",
+        "attack": 6
+    },  
+    "orcish_poleaxe": {
+        "name": "orcish_poleaxe",
+        "title": "Orcish pole-axe",
+        "desc": "",
+        "type": "AXE",
+        "attack": 8
+    },  
+    "broad_axe": {
+        "name": "broad_axe",
+        "title": "Broad axe",
+        "desc": "",
+        "type": "AXE",
+        "attack": 2
+    },  
+    "battle_mace": {
+        "name": "battle_mace",
+        "title": "Battle mace",
+        "desc": "",
+        "type": "MACE",
+        "attack": 4
+    },
+    "morning_star": {
+        "name": "morning_star",
+        "title": "Morning star",
+        "desc": "",
+        "type": "MACE",
+        "attack": 6
+    },
+    "flail_mace": {
+        "name": "flail_mace",
+        "title": "Flail mace",
+        "desc": "",
+        "type": "MACE",
+        "attack": 8
+    },
+    "wooden_bow": {
+        "name": "wooden_bow",
+        "title": "Wooden bow",
+        "desc": "",
+        "type": "BOW",
+        "attack": 2
+    },
+    "longbow": {
+        "name": "longbow",
+        "title": "Longbow",
+        "desc": "",
+        "type": "BOW",
+        "attack": 4
+    },
+    "composite_bow": {
+        "name": "composite_bow",
+        "title": "Composite bow",
+        "desc": "",
+        "type": "BOW",
+        "attack": 6
+    },
+    "improved_composite_bow": {
+        "name": "improved_composite_bow",
+        "title": "Improved composite bow",
+        "desc": "",
+        "type": "BOW",
+        "attack": 8
+    },
+    "explosive_grenade": {
+        "name": "explosive_grenade",
+        "title": "Explosive grenade",
+        "desc": "",
+        "type": "MISSILE",
+        "attack": 2
+    },
+    "fire_grenade": {
+        "name": "fire_grenade",
+        "title": "Fire grenade",
+        "desc": "",
+        "type": "MISSILE",
+        "attack": 4
+    },
+    "devastating_mine": {
+        "name": "devastating_mine",
+        "title": "Devastating mine",
+        "desc": "",
+        "type": "MISSILE",
+        "attack": 6
+    },
+    "fusion_bomb": {
+        "name": "fusion_bomb",
+        "title": "Fusion bomb",
+        "desc": "",
+        "type": "MISSILE",
+        "attack": 8
+    },
+    "light_sickle": {
+        "name": "light_sickle",
+        "title": "Light sickle",
+        "desc": "",
+        "type": "SPEAR",
+        "attack": 2
+    },
+    "battle_lance": {
+        "name": "battle_lance",
+        "title": "Battle lance",
+        "desc": "",
+        "type": "SPEAR",
+        "attack": 4
+    },
+    "halberd": {
+        "name": "halberd",
+        "title": "Halberd",
+        "desc": "",
+        "type": "SPEAR",
+        "attack": 6
+    },
+    "battle_scythe": {
+        "name": "battle_scythe",
+        "title": "Battle scythe",
+        "desc": "",
+        "type": "SPEAR",
+        "attack": 8
+    },
+    "broad_sword_and_buckler": {
+        "name": "broad_sword_and_buckler",
+        "title": "Broad sword + Buckler",
+        "desc": "",
+        "type": "SWORD",
+        "attack": 2
+    },
+    "short_sword_and_wooden_shield": {
+        "name": "short_sword_and_wooden_shield",
+        "title": "Short sword + Wooden shield",
+        "desc": "",
+        "type": "SWORD",
+        "attack": 4
+    },
+    "bastard_sword_and_shield": {
+        "name": "bastard_sword_and_shield",
+        "title": "One-and-a-half + Shield",
+        "desc": "",
+        "type": "SWORD",
+        "attack": 6
+    },
+    "longsword_and_tower_shield": {
+        "name": "longsword_and_tower_shield",
+        "title": "Longsword + Tower shield",
+        "desc": "",
+        "type": "SWORD",
+        "attack": 8
+    },
+    "spiders_sting": {
+        "name": "spiders_sting",
+        "title": "Spider's sting",
+        "desc": "",
+        "type": "CLAW",
+        "attack": 3
+    },
+    "killing_beak": {
+        "name": "killing_beak",
+        "title": "Killing beak",
+        "desc": "",
+        "type": "CLAW",
+        "attack": 3
+    }
+}

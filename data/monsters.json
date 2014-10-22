@@ -1,4 +1,4 @@
-﻿{
+{
 	"goblin_warrior": {
         "name": "goblin_warrior",
         "title": "Goblin Warrior",
@@ -7,7 +7,7 @@
         "defense": 3,
         "attack": 15,
         "type": "MELEE",
-        "weapon": "Poking stick"
+        "weapon": "broad_sword_and_buckler"
     },
 	"goblin_shaman": {
         "name": "goblin_shaman",
@@ -17,17 +17,19 @@
         "defense": 2,
         "attack": 18,
         "type": "RANGED",
-        "weapon": "Poking staff"
+        "weapon": "battle_lance",
+        "specials": [ "fire_ball" ]
     },
     "goblin_berserker": {
-        "name": "goblin_warrior",
-        "title": "Goblin Warrior",
+        "name": "goblin_berserker",
+        "title": "Goblin Berserker",
         "desc": "A slightly more powerful and less civilized for of the goblin warrior.",
         "health": 80,
         "defense": 2,
         "attack": 20,
         "type": "MELEE",
-        "weapon": "Sharpened stick"
+        "weapon": "halberd",
+        "specials": [ "chain_attack" ]
     },
     "monstrous_spider": {
         "name": "monstrous_spider",
@@ -37,7 +39,8 @@
         "defense": 4,
         "attack": 24,
         "type": "MELEE",
-        "weapon": "Poisonous sting and cast web"
+        "weapon": "spiders_sting",
+        "specials": [ "spider_web" ]
     },
     "gnoll": {
         "name": "gnoll",
@@ -47,6 +50,70 @@
         "defense": 3,
         "attack": 22,
         "type": "MELEE",
-        "weapon": "Orcish axe"
+        "weapon": "orcish_poleaxe"
+    },
+    "giant_bird": {
+        "name": "giant_bird",
+        "title": "Giant Bird",
+        "desc": "Birdie of a greater threat.",
+        "health": 200,
+        "defense": 5,
+        "attack": 26,
+        "type": "MELEE",
+        "weapon": "killing_beak",
+        "specials": [ "elemental_fear" ]
+    },
+    "goblin_king": {
+        "name": "goblin_king",
+        "title": "Goblin King",
+        "desc": "This is the warchief of goblin's raiding party.",
+        "health": 80,
+        "defense": 5,
+        "attack": 22,
+        "type": "MELEE",
+        "weapon": "battle_axe"
+    },
+    "skeleton_warrior": {
+        "name": "skeleton_warrior",
+        "title": "Skeleton warrior",
+        "desc": "blabla.",
+        "health": 60,
+        "defense": 4,
+        "attack": 16,
+        "type": "MELEE",
+        "weapon": "short_sword_and_wooden_shield"
+    },
+    "skeleton_archer": {
+        "name": "skeleton_archer",
+        "title": "Skeleton archer",
+        "desc": "blabla.",
+        "health": 50,
+        "defense": 4,
+        "attack": 16,
+        "type": "RANGED",
+        "weapon": "wooden_bow",
+        "specials": [ "bullseye" ]
+    },
+    "zombie": {
+        "name": "zombie",
+        "title": "Zombie",
+        "desc": "blabla.",
+        "health": 80,
+        "defense": 5,
+        "attack": 20,
+        "type": "MELEE",
+        "weapon": "battle_mace",
+        "specials": [ "poison_gas" ]
+    },
+    "lich_king": {
+        "name": "lich_king",
+        "title": "Lich king",
+        "desc": "blabla.",
+        "health": 120,
+        "defense": 7,
+        "attack": 24,
+        "type": "MELEE",
+        "weapon": "two_handed_poleaxe",
+        "specials": [ "fire_ball", "deadly_bite" ]
     }
 }

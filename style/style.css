@@ -1,5 +1,16 @@
-﻿body {
-    margin: 0px 0px 1px 0px; /* the extra 1px allows the iOS inner/outer check to work */
+﻿@font-face {
+  font-family: 'Berkshire Swash';
+  src: url(../assets/fonts/BerkshireSwash-Regular.ttf);
+}
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
     background: #FFF;
 }
 
@@ -23,9 +34,9 @@
     top: 30%;
     display: inline-block;
     vertical-align: middle;
-    font-size: 4em;
+    font-size: 2em;
     line-height: normal;
-    font-family: Colonna MT;
+    font-family: Berkshire Swash;
 }
 
 canvas {

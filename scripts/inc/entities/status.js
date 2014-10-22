@@ -1,4 +1,6 @@
-﻿define([
+/*globals define*/
+
+define([
     'Phaser',
 ], function (Phaser) {
 
@@ -20,7 +22,7 @@
 
     // type is any of the following: ATTACK, DEFENSE, STUN, POISON
     // duration is expressed in turns, default is 1
-    // power is the strenght of the effect. not applicable for STUN
+    // power is the strength of the effect. not applicable for STUN
     Status.prototype.addEffect = function (type, duration, power) {
 
         var effect;
@@ -53,35 +55,20 @@
     };
 
     Status.prototype.processTurn = function () {
-        var totalAttackMod = 0,
-            totalDefenseMod = 0,
-            totalDamage = 0;
+        var totalDamage = 0,
             expiredEffects = [];
 
         this.forEach(function (statusEffect) {
             statusEffect.duration--;
             switch (statusEffect.type) {
-                case 'ATTACK': totalAttackMod += statusEffect.power;
-                    break;
-                case 'DEFENSE': totalDefenseMod += statusEffect.power;
-                    break;
                 case 'POISON':
                 case 'FIRE':
                     totalDamage += statusEffect.power * this.game.rnd.integerInRange(1, 6);
                     break;
             }
-
-            if (statusEffect.duration <= 0) expiredEffects.push(statusEffect);
         }, this);
 
         if (totalDamage > 0) this.character.damage(totalDamage);
-
-        for (var i in expiredEffects) {
-            this.remove(expiredEffects[i], true);
-        }
-
-        this.totalAttackMod = totalAttackMod;
-        this.totalDefenseMod = totalDefenseMod;
     };
 
     Status.prototype.update = function () {
@@ -92,6 +79,29 @@
             if (alpha > 1) alpha = 1;
             effect.alpha = alpha;
         }, this);
+
+        var totalAttackMod = 0,
+            totalDefenseMod = 0,
+            expiredEffects = [];
+
+        this.forEach(function (statusEffect) {
+            switch (statusEffect.type) {
+                case 'ATTACK': totalAttackMod += statusEffect.power;
+                    break;
+                case 'DEFENSE': totalDefenseMod += statusEffect.power;
+                    break;
+            }
+
+            if (statusEffect.duration <= 0) expiredEffects.push(statusEffect);
+        }, this);
+
+        for (var i in expiredEffects) {
+            this.remove(expiredEffects[i], true);
+        }
+
+        this.totalAttackMod = totalAttackMod;
+        this.totalDefenseMod = totalDefenseMod;
+
     };
 
     Status.prototype.hasBlockingEffect = function () {

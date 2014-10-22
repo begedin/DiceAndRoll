@@ -1,28 +1,249 @@
-﻿{
-    "melee_attack": { "name": "Attack", "description": "Attack with character's melee weapon", "targetType": "anyEnemyInNearestRank", "executionType": "attackSingleTarget", "attackCount": 1, "modifier": 0 },
-    "ranged_attack": { "name": "Attack", "description": "Attack with character's ranged weapon", "targetType": "anyEnemy", "executionType": "attackSingleTarget", "attackCount": 1, "modifier": 0 },
-    "rage": { "name": "Rage", "description": "Increases attack +1", "targetType": "self", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK" ], "power": 1 },
-    "chain_attack": { "name": "Chain attack", "description": "Attack all opponents at close range with attack -1", "targetType": "anyEnemyInNearestRank", "executionType": "attackRankInSequence", "modifier": -1 },
-    "ground_strike": { "name": "Ground strike", "description": "Stun all opponents, causing them to miss their next move", "targetType": "anyEnemy", "executionType": "applyStatusToParty", "statusTypes": [ "STUN" ], "duration":  1 },
-    "elemental_fear": { "name": "Elemental fear", "description": "Decreases opponent's attack and defense by 1", "targetType": "anyEnemy", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK", "DEFENSE" ], "power": -1 },
-    "healing_potion": { "name": "Healing potion", "description": "Increases health of selected combatant", "targetType": "anyFriend", "executionType": "healSingleTarget", "modifier": 2  },
-    "bless": { "name": "Bless", "description": "Increases attack of all combatants by 2 for 3 turns", "targetType": "anyFriend", "executionType": "applyStatusToParty", "statusTypes": [ "ATTACK" ], "duration":  3, "power":  2 },
-    "negate_spell": { "name": "Negate spell", "description": "Deflects all spells from opponents", "targetType": "notImplemented" },
-    "team_heal": { "name": "Team heal", "description": "Increases health of all combatants", "targetType": "anyFriend", "executionType": "healParty", "modifier": 1  },
-    "bullseye": { "name": "Bullseye", "description": "Increases attack +1", "targetType": "self", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK" ], "power": 1 },
-    "tripple_shot": { "name": "Triple shot", "description": "Attacks 3 opponents at once attack -1", "targetType": "anyEnemy", "executionType": "attackRandomInSequence", "attackCount": 2, "modifier": -1 },
-    "fire_arrow": { "name": "Fire arrow", "description": "Attack with fire damage +1 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "FIRE" ], "duration": 2, "power": 1 },
-    "drain_arrow": { "name": "Drain arrow", "description": "Attack with drainage effect +1 3 moves", "targetType": "notImplemented" },
-    "electric_shock": { "name": "Electric shock", "description": "Attacks nearby opponents attack -1", "targetType": "anyEnemy", "executionType": "attackRankAtOnce", "modifier": -1 },
-    "poison_gas": { "name": "Poison gas", "description": "Poisons all opponents at +1 for 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToParty", "statusTypes": [ "POISON" ], "duration":  2, "power":  1 },
-    "mechanical_arm": { "name": "Mechanical arm", "description": "Attack +2", "targetType": "self", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK" ], "power": 2 },
-    "fusion_cannon": { "name": "Fusion cannon", "description": "Attack all opponents +2", "targetType": "anyEnemy", "executionType": "attackAllAtOnce", "modifier": 2 },
-    "attack_claws": { "name": "Attack claws", "description": "Attacks nearby opponent attack +1", "targetType": "anyEnemy", "executionType": "attackSingleTarget", "attackCount": 1, "modifier": 2 },
-    "tail_strike": { "name": "Tail strike", "description": "Attacks nearby opponents attack +2", "targetType": "anyEnemy", "executionType": "attackRankAtOnce", "modifier": 1 },
-    "deadly_bite": { "name": "Deadly bite", "description": "Attacks nearby opponents for 2 damage over 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToRank", "statusTypes": [ "POISON" ], "duration":  2, "power":  2 },
-    "brutal_flame": { "name": "Brutal flame", "description": "Attacks all opponents for 1 damage over 2 moves", "targetType": "anyEnemy", "executionType": "applyStatusToParty", "statusTypes": [ "POISON" ], "duration":  2, "power":  1 },
-    "leadership": { "name": "Leadership", "description": "All combatants attack +1 for 5 turns", "targetType": "anyFriend", "executionType": "applyStatusToParty", "statusTypes": [ "ATTACK" ], "duration":  5, "power":  1 },
-    "holy_weapon": { "name": "Holy weapon", "description": "Attack +2", "targetType": "self", "executionType": "applyStatusToSingleTarget", "statusTypes": [ "ATTACK" ], "power": 2 },
-    "sturded_armor": { "name": "Sturded armor", "description": "All combatants defense +1 for 5 turns", "targetType": "anyFriend", "executionType": "applyStatusToParty", "statusTypes": [ "DEFENSE" ], "duration":  5, "power":  1 },
-    "call_of_griffin": { "name": "Call of the griffin", "description": "Additional attack with attack +2", "targetType": "anyEnemy", "executionType": "attackSingleTarget", "attackCount": 2, "modifier": 2 }
+{
+    "melee_attack": {
+        "name": "Attack",
+        "description": "Attack with character's melee weapon",
+        "targetType": "anyEnemyInNearestRank",
+        "executionType": "attackSingleTarget",
+        "attackCount": 1,
+        "modifier": 0
+    },
+    "ranged_attack": {
+        "name": "Attack",
+        "description": "Attack with character's ranged weapon",
+        "targetType": "anyEnemy",
+        "executionType": "attackSingleTarget",
+        "attackCount": 1,
+        "modifier": 0
+    },
+    "rage": {
+        "name": "Rage",
+        "description": "Increases attack +3",
+        "targetType": "self",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "power": 3
+    },
+    "chain_attack": {
+        "name": "Chain attack",
+        "description": "Attack all opponents at close range with attack -1",
+        "targetType": "anyEnemyInNearestRank",
+        "executionType": "attackRankInSequence",
+        "modifier": -1
+    },
+    "ground_strike": {
+        "name": "Ground strike",
+        "description": "Stun all opponents, causing them to miss their next move",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "STUN"
+        ],
+        "duration": 1
+    },
+    "elemental_fear": {
+        "name": "Elemental fear",
+        "description": "Decreases opponent's attack and defense by 2",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "ATTACK",
+            "DEFENSE"
+        ],
+        "power": -2
+    },
+    "healing_potion": {
+        "name": "Healing potion",
+        "description": "Increases health of selected combatant",
+        "targetType": "anyFriend",
+        "executionType": "healSingleTarget",
+        "modifier": 2
+    },
+    "bless": {
+        "name": "Bless",
+        "description": "Increases attack of all combatants by 2 for 3 turns",
+        "targetType": "anyFriend",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "duration": 3,
+        "power": 2
+    },
+    "negate_spell": {
+        "name": "Negate spell",
+        "description": "Deflects all spells from opponents",
+        "targetType": "notImplemented"
+    },
+    "team_heal": {
+        "name": "Team heal",
+        "description": "Increases health of all combatants",
+        "targetType": "anyFriend",
+        "executionType": "healParty",
+        "modifier": 1
+    },
+    "bullseye": {
+        "name": "Bullseye",
+        "description": "Increases attack +3",
+        "targetType": "self",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "power": 3
+    },
+    "tripple_shot": {
+        "name": "Triple shot",
+        "description": "Attacks 3 opponents at once attack -1",
+        "targetType": "anyEnemy",
+        "executionType": "attackRandomInSequence",
+        "attackCount": 2,
+        "modifier": -1
+    },
+    "fire_arrow": {
+        "name": "Fire arrow",
+        "description": "Attack with fire damage +2 2 moves",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "FIRE"
+        ],
+        "duration": 2,
+        "power": 2
+    },
+    "drain_arrow": {
+        "name": "Drain arrow",
+        "description": "Attack with drainage effect +1 3 moves",
+        "targetType": "notImplemented"
+    },
+    "electric_shock": {
+        "name": "Electric shock",
+        "description": "Attacks nearby opponents attack -1",
+        "targetType": "anyEnemy",
+        "executionType": "attackRankAtOnce",
+        "modifier": -1
+    },
+    "poison_gas": {
+        "name": "Poison gas",
+        "description": "Poisons all opponents at +2 for 2 moves",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "POISON"
+        ],
+        "duration": 2,
+        "power": 2
+    },
+    "mechanical_arm": {
+        "name": "Mechanical arm",
+        "description": "Attack opponent with power attack +3",
+        "targetType": "self",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "power": 3
+    },
+    "fusion_cannon": {
+        "name": "Fusion cannon",
+        "description": "Attack all opponents +2",
+        "targetType": "anyEnemy",
+        "executionType": "attackAllAtOnce",
+        "modifier": 2
+    },
+    "attack_claws": {
+        "name": "Attack claws",
+        "description": "Attacks nearby opponent attack +2",
+        "targetType": "anyEnemy",
+        "executionType": "attackSingleTarget",
+        "attackCount": 1,
+        "modifier": 2
+    },
+    "tail_strike": {
+        "name": "Tail strike",
+        "description": "Attacks nearby opponents attack +3",
+        "targetType": "anyEnemy",
+        "executionType": "attackRankAtOnce",
+        "modifier": 3
+    },
+    "deadly_bite": {
+        "name": "Deadly bite",
+        "description": "Attacks nearby opponents for 2 damage over 2 moves",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToRank",
+        "statusTypes": [
+            "POISON"
+        ],
+        "duration": 2,
+        "power": 2
+    },
+    "brutal_flame": {
+        "name": "Brutal flame",
+        "description": "Attacks all opponents with damage +4 over 2 moves",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "POISON"
+        ],
+        "duration": 2,
+        "power": 4
+    },
+    "leadership": {
+        "name": "Leadership",
+        "description": "All combatants attack +2 for 2 turns",
+        "targetType": "anyFriend",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "duration": 2,
+        "power": 2
+    },
+    "holy_weapon": {
+        "name": "Holy weapon",
+        "description": "Attack +2",
+        "targetType": "self",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "ATTACK"
+        ],
+        "power": 2
+    },
+    "sturded_armor": {
+        "name": "Sturded armor",
+        "description": "All combatants defense +2 for 2 turns",
+        "targetType": "anyFriend",
+        "executionType": "applyStatusToParty",
+        "statusTypes": [
+            "DEFENSE"
+        ],
+        "duration": 2,
+        "power": 2
+    },
+    "call_of_griffin": {
+        "name": "Call of the griffin",
+        "description": "Powerfull double attack with griffin +4",
+        "targetType": "anyEnemy",
+        "executionType": "attackSingleTarget",
+        "attackCount": 2,
+        "modifier": 2
+    },
+    "fire_ball": {
+        "name": "Fire ball",
+        "description": "Cast fire ball on nearby opponents attack +3",
+        "targetType": "anyEnemy",
+        "executionType": "attackRankAtOnce",
+        "modifier": 3
+    },
+    "spider_web": {
+        "name": "Spider web",
+        "description": "Entangles opponent with a web, opponent cannot act two turns",
+        "targetType": "anyEnemy",
+        "executionType": "applyStatusToSingleTarget",
+        "statusTypes": [
+            "STUN"
+        ],
+        "duration": 2
+    }
 }

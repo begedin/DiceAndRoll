@@ -1,10 +1,12 @@
-﻿define(['Phaser'], function (Phaser) {
+/*globals define*/
+
+define(['Phaser'], function (Phaser) {
 
     var SPECIAL_SIZE = 100,
-        SPECIAL_NAME_STYLE = { font: '24px Berkshire Swash', fill: '#7F5935', align: 'center', strokeThickness: 1 },
-        SPECIAL_DESCRIPTION_STYLE = { font: '20px Berkshire Swash', fill: '#7F460F', align: 'center' };
+        SPECIAL_NAME_STYLE = { font: '24px Berkshire Swash', fill: '#7F5935', align: 'center'},
+        SPECIAL_DESCRIPTION_STYLE = { font: '20px Berkshire Swash', fill: '#7F460F', align: 'center'};
 
-    var Special = function (game, character, texture, name, description, isNormalAttack) {
+    var Special = function (game, character, texture) {
         this.game = game;
         this.character = character;
 
@@ -32,10 +34,8 @@
 
         this.nameText = this.game.add.text(this.game.width / 2, this.game.height / 2 + 50, this.name, SPECIAL_NAME_STYLE);
         this.nameText.anchor.setTo(0.5, 0);
-        this.nameText.setShadow(0, 0, 'rgba(250,250,250,1)', 5);
         this.descriptionText = this.game.add.text(this.game.width / 2, this.game.height / 2 + 75, this.description, SPECIAL_DESCRIPTION_STYLE);
         this.descriptionText.anchor.setTo(0.5, 0);
-        this.descriptionText.setShadow(0, 0, 'rgba(250,250,250,1)', 5);
     };
 
     Special.prototype.deselect = function () {
@@ -50,6 +50,7 @@
     };
 
     Special.prototype.executeAndNotify = function (target) {
+
         this.deselect();
         this.unsetTargets();
 
@@ -77,9 +78,6 @@
         }
 
         promise.onComplete.addOnce(function () { this.executed.dispatch(); }, this);
-    };
-
-    Special.prototype.update = function () {
     };
 
     Special.prototype.setTargets = function (targets) {

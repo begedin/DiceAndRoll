@@ -1,3 +1,5 @@
+/*globals requirejs*/
+
 // main.js
 // This javascript file represents the entry point of the phaser application.
 
@@ -6,11 +8,15 @@
 
 requirejs.config({
     baseUrl: 'scripts',
-    paths: { Phaser: 'vendor/phaser' }
+    paths: {
+        Phaser: 'vendor/phaser',
+        Store: 'vendor/store'
+    }
 });
 
-require([
+requirejs([
     'Phaser',
+    'Store',
     'inc/states/boot',
     'inc/states/preloader',
     'inc/states/menu',
@@ -18,12 +24,17 @@ require([
     'inc/states/play',
     'inc/states/battle',
     /*'inc/states/shop',*/
-    'inc/states/end'
-], function (Phaser, Boot, Preloader, Menu, New, Play, Battle,/* Shop,*/ End) {
+    'inc/states/battleVictory',
+    'inc/states/battleDefeat',
+    'inc/states/mapVictory',
+    'inc/states/skirmishEnd'
+], function (Phaser, Store, Boot, Preloader, Menu, New, Play, Battle,/* Shop,*/ BattleVictory, BattleDefeat, MapVictory, SkirmishEnd) {
 
     var A4 = { height: 297, width: 210 };
     // create new phaser game
     var game = new Phaser.Game(A4.height * 4, A4.width * 4, Phaser.AUTO, 'game', null, false, false);
+
+    game.store = Store;
 
     // add game states
     game.state.add('Boot', Boot);
@@ -33,7 +44,10 @@ require([
     game.state.add('Play', Play);
     game.state.add('Battle', Battle);
     //game.state.add('Shop', Shop);
-    game.state.add('End', End);
+    game.state.add('BattleVictory', BattleVictory);
+    game.state.add('BattleDefeat', BattleDefeat);
+    game.state.add('MapVictory', MapVictory);
+    game.state.add('SkirmishEnd', SkirmishEnd);
 
     // start game from the boot state
     game.state.start('Boot');

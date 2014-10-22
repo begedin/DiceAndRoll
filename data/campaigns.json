@@ -12,32 +12,32 @@
         ]
     },
     {
-        "name": "campaign_citadel",
-        "title": "Bandit's catch",
-        "descShort": "There is a menace currently in the capital city of Brightlight.\nNo one knowns what or who is responsible for a robbery\n involving artefacts and precious gems from the citadel's\nroyal treasury. At first, it seemed like a typical gnome deed,\n but after princess Celestwin's dissapearance, something deeper\nis definitely involved. If only the stewart of the citadel...",
-        "desc": "lorem ipsum",
-        "difficulty": "medium",
-        "maps": [
-            {
-                "map": "map_citadel"
-            },
-            {
-                "map": "map_citadel_underground"
-            }
-        ]
-    },
-    {
         "name": "campaign_tomb",
         "title": "Paladin's Tomb",
         "descShort": "There are rumors that old graveyard on top of the hills of\n Stribor hides lost treasure of Svetoslav, a bold paladin in\n Samuil's service centuries ago. Is this a truth or\n just a fairytale, there is only one way to find out.\nBut beware, no one is ever returned from the Stribor's vaults!",
         "desc": "lorem ipsum",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "maps": [
             {
                 "map": "map_graveyard"
             },
             {
                 "map": "map_graveyard_crypts"
+            }
+        ]
+    },
+    {
+        "name": "campaign_citadel",
+        "title": "Bandit's catch",
+        "descShort": "There is a menace currently in the capital city of Brightlight.\nNo one knowns what or who is responsible for a robbery\n involving artefacts and precious gems from the citadel's\nroyal treasury. At first, it seemed like a typical gnome deed,\n but after princess Celestwin's dissapearance, something deeper\nis definitely involved. If only the stewart of the citadel...",
+        "desc": "lorem ipsum",
+        "difficulty": "hard",
+        "maps": [
+            {
+                "map": "map_citadel"
+            },
+            {
+                "map": "map_citadel_underground"
             }
         ]
     }

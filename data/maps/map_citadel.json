@@ -3,7 +3,7 @@
         {
             "identifier": "MainGate",
             "name": "The main gate",
-            "type": "SHOP",
+            "type": "CAMP",
             "x": "15",
             "y": "55",
             "image": "",

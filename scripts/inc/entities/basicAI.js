@@ -1,4 +1,6 @@
-﻿define([
+/*globals define*/
+
+define([
     'Phaser',
 ], function (Phaser) {
 

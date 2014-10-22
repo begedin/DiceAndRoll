@@ -1,7 +1,4 @@
-﻿// game.party.push(character)
-// game.campaign = ? map(s).pinpoints
-
-var define = define || {};
+/*globals define*/
 
 /// currently unused, was the old level loader, without the combat
 
@@ -24,7 +21,8 @@ define(['Phaser'], function (Phaser) {
             this.game.utils.stretchAndFitImage(this.game, 'new');
 
             this.maxSlots = 3;
-            this.slotsTaken = 0;
+            this.characterIndex = 0;
+
             this.campaignChosen = false;
 
             //#region add texts 
@@ -33,24 +31,16 @@ define(['Phaser'], function (Phaser) {
             this.game.add.text(300, 40, 'Your selected party:', { font: '20px ' + this.game.utils.fontFamily, strokeThickness: 1 });
             this.game.add.text(300, 70, 'Alas, traveler! May I suggest you\nthat it shall be wise to pick at least \none melee combatant, together with\none ranged attacking party member.\n But why not more?', this.game.utils.styles.small);
             this.game.add.text(330, 170, 'Available party member slots:', this.game.utils.styles.small);
-            var txtNumberOfSlots = this.game.add.text(380, 190, this.maxSlots, this.game.utils.styles.header);
+            this.txtNumberOfSlots = this.game.add.text(380, 190, this.maxSlots, this.game.utils.styles.header);
 
             //#endregion
 
             // add back and start game buttons
-            this.game.utils.createTextButton(this.game, 'Back', 80, 160, this.game.utils.styles.backButton, this.game.add.audio('sword'), function () {
+            this.game.utils.createTextButton(this.game, 'Back', 80, 160, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, function () {
                 this.game.state.start('Menu', true, false);
             }.bind(this));
             var btnStart = this.game.utils.createTextButton(this.game, 'Start game', this.game.width - 160, this.game.height - 40, this.game.utils.styles.backButton, this.game.add.audio('gong'), this.startGame.bind(this));
             btnStart.visible = false;
-
-            //#region add sounds
-
-            var soundNextCharacter = this.game.add.audio('page');
-            var soundNextCampaign = this.game.add.audio('page2');
-            var soundChoose = this.game.add.audio('swords');
-
-            //#endregion
 
             var availableCharacters = [];
 
@@ -66,8 +56,7 @@ define(['Phaser'], function (Phaser) {
             //#region add characters
     
             // fill out character sheet:
-            var characterIndex = 0;
-            var character = this.game.assets.characters[availableCharacters[characterIndex]];
+            var character = this.game.assets.characters[availableCharacters[this.characterIndex]];
 
             // this is a drawing area of the character sheet for calculating its size
             New.rect = new Phaser.Rectangle(165, 370, 240, 280);
@@ -80,45 +69,58 @@ define(['Phaser'], function (Phaser) {
             this.txtCharacterDesc = this.game.add.text(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height - 10, '', this.game.utils.styles.characterSelectionContent);
             this.txtCharacterDesc.anchor.setTo(0.5, 0);
 
-            this.txtWeaponTitle = this.game.add.text(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height + 100, 'Main weapon:', this.game.utils.styles.characterSelectionContent);
-            this.txtWeaponTitle.anchor.setTo(0.5, 0);
+            this.txtSpecialityTitle = this.game.add.text(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height + 100, 'Speciality:', this.game.utils.styles.characterSelectionContent);
+            this.txtSpecialityTitle.anchor.setTo(0.5, 0);
 
-            this.txtWeaponName = this.game.add.text(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height + 120, '', this.game.utils.styles.emphasized);
-            this.txtWeaponName.anchor.setTo(0.5, 0);
+            this.txtSpecialityName = this.game.add.text(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height + 120, '', this.game.utils.styles.emphasized);
+            this.txtSpecialityName.anchor.setTo(0.5, 0);
 
             this.txtHpTitle = this.game.add.text(this.characterImage.x - 15, this.characterImage.y + 160, '', this.game.utils.styles.characterSelectionContent);
             this.txtDefTitle = this.game.add.text(this.characterImage.x - 15, this.characterImage.y + 180, '', this.game.utils.styles.characterSelectionContent);
             this.txtAttTitle = this.game.add.text(this.characterImage.x - 15, this.characterImage.y + 200, '', this.game.utils.styles.characterSelectionContent);
 
+            this.members = [];
+
             this.notSelectedChar = this.createChooseButton(this.characterImage.x + this.characterImage.width / 2, this.characterImage.y + this.characterImage.height / 2, function () {
-                soundChoose.play('', 0, this.game.utils.settings.sound.sfxVolume);
-                this.game.assets.characters[availableCharacters[characterIndex]].selected = true;
-                this.displayCharacter(this.game.assets.characters[availableCharacters[characterIndex]]);
-                this.slotsTaken++;
-                this.addPartyMember(this.game.assets.characters[availableCharacters[characterIndex]]);
-                txtNumberOfSlots.text = this.maxSlots - this.slotsTaken;
+                this.game.utils.soundsets.select.play();
+                this.game.assets.characters[availableCharacters[this.characterIndex]].selected = true;
+                this.displayCharacter(this.game.assets.characters[availableCharacters[this.characterIndex]]);
+                this.addPartyMember(this.game.assets.characters[availableCharacters[this.characterIndex]]);
 
                 // check whether the conditions for starting game are fulfilled 
-                btnStart.visible = (this.campaignChosen && this.slotsTaken > 0);
+                btnStart.visible = (this.campaignChosen && this.members.length > 0);
             });
 
             this.selectedChar = this.createChosenButton(this.characterImage.x - 20, this.characterImage.y + this.characterImage.height / 2);
 
             this.disabledChar = this.createDisabledButton(this.characterImage.x - 20, this.characterImage.y + this.characterImage.height / 2 + 40, 'Max party limit\nreached');
 
-            New.arrow = this.game.utils.setImage(this.game, new Phaser.Rectangle(this.characterImage.x + this.characterImage.width, this.characterImage.y + this.characterImage.height / 2, 40, 40), 'arrow');
-            New.arrow.inputEnabled = true;
-            New.arrow.events.onInputUp.add(function () {
-                soundNextCharacter.play('', 0, this.game.utils.settings.sound.sfxVolume);
-                if (characterIndex >= availableCharacters.length - 1) {
-                    characterIndex = 0;
+            var charUp = this.game.add.sprite(370, 440, 'arrows', 2);
+            charUp.scale.setTo(0.8, 0.8);
+            charUp.inputEnabled = true;
+            charUp.events.onInputUp.add(function () {
+                this.game.utils.soundsets.page.play();
+                if (this.characterIndex === 0) {
+                    this.characterIndex = availableCharacters.length - 1;
                 } else {
-                    characterIndex++;
+                    this.characterIndex--;
                 }
-                this.displayCharacter(this.game.assets.characters[availableCharacters[characterIndex]]);
+                this.displayCharacter(this.game.assets.characters[availableCharacters[this.characterIndex]]);
             }, this);
-        
-            this.displayCharacter(this.game.assets.characters[availableCharacters[characterIndex]]);
+            var charDown = this.game.add.sprite(370, 520, 'arrows', 3);
+            charDown.scale.setTo(0.8, 0.8);
+            charDown.inputEnabled = true;
+            charDown.events.onInputUp.add(function () {
+                this.game.utils.soundsets.page.play();
+                if (this.characterIndex === availableCharacters.length - 1) {
+                    this.characterIndex = 0;
+                } else {
+                    this.characterIndex++;
+                }
+                this.displayCharacter(this.game.assets.characters[availableCharacters[this.characterIndex]]);
+            }, this);
+
+            this.displayCharacter(this.game.assets.characters[availableCharacters[this.characterIndex]]);
 
             //#endregion
 
@@ -142,11 +144,24 @@ define(['Phaser'], function (Phaser) {
             this.game.add.text(this.campaignImage.x - 80, this.campaignImage.y + this.campaignImage.height - 60, 'Difficulty:', this.game.utils.styles.normal);
             this.difficulty = this.game.add.text(this.campaignImage.x - 80, this.campaignImage.y + this.campaignImage.height - 40, '', this.game.utils.styles.emphasized);
 
-            New.arrow2 = this.game.utils.setImage(this.game, new Phaser.Rectangle(this.campaignImage.x + this.campaignImage.width + 40, this.campaignImage.y + this.campaignImage.height / 2, 40, 40), 'arrow');
-            New.arrow2.inputEnabled = true;
-            New.arrow2.events.onInputUp.add(function () {
-                soundNextCampaign.play('', 0, this.game.utils.settings.sound.sfxVolume);
-                if (campaignIndex >= this.game.assets.campaigns.length - 1) {
+            var campUp = this.game.add.sprite(1000, 440, 'arrows', 2);
+            campUp.scale.setTo(0.8, 0.8);
+            campUp.inputEnabled = true;
+            campUp.events.onInputUp.add(function () {
+                this.game.utils.soundsets.page.play();
+                if (campaignIndex === 0) {
+                    campaignIndex = this.game.assets.campaigns.length - 1;
+                } else {
+                    campaignIndex--;
+                }
+                this.displayCampaign(this.game.assets.campaigns[campaignIndex]);
+            }, this);
+            var campDown = this.game.add.sprite(1000, 520, 'arrows', 3);
+            campDown.scale.setTo(0.8, 0.8);
+            campDown.inputEnabled = true;
+            campDown.events.onInputUp.add(function () {
+                this.game.utils.soundsets.page.play();
+                if (campaignIndex === this.game.assets.campaigns.length - 1) {
                     campaignIndex = 0;
                 } else {
                     campaignIndex++;
@@ -157,7 +172,7 @@ define(['Phaser'], function (Phaser) {
             this.selectedCampaign = this.createChosenButton(this.campaignImage.x - 20, this.campaignImage.y + this.campaignImage.height / 2 + 20);
 
             this.notSelectedCampaign = this.createChooseButton(this.campaignImage.x + this.campaignImage.width / 2, this.campaignImage.y + this.campaignImage.height / 2, function () {
-                soundChoose.play('', 0, this.game.utils.settings.sound.sfxVolume);
+                this.game.utils.soundsets.select.play();
 
                 for (var index in this.game.assets.campaigns) {
                     this.game.assets.campaigns[index].selected = false;
@@ -167,7 +182,7 @@ define(['Phaser'], function (Phaser) {
                 this.campaignChosen = true;
 
                 // check whether the conditions for starting game are fulfilled 
-                btnStart.visible = (this.campaignChosen && this.slotsTaken > 0);
+                btnStart.visible = (this.campaignChosen && this.members.length > 0);
             });
 
             this.displayCampaign(campaign);
@@ -184,9 +199,8 @@ define(['Phaser'], function (Phaser) {
     };
 
     New.prototype.createChooseButton = function (x, y, action) {
-        var text = this.game.add.text(x, y, 'Choose', { font: '48px ' + this.game.utils.fontFamily, fill: '#00FF00', align: 'center' });
+        var text = this.game.add.text(x, y, 'Choose', { font: '48px ' + this.game.utils.fontFamily, fill: '#00FF00', align: 'center', stroke: '#000000', strokeThickness: 2 });
         text.anchor.setTo(0.5, 0.5);
-        text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
         text.visible = false;
         text.inputEnabled = true;
         text.events.onInputUp.add(action, this);
@@ -194,7 +208,7 @@ define(['Phaser'], function (Phaser) {
     };
 
     New.prototype.createChosenButton = function (x, y) {
-        var text = this.game.add.text(x, y, '', { font: '48px ' + this.game.utils.fontFamily, fill: '#FF0000', align: 'center', strokeThickness: 2 });
+        var text = this.game.add.text(x, y, '', { font: '48px ' + this.game.utils.fontFamily, fill: '#FF0000', align: 'center', stroke: '#000000', strokeThickness: 2 });
         text.text = '~~~~~~~\nChosen\n~~~~~~~';
         text.angle = -45;
         text.visible = false;
@@ -202,7 +216,7 @@ define(['Phaser'], function (Phaser) {
     };
 
     New.prototype.createDisabledButton = function (x, y, title) {
-        var text = this.game.add.text(x, y, '', { font: '32px ' + this.game.utils.fontFamily, fill: '#888888', align: 'center', strokeThickness: 2 });
+        var text = this.game.add.text(x, y, '', { font: '32px ' + this.game.utils.fontFamily, fill: '#888888', align: 'center', stroke: '#000000', strokeThickness: 2 });
         text.text = '~~~~~~~\n' + title + '\n~~~~~~~';
         text.angle = -45;
         text.visible = false;
@@ -238,12 +252,49 @@ define(['Phaser'], function (Phaser) {
             }
         }
 
-        this.game.state.start('Preloader', true, false, 'Play', { campaign: campaign, playerParty: characters });
+        this.game.state.start('Preloader', true, false, 'Play', { campaign: campaign, playerParty: characters, currentMapIndex: 0 });
+    };
+
+    New.prototype.removePartyMember = function (member) {
+        this.game.utils.soundsets.sword.play();
+
+        //this.game.add.tween(member).to({ angle: 360 }, 400, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(member).to({ x: member.position.x + 40, y: member.position.y + 40 }, 200, Phaser.Easing.Linear.None, true);
+        this.game.add.tween(member.scale).to({ x: 0.1, y: 0.1 }, 300, Phaser.Easing.Linear.None, true).onComplete.addOnce(function () {
+
+            this.members.splice(this.members.indexOf(member), 1);
+            member.kill();
+            this.txtNumberOfSlots.text = this.maxSlots - this.members.length;
+
+            this.game.assets.characters[member.name].selected = false;
+            this.displayCharacter(this.game.assets.characters[member.name]);
+            this.characterIndex = member.index;
+
+            // TODO: move all other party members to the left (if applied)
+            if (this.members.length) {
+                for (var index in this.members) {
+                    var other = this.members[index];
+                    var formula = 520 + index * 180;
+                    if (other.position.x !== formula) {
+                        this.game.add.tween(other).to({ x: formula }, 200, Phaser.Easing.Linear.None, true);
+                        //other.position.x = formula;
+                    }
+                }
+            }
+        }, this);
     };
 
     New.prototype.addPartyMember = function (character) {
-        var firstSlot = new Phaser.Rectangle(520 + (this.slotsTaken - 1) * 180, 40, 180, 180);
-        var member = this.game.utils.setImage(this.game, firstSlot, this.characterImage.generateTexture());
+        var place = new Phaser.Rectangle(520 + this.members.length * 180, 40, 180, 180);
+        var member = this.game.utils.setImage(this.game, place, this.characterImage.generateTexture());
+        var tween = this.game.add.tween(member.scale).to({ x: 0.5, y: 0.5 }, 300, Phaser.Easing.Bounce.Out).start();
+        member.inputEnabled = true;
+        member.events.onInputUp.add(this.removePartyMember, this);
+        member.name = character.name;
+        member.index = this.characterIndex;
+
+        this.members.push(member);
+        this.txtNumberOfSlots.text = this.maxSlots - this.members.length;
     };
 
     New.prototype.displayCharacter = function (character) {
@@ -252,7 +303,7 @@ define(['Phaser'], function (Phaser) {
         if (this.characterImage.key !== character.name) this.characterImage.loadTexture(character.name, 0);
         this.txtCharacterName.text = character.title;
         this.txtCharacterDesc.text = character.desc;
-        this.txtWeaponName.text = character.weapon;
+        this.txtSpecialityName.text = character.speciality;
         this.txtHpTitle.text = 'Hp: ' + character.health;
         this.txtDefTitle.text = 'Def: ' + character.defense;
         this.txtAttTitle.text = 'Att: ' + character.attack;
@@ -263,7 +314,7 @@ define(['Phaser'], function (Phaser) {
             this.notSelectedChar.visible = false;
             this.disabledChar.visible = false;
         } else {
-            if (this.slotsTaken === this.maxSlots) {
+            if (this.members.length === this.maxSlots) {
                 this.disabledChar.visible = true;
                 this.selectedChar.visible = false;
                 this.notSelectedChar.visible = false;

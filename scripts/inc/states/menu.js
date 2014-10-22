@@ -1,3 +1,5 @@
+/*globals define*/
+
 // preloader.js
 // This javascript file represents phaser state for main menu.
 
@@ -5,12 +7,19 @@
 
 define(['Phaser'], function (Phaser) {
     'use strict';
+
+    var AUTHOR_STYLE = { font: '32px Berkshire Swash', fill: '#FF6A00', align: 'center' },
+        MENU_BUTTON_STYLE = { font: '72px Berkshire Swash', fill: '#990000', align: 'center', stroke: '#000000', strokeThickness: 2 },
+        SUBMENU_BUTTON_STYLE = { font: '48px Berkshire Swash', fill: '#990000', align: 'center', stroke: '#000000', strokeThickness: 2 },
+        MENU_BUTTON_PRESSED_STYLE = { font: '56px Berkshire Swash', fill: '#FF6A00', align: 'center', stroke: '#000000', strokeThickness: 2 };
+
     var Menu = function (game) {
         this.game = game;
     };
 
     Menu.prototype = {
         preload: function () {
+            this.loadGameData();
         },
         create: function () {
 
@@ -42,14 +51,13 @@ define(['Phaser'], function (Phaser) {
                 return asset;
             };
 
-            this.game.utils.createTextButton = function (game, text, x, y, style, sound, action) {
+            this.game.utils.createTextButton = function (game, text, x, y, style, soundset, action) {
                 var item = game.add.text(x, y, text, style);
                 item.anchor.setTo(0.5, 0.5);
-                item.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 
                 item.inputEnabled = true;
                 item.events.onInputDown.add(function (source, cursor) {
-                    if (sound) sound.play('', 0, game.utils.settings.sound.sfxVolume);
+                    if (soundset) soundset.play();
                     source.setStyle({ font: style.font, fill: '#DDDD00', align: style.align });
                 });
                 item.events.onInputUp.add(function (source, cursor) {
@@ -59,6 +67,33 @@ define(['Phaser'], function (Phaser) {
                 return item;
             };
 
+            var utils = this.game.utils;
+            var game = this.game;
+            utils.soundsets = {};
+            utils.createSoundset = function (key, sounds) {
+                var Sound = function (key, sounds) {
+                    var self = this;
+                    self.key = key;
+
+                    self.sounds = [];
+                    sounds.forEach(function(sound) {
+                        self.sounds.push(game.add.audio(sound));
+                    }, self);
+
+                    self.play = function () {
+                        var randomSound = self.sounds[game.rnd.integerInRange(0, self.sounds.length - 1)];
+                        randomSound.play('', 0, utils.settings.sound.sfxVolume);
+                    };
+                };
+                utils.soundsets[key] = new Sound(key, sounds);
+            };
+
+            // create all soundsets for the game
+            utils.createSoundset('sword', ['sword', 'sword2', 'sword3', 'sword4', 'sword5']);
+            utils.createSoundset('page', ['page', 'page2', 'page3', 'page4']);
+            utils.createSoundset('select', ['swords']);
+            utils.createSoundset('swing', ['swing', 'swing2', 'swing3', 'swoosh']);
+
             //#endregion
 
             //#region add styles
@@ -67,48 +102,19 @@ define(['Phaser'], function (Phaser) {
             this.game.utils.styles.normal = { font: '16px ' + this.game.utils.fontFamily, align: 'center' };
             this.game.utils.styles.emphasized = { font: '18px ' + this.game.utils.fontFamily, strokeThickness: 1 };
             this.game.utils.styles.small = { font: '14px ' + this.game.utils.fontFamily };
-            this.game.utils.styles.menuButton = { font: '72px ' + this.game.utils.fontFamily, fill: '#990000', align: 'center' };
-            this.game.utils.styles.menuButtonPressed = { font: '64px ' + this.game.utils.fontFamily, fill: '#FF6A00', align: 'center' };
-            this.game.utils.styles.backButton = { font: '48px ' + this.game.utils.fontFamily, fill: '#DDDD00', align: 'center' };
+            this.game.utils.styles.backButton = { font: '56px ' + this.game.utils.fontFamily, fill: '#DDDD00', align: 'center', stroke: '#000000', strokeThickness: 2 };
             this.game.utils.styles.header = { font: '24px ' + this.game.utils.fontFamily, strokeThickness: 1 };
-            this.game.utils.styles.healthBar = { font: '45px ' + this.game.utils.fontFamily, fill: '#009900', align: 'center' };
             this.game.utils.styles.characterSelectionContent = { font: '16px ' + this.game.utils.fontFamily, align: 'center', wordWrap: true, wordWrapWidth: 240 };
 
             //#endregion
 
-            // build up the main menu options            
+            this.createMain();
+            this.createSkirmish();
+            this.createCredits();
+            this.createTests();
+            this.createSettings();
 
-            var sound = this.game.add.audio('sword');
-            var sound2 = this.game.add.audio('sword2');
-
-            var mockupPlayers = [
-                this.game.assets.characters.warrior,
-                this.game.assets.characters.cleric,
-                this.game.assets.characters.ranger,
-                this.game.assets.characters.beast,
-                this.game.assets.characters.alchemist,
-                this.game.assets.characters.paladin
-            ];
-
-            var mockupMonsters = [{ name: 'goblin_warrior', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' },
-                        { name: 'goblin_shaman', type: 'RANGED' }, { name: 'monstrous_spider', type: 'MELEE' },
-                        { name: 'gnoll', type: 'MELEE' }];
-
-            this.mainMenu = this.game.add.group();
-            this.mainMenu.add(this.createMenuItem('New Game', 1, this.game.utils.styles.menuButton, sound, function () {
-                this.game.state.start('Preloader', true, false, 'New',
-                    { persistMusic: true });
-            }.bind(this)));
-            this.mainMenu.add(this.createMenuItem('Continue', 2, this.game.utils.styles.menuButton, sound, function () {
-                this.game.state.start('Preloader', true, false, 'Play',
-                    { persistMusic: false, campaign: this.game.assets.campaigns[0], playerParty: mockupPlayers });
-            }.bind(this)));
-            this.mainMenu.add(this.createMenuItem('Settings', 3, this.game.utils.styles.menuButton, sound, this.displaySettings.bind(this)));
-            this.mainMenu.add(this.createMenuItem('Credits', 4, this.game.utils.styles.menuButton, sound, this.displayCredits.bind(this)));
-            this.mainMenu.add(this.createMenuItem('Test battle', 5, this.game.utils.styles.menuButton, sound, function () {
-                this.game.state.start('Preloader', true, false, 'Battle',
-                    { persistMusic: false, terrain: 'grass', playerParty: mockupPlayers, enemyParty: mockupMonsters });
-            }.bind(this)));
+            this.showMain();
 
             this.load.onFileStart.removeAll();
             this.load.onFileComplete.removeAll();
@@ -120,34 +126,134 @@ define(['Phaser'], function (Phaser) {
         }
     };
 
-    Menu.prototype.createMenuItem = function (text, position, style, sound, action) {
-        var item = this.game.add.text(this.game.width / 2 + 20, 225 + position * 70, text, style);
+    Menu.prototype.createMenuItem = function (text, position, style, soundset, action) {
+        style = style || MENU_BUTTON_PRESSED_STYLE;
+
+        var item = this.game.add.text(this.game.width / 2 + 40, 225 + position * 70, text, style);
         item.anchor.setTo(0.5, 0.5);
-        if (action) item.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 
         item.inputEnabled = true;
         item.events.onInputDown.add(function (source, cursor) {
-            if (sound) sound.play('', 0, this.game.utils.settings.sound.sfxVolume);
-            if (action) source.setStyle(this.game.utils.styles.menuButtonPressed);
+            if (soundset) soundset.play();
+            if (action) source.setStyle(MENU_BUTTON_PRESSED_STYLE);
         }, this);
         item.events.onInputUp.add(function (source, cursor) {
-            if (action) source.setStyle(this.game.utils.styles.menuButton);
+            if (action) source.setStyle(style);
             if (action) action.call();
         }, this);
         return item;
     };
 
-    Menu.prototype.displaySettings = function () {
-        this.mainMenu.visible = false;
+    Menu.prototype.createMain = function () {
+        this.mainMenu = this.game.add.group();
 
-        var submenuStyle = { font: '32px ' + this.game.utils.fontFamily, fill: '#FF6A00', align: 'center' };
+        var position = 1;
+
+        this.mainMenu.add(this.createMenuItem('New Game', position++, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.newGame.bind(this)));
+        if (this.game.saveData) this.mainMenu.add(this.createMenuItem('Continue', position++, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.continueGame.bind(this)));
+        this.mainMenu.add(this.createMenuItem('Skirmish', position++, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.showSkirmish.bind(this)));
+        this.mainMenu.add(this.createMenuItem('Settings', position++, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.showSettings.bind(this)));
+        this.mainMenu.add(this.createMenuItem('Credits', position++, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.showCredits.bind(this)));
+        //this.mainMenu.add(this.createMenuItem('Tests', position, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.showTests.bind(this)));
+
+        this.mainMenu.visible = false;
+    };
+
+    Menu.prototype.showMain = function () {
+        this.mainMenu.visible = true;
+        this.skirmishMenu.visible = false;
+        this.creditsMenu.visible = false;
+        this.settingsMenu.visible = false;
+        this.testsMenu.visible = false;
+    };
+
+    Menu.prototype.createSkirmish = function () {
+
+        this.skirmishMenu = this.game.add.group();
+
+        var mockupPlayers = [
+            this.game.assets.characters.warrior,
+            this.game.assets.characters.cleric,
+            this.game.assets.characters.ranger,
+            this.game.assets.characters.beast,
+            this.game.assets.characters.alchemist,
+            this.game.assets.characters.paladin
+        ];
+
+        mockupPlayers.forEach(function (character) { character.specialsUsed = 4; });
+
+        this.skirmishMenu.add(this.createMenuItem('Brightwood forest', 1, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'grass', skirmish: true,
+                playerParty: [ this.game.assets.characters.warrior, this.game.assets.characters.cleric, this.game.assets.characters.ranger ],
+                enemyParty: [{ name: 'goblin_warrior', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' }, { name: 'goblin_shaman', type: 'RANGED' } ]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Dead End, Very Dead', 1.7, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'dirt', skirmish: true,
+                playerParty: [ this.game.assets.characters.beast, this.game.assets.characters.alchemist, this.game.assets.characters.paladin ],
+                enemyParty: [{ name: 'monstrous_spider', type: 'MELEE' }, { name: 'giant_bird', type: 'MELEE' }, { name: 'monstrous_spider', type: 'MELEE' }]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Narrow Side', 2.4, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'dirt', skirmish: true,
+                playerParty: [this.game.assets.characters.cleric, this.game.assets.characters.alchemist],
+                enemyParty: [{ name: 'gnoll', type: 'MELEE' }, { name: 'gnoll', type: 'MELEE' } ]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Entrance to the Keep', 3.1, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'siege', skirmish: true,
+                playerParty: mockupPlayers,
+                enemyParty: [{ name: 'goblin_king', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' }, { name: 'goblin_warrior', type: 'MELEE' }, { name: 'goblin_shaman', type: 'RANGED' }]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Lovely bones', 3.8, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'dirt', skirmish: true,
+                playerParty: [this.game.assets.characters.warrior, this.game.assets.characters.cleric, this.game.assets.characters.beast],
+                enemyParty: [{ name: 'skeleton_warrior', type: 'MELEE' }, { name: 'skeleton_archer', type: 'RANGED' }, { name: 'skeleton_warrior', type: 'MELEE' }]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Paladins tomb', 4.5, SUBMENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', {
+                persistMusic: false, terrain: 'grass', skirmish: true,
+                playerParty: mockupPlayers,
+                enemyParty: [{ name: 'skeleton_archer', type: 'RANGED' }, { name: 'zombie', type: 'MELEE' }, { name: 'skeleton_archer', type: 'RANGED' }, { name: 'skeleton_warrior', type: 'MELEE' }, { name: 'lich_king', type: 'MELEE' }]
+            });
+        }.bind(this)));
+
+        this.skirmishMenu.add(this.createMenuItem('Back', 5.2, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, this.hideSkirmish.bind(this)));
+
+        this.skirmishMenu.visible = false;
+    };
+
+    Menu.prototype.showSkirmish = function () {
+        this.mainMenu.visible = false;
+        this.skirmishMenu.visible = true;
+    };
+
+    Menu.prototype.hideSkirmish = function () {
+        this.skirmishMenu.visible = false;
+        this.mainMenu.visible = true;
+    };
+
+    Menu.prototype.createSettings = function () {
+        var submenuStyle = { font: '32px ' + this.game.utils.fontFamily, fill: '#FF6A00', align: 'center', stroke: '#000000', strokeThickness: 2 };
         var volumeStyle = { font: '32px ' + this.game.utils.fontFamily, fill: '#990000', align: 'center' };
 
-        var settings = this.game.add.group();
+        this.settingsMenu = this.game.add.group();
 
-        settings.add(this.createMenuItem('Game settings', 1, this.game.utils.styles.header));
+        this.settingsMenu.add(this.createMenuItem('Game settings', 1, this.game.utils.styles.header));
 
-        var displayVolume = function(volume) {
+        var displayVolume = function (volume) {
             if (volume === 0) {
                 return 'off';
             } else if (volume === 1) {
@@ -157,97 +263,188 @@ define(['Phaser'], function (Phaser) {
             }
         };
 
-        settings.add(this.createMenuItem('Music volume', 1.8, submenuStyle));
-        var lessMusic = this.game.add.sprite(460, 370, 'less');
-        lessMusic.scale.setTo(0.8, 0.8);
+        this.settingsMenu.add(this.createMenuItem('Music volume', 1.8, submenuStyle));
+        var lessMusic = this.game.add.sprite(460, 360, 'arrows', 0);
         lessMusic.inputEnabled = true;
         lessMusic.events.onInputDown.add(function (source, cursor) {
-            source.frame = 1;
             if (this.game.utils.settings.sound.musicVolume > 0) {
                 this.game.utils.settings.sound.musicVolume = Math.round((this.game.utils.settings.sound.musicVolume - 0.1) * 10) / 10;
                 musicLevel.text = displayVolume(this.game.utils.settings.sound.musicVolume);
                 this.music.volume = this.game.utils.settings.sound.musicVolume;
             }
         }, this);
-        lessMusic.events.onInputUp.add(function (source, cursor) {
-            source.frame = 0;
-        }, this);
-        settings.add(lessMusic);
-        var moreMusic = this.game.add.sprite(700, 370, 'more');
-        moreMusic.scale.setTo(0.8, 0.8);
+        this.settingsMenu.add(lessMusic);
+        var moreMusic = this.game.add.sprite(700, 360, 'arrows', 1);
         moreMusic.inputEnabled = true;
         moreMusic.events.onInputDown.add(function (source, cursor) {
-            source.frame = 1;
             if (this.game.utils.settings.sound.musicVolume < 1) {
                 this.game.utils.settings.sound.musicVolume = Math.round((this.game.utils.settings.sound.musicVolume + 0.1) * 10) / 10;
                 musicLevel.text = displayVolume(this.game.utils.settings.sound.musicVolume);
                 this.music.volume = this.game.utils.settings.sound.musicVolume;
             }
         }, this);
-        moreMusic.events.onInputUp.add(function (source, cursor) {
-            source.frame = 0;
-        }, this);
-        settings.add(moreMusic);
-        var musicLevel = this.createMenuItem('', 2.5, volumeStyle);
+        this.settingsMenu.add(moreMusic);
+        var musicLevel = this.createMenuItem('', 2.4, volumeStyle);
         musicLevel.text = displayVolume(this.game.utils.settings.sound.musicVolume);
-        settings.add(musicLevel);
+        this.settingsMenu.add(musicLevel);
 
-        settings.add(this.createMenuItem('Sound FX volume', 3.2, submenuStyle));
-        var lessSfx = this.game.add.sprite(460, 470, 'less');
-        lessSfx.scale.setTo(0.8, 0.8);
+        this.settingsMenu.add(this.createMenuItem('Sound FX volume', 3.2, submenuStyle));
+        var lessSfx = this.game.add.sprite(460, 470, 'arrows', 0);
         lessSfx.inputEnabled = true;
         lessSfx.events.onInputDown.add(function (source, cursor) {
-            source.frame = 1;
             if (this.game.utils.settings.sound.sfxVolume > 0) {
                 this.game.utils.settings.sound.sfxVolume = Math.round((this.game.utils.settings.sound.sfxVolume - 0.1) * 10) / 10;
                 sfxLevel.text = displayVolume(this.game.utils.settings.sound.sfxVolume);
             }
         }, this);
-        lessSfx.events.onInputUp.add(function (source, cursor) {
-            source.frame = 0;
-        }, this);
-        settings.add(lessSfx);
-        var moreSfx = this.game.add.sprite(700, 470, 'more');
-        moreSfx.scale.setTo(0.8, 0.8);
+        this.settingsMenu.add(lessSfx);
+        var moreSfx = this.game.add.sprite(700, 470, 'arrows', 1);
         moreSfx.inputEnabled = true;
         moreSfx.events.onInputDown.add(function (source, cursor) {
-            source.frame = 1;
             if (this.game.utils.settings.sound.sfxVolume < 1) {
                 this.game.utils.settings.sound.sfxVolume = Math.round((this.game.utils.settings.sound.sfxVolume + 0.1) * 10) / 10;
                 sfxLevel.text = displayVolume(this.game.utils.settings.sound.sfxVolume);
             }
         }, this);
-        moreSfx.events.onInputUp.add(function (source, cursor) {
-            source.frame = 0;
-        }, this);
-        settings.add(moreSfx);
+        this.settingsMenu.add(moreSfx);
         var sfxLevel = this.createMenuItem('', 3.9, volumeStyle);
         sfxLevel.text = displayVolume(this.game.utils.settings.sound.sfxVolume);
-        settings.add(sfxLevel);
+        this.settingsMenu.add(sfxLevel);
 
-        // construct sliders
+        this.settingsMenu.add(this.createMenuItem('Back', 5, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, this.hideSettings.bind(this)));
 
-        settings.add(this.createMenuItem('Back', 5, this.game.utils.styles.backButton, this.sound2, function () {
-            // set volume levels
-            settings.visible = false;
-            this.mainMenu.visible = true;
-        }.bind(this)));
+        this.settingsMenu.visible = false;
     };
 
-    Menu.prototype.displayCredits = function () {
+    Menu.prototype.showSettings = function () {
         this.mainMenu.visible = false;
+        this.settingsMenu.visible = true;
+    };
 
-        var authorStyle = { font: '32px ' + this.game.utils.fontFamily, fill: '#FF6A00', align: 'center' };
+    Menu.prototype.hideSettings = function () {
+        this.settingsMenu.visible = false;
+        this.mainMenu.visible = true;
 
-        var credits = this.game.add.group();
-        credits.add(this.createMenuItem('Game programming:', 1, this.game.utils.styles.header));
-        credits.add(this.createMenuItem('Nikola Begedin', 1.5, authorStyle));
-        credits.add(this.createMenuItem('Ratko Cosic', 2, authorStyle));
-        credits.add(this.createMenuItem('Game artwork:', 2.5, this.game.utils.styles.header));
-        credits.add(this.createMenuItem('Tvrtko Cosic', 3, authorStyle));
-        credits.add(this.createMenuItem('Special thanks to:', 3.5, this.game.utils.styles.header));
-        credits.add(this.createMenuItem('Looperman for music tracks', 4, { font: '24px ' + this.game.utils.fontFamily, strokeThickness: 1, fill: '#990000' }));
-        credits.add(this.createMenuItem('Back', 5, this.game.utils.styles.backButton, this.sound2, function () { credits.visible = false; this.mainMenu.visible = true; }.bind(this)));
+        this.game.store.set('settings', {
+            sfxVolume: this.game.utils.settings.sound.sfxVolume,
+            musicVolume: this.game.utils.settings.sound.musicVolume
+        });
+    };
+
+    Menu.prototype.createCredits = function () {
+        this.creditsMenu = this.game.add.group();
+        this.creditsMenu.add(this.createMenuItem('Game programming:', 1, this.game.utils.styles.header));
+        this.creditsMenu.add(this.createMenuItem('Nikola Begedin', 1.5, AUTHOR_STYLE));
+        this.creditsMenu.add(this.createMenuItem('Ratko Cosic', 2, AUTHOR_STYLE));
+        this.creditsMenu.add(this.createMenuItem('Game artwork:', 2.5, this.game.utils.styles.header));
+        this.creditsMenu.add(this.createMenuItem('Tvrtko Cosic', 3, AUTHOR_STYLE));
+        this.creditsMenu.add(this.createMenuItem('Special thanks to:', 3.5, this.game.utils.styles.header));
+        this.creditsMenu.add(this.createMenuItem('Looperman for music tracks', 4, { font: '24px ' + this.game.utils.fontFamily, strokeThickness: 1, fill: '#990000' }));
+        this.creditsMenu.add(this.createMenuItem('Back', 5, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, this.hideCredits.bind(this)));
+
+        this.creditsMenu.visible = false;
+    };
+
+    Menu.prototype.showCredits = function () {
+        this.mainMenu.visible = false;
+        this.creditsMenu.visible = true;
+    };
+
+    Menu.prototype.hideCredits = function () {
+        this.creditsMenu.visible = false;
+        this.mainMenu.visible = true;
+    };
+
+    Menu.prototype.createTests = function () {
+        this.testsMenu = this.game.add.group();
+
+        var mockupPlayers = [
+            this.game.assets.characters.warrior,
+            this.game.assets.characters.cleric,
+            this.game.assets.characters.ranger,
+            this.game.assets.characters.beast,
+            this.game.assets.characters.alchemist,
+            this.game.assets.characters.paladin
+        ];
+
+        mockupPlayers.forEach(function (character) { character.specialsUsed = 4; });
+
+        var mockupMonsters = [{ name: 'goblin_warrior', type: 'MELEE' }, { name: 'goblin_berserker', type: 'MELEE' },
+                    { name: 'goblin_shaman', type: 'RANGED' }, { name: 'monstrous_spider', type: 'MELEE' },
+                    { name: 'gnoll', type: 'MELEE' }, { name: 'giant_bird', type: 'MELEE' }];
+
+        this.testsMenu.add(this.createMenuItem('Test campaign', 1, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Play', { persistMusic: false, campaign: this.game.assets.campaigns[0], playerParty: mockupPlayers });
+        }.bind(this)));
+
+        this.testsMenu.add(this.createMenuItem('Test battle', 2, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'Battle', { persistMusic: false, terrain: 'grass', playerParty: mockupPlayers, enemyParty: mockupMonsters });
+        }.bind(this)));
+
+        this.testsMenu.add(this.createMenuItem('Erase save data', 3, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, this.deleteGameData.bind(this)));
+
+        this.testsMenu.add(this.createMenuItem('Test Victory', 4, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'BattleVictory', { persistMusic: false, playerParty: mockupPlayers, combatResult: 'VICTORY' });
+        }.bind(this)));
+
+        this.testsMenu.add(this.createMenuItem('Test Defeat', 5, MENU_BUTTON_STYLE, this.game.utils.soundsets.sword, function () {
+            this.game.state.start('Preloader', true, false, 'BattleDefeat', { persistMusic: false, playerParty: mockupPlayers, combatResult: 'DEFEAT' });
+        }.bind(this)));
+
+        this.testsMenu.add(this.createMenuItem('Back', 6, this.game.utils.styles.backButton, this.game.utils.soundsets.sword, this.hideTests.bind(this)));
+
+        this.testsMenu.visible = false;
+    };
+
+    Menu.prototype.showTests = function () {
+        this.mainMenu.visible = false;
+        this.testsMenu.visible = true;
+    };
+
+    Menu.prototype.hideTests = function () {
+        this.testsMenu.visible = false;
+        this.mainMenu.visible = true;
+    };
+
+    Menu.prototype.newGame = function () {
+        this.game.state.start('Preloader', true, false, 'New',{ persistMusic: true });
+    };
+
+    Menu.prototype.continueGame = function () {
+
+        var state = this.game.saveData;
+
+        if (!state) return;
+
+        var options = {
+            persistMusic: false,
+            loadState: true,
+            playState: state.playState,
+            playerParty: state.partyState
+        };
+
+        this.game.assets.campaigns.forEach(function (campaign) {
+            if (campaign.name === state.playState.campaignId) {
+                options.campaign = campaign;
+                return;
+            }
+        });
+
+        this.game.state.start('Preloader', true, false, 'Play', options);
+    };
+
+    Menu.prototype.loadGameData = function () {
+        this.game.saveData = this.game.store.get('saveData');
+    };
+
+    Menu.prototype.deleteGameData = function () {
+        this.game.store.remove('saveData');
+        delete this.game.saveData;
+
+        // rebuild main menu
+
+        this.mainMenu.destroy(true);
+        this.createMain();
     };
 
     return Menu;

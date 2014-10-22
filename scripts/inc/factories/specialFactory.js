@@ -1,12 +1,33 @@
-﻿define(['inc/entities/special'], function (Special) {
+/*globals define*/
 
-    var assembleSpecial = function (game, character, key, customTexture) {
+define([
+  'Phaser',
+  'inc/entities/special'
+], function (Phaser, Special) {
 
-        var special = (key === 'melee_attack' || key === 'ranged_attack') ?
-            new Special(game, character, customTexture, true) :
-            new Special(game, character, 'specials/' + key);
+    var DURATION = {
+        TO: 400,
+        CHAIN: 300,
+        BACK: 300
+    };
+
+    var assembleSpecial = function (game, character, key) {
+
+        var special = new Special(game, character, 'specials/' + key);
 
         var data = game.assets.specials[key];
+        special.setData(data);
+        special.getTargets = targeting[data.targetType];
+        special.execute = execution[data.executionType] || executeCallbacks[key];
+
+        return special;
+    };
+
+    var assembleSpecialFromWeapon = function (game, character, weapon) {
+
+        var special = new Special(game, character, 'cards/emblem-' + weapon.type.toLowerCase(), true);
+
+        var data = game.assets.specials[character.type.toLowerCase() + '_attack'];
         special.setData(data);
         special.getTargets = targeting[data.targetType];
         special.execute = execution[data.executionType] || executeCallbacks[key];
@@ -70,7 +91,6 @@
     };
 
     targeting.notImplemented = function () {
-        console.log('targeting feature not implemented');
         return [];
     };
 
@@ -83,7 +103,7 @@
             index = 0;
 
         var performAttack = function (target) {
-            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            this.game.utils.soundsets.sword.play();
             var attack = this.character.getEffectiveAttack(modifier), defense = target.getEffectiveDefense(),
                 damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
             if (damage < 0) damage = 0;
@@ -92,7 +112,7 @@
 
         for (var i = 0; i < attackCount; i++) {
 
-            var tween = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 800, Phaser.Easing.Bounce.Out, false);
+            var tween = this.game.add.tween(actor).to({ x: target.x, y: target.y }, (i === 0) ? DURATION.TO : DURATION.CHAIN, Phaser.Easing.Quadratic.Out, false);
 
             tween.onComplete.addOnce(performAttack.bind(this, target));
 
@@ -102,7 +122,7 @@
             index++;
         }
 
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
         tweens[0].start();
         tweens[tweens.length - 1].chain(tweenBack);
 
@@ -112,15 +132,15 @@
     execution.attackRankAtOnce = function (target, modifier) {
         var actor = this;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Bounce.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.chain(tweenBack);
 
         var damageList = [];
 
         tweenTo.onComplete.addOnce(function () {
-            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            this.game.utils.soundsets.sword.play();
             this.character.parent.forEach(function (combatant) {
                 if (combatant.team !== this.character.team && combatant.type === target.type) {
                     var attack = this.character.getEffectiveAttack(modifier), defense = combatant.getEffectiveDefense(),
@@ -148,21 +168,21 @@
             index = 1;
 
         var performAttack = function (target) {
-            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            this.game.utils.soundsets.sword.play();
             var attack = this.character.getEffectiveAttack(modifier), defense = target.getEffectiveDefense(),
                 damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
             if (damage < 0) damage = 0;
             target.damage(damage);
         };
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, false);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, false);
         tweenTo.onComplete.addOnce(performAttack.bind(this, target), this);
 
         tweens.push(tweenTo);
 
         combatants.forEach(function (combatant) {
             if (combatant.team !== this.character.team && combatant.type === this.character.type && combatant !== target) {
-                var tween = this.game.add.tween(actor).to({ x: combatant.x, y: combatant.y }, 800, Phaser.Easing.Bounce.Out, false);
+                var tween = this.game.add.tween(actor).to({ x: combatant.x, y: combatant.y }, DURATION.CHAIN, Phaser.Easing.Quadratic.Out, false);
 
                 tween.onComplete.addOnce(performAttack.bind(this, combatant), this);
 
@@ -173,7 +193,7 @@
             }
         }, this);
 
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
         tweens[0].start();
         tweens[tweens.length - 1].chain(tweenBack);
 
@@ -187,14 +207,14 @@
             index = 1;
 
         var performAttack = function (target) {
-            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            this.game.utils.soundsets.sword.play();
             var attack = this.character.getEffectiveAttack(modifier), defense = target.getEffectiveDefense(),
                 damage = this.game.rnd.integerInRange(1, 6) + attack - this.game.rnd.integerInRange(1, 6) - defense;
             if (damage < 0) damage = 0;
             target.damage(damage);
         };
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, false);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, false);
         tweenTo.onComplete.addOnce(performAttack.bind(this, target), this);
 
         tweens.push(tweenTo);
@@ -210,14 +230,14 @@
         for (var i = 0; i < attackCount; i++) {
             if (enemyCombatants.length > 0) {
                 var targetCombatant = enemyCombatants[this.game.rnd.integerInRange(0, enemyCombatants.length - 1)];
-                tweens.push(this.game.add.tween(actor).to({ x: targetCombatant.x, y: targetCombatant.y }, 800, Phaser.Easing.Bounce.Out, false));
+                tweens.push(this.game.add.tween(actor).to({ x: targetCombatant.x, y: targetCombatant.y }, DURATION.CHAIN, Phaser.Easing.Quadratic.Out, false));
                 tweens[index].onComplete.addOnce(performAttack.bind(this, targetCombatant), this);
                 tweens[index - 1].chain(tweens[index]);
                 index++;
             }
         }
 
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
         tweens[0].start();
         tweens[tweens.length - 1].chain(tweenBack);
 
@@ -227,15 +247,15 @@
     execution.attackAllAtOnce = function (target, modifier) {
         var actor = this;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Bounce.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.chain(tweenBack);
 
         var damageList = [];
 
         tweenTo.onComplete.addOnce(function () {
-            this.game.sound.play('sword', this.game.utils.settings.sound.sfxVolume);
+            this.game.utils.soundsets.sword.play();
             this.character.parent.forEach(function (combatant) {
                 if (combatant.team !== this.character.team) {
                     var attack = this.character.getEffectiveAttack(modifier), defense = combatant.getEffectiveDefense(),
@@ -262,8 +282,8 @@
             characterPosition = this.character.position,
             targetPosition = target.position;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: targetPosition.x, y: targetPosition.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: initialPosition.x, y: initialPosition.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: targetPosition.x, y: targetPosition.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: initialPosition.x, y: initialPosition.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.onComplete.addOnce(function () {
             var power = this.character.getEffectiveAttack(modifier),
@@ -280,8 +300,8 @@
     execution.healParty = function (target, modifier) {
         var actor = this;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.chain(tweenBack);
 
@@ -304,7 +324,10 @@
         var actor = this,
             targetPosition = target.position;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: targetPosition.x, y: targetPosition.y }, 500, Phaser.Easing.Bounce.Out, true);
+        var tweenTo = this.game.add.tween(actor).to({ x: targetPosition.x, y: targetPosition.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
+
+        tweenTo.chain(tweenBack);
 
         tweenTo.onComplete.addOnce(function () {
             for (var i = 0; i < statusTypes.length; i++) {
@@ -318,8 +341,8 @@
     execution.applyStatusToRank = function (target, statusTypes, duration, power) {
         var actor = this;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.chain(tweenBack);
 
@@ -340,8 +363,8 @@
     execution.applyStatusToParty = function (target, statusTypes, duration, power) {
         var actor = this;
 
-        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, 500, Phaser.Easing.Bounce.Out, true);
-        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, 500, Phaser.Easing.Bounce.Out);
+        var tweenTo = this.game.add.tween(actor).to({ x: target.x, y: target.y }, DURATION.TO, Phaser.Easing.Quadratic.Out, true);
+        var tweenBack = this.game.add.tween(actor).to({ x: this.character.x, y: this.character.y }, DURATION.BACK, Phaser.Easing.Quadratic.Out);
 
         tweenTo.chain(tweenBack);
 
@@ -361,8 +384,12 @@
 
     var SpecialFactory = {};
 
-    SpecialFactory.create = function (game, character, key, customTexture) {
-        return assembleSpecial(game, character, key, customTexture);
+    SpecialFactory.create = function (game, character, key, isWeapon) {
+        if (isWeapon) {
+            return assembleSpecialFromWeapon(game, character, key);
+        } else {
+            return assembleSpecial(game, character, key);
+        }
     };
 
     return SpecialFactory;

@@ -201,7 +201,7 @@
             "encounter": {
                 "terrain": "grass",
                 "monsters": [
-                    "huge_bird"
+                    "giant_bird"
                 ],
                 "rewards": [
                     {
@@ -430,12 +430,13 @@
                 }
             ],
             "connectsTo": [
-                "BattleLost",
+                "CadaverAndFork",
                 "EntranceToKeep"
             ]
         },
         {
             "identifier": "EntranceToKeep",
+			"isFinal": true,
             "name": "Entrance to the Keep",
             "type": "ENCOUNTER",
             "x": "21",
