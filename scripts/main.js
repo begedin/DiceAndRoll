@@ -3,7 +3,7 @@
 // main.js
 // This javascript file represents the entry point of the phaser application.
 
-/// <reference path="/scripts/vendor/phaser.js" />
+/// <reference path="../scripts/vendor/phaser.js" />
 
 
 requirejs.config({
