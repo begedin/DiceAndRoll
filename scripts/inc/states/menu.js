@@ -30,12 +30,19 @@ define(['Phaser'], function (Phaser) {
                     // music is already been there, and start playing if stopped
                     if (!this.music.isPlaying) {
                         music = this.music.play('', 0, 0, true);
-                    } else music = this.music;
+                    } else {
+                        music = this.music;
+                    } 
                 } else {
                     // introductory fade in of theme music
                     this.game.sound.stopAll();
                     this.music = this.game.add.audio('theme');
                     music = this.music.play('', 0, 0, true);
+
+                    // hack looping sound
+                    this.music.onLoop.add(function() {
+                        this.music.play('', 0, this.game.utils.settings.sound.musicVolume, true);
+                    }, this);
                 }
             }
 
@@ -122,7 +129,7 @@ define(['Phaser'], function (Phaser) {
         update: function () {
             if (this.music.volume < this.game.utils.settings.sound.musicVolume) {
                 this.music.volume += 0.005;
-            }
+            } 
         }
     };
 

@@ -52,6 +52,11 @@
                 this.game.sound.stopAll();
                 this.music = this.game.add.audio('mapVictory');
                 music = this.music.play('', 0, 0, true);
+
+                // hack looping sound
+                this.music.onLoop.add(function() {
+                    this.music.play('', 0, this.game.utils.settings.sound.musicVolume, true);
+                }, this);               
             }
         }
     };
